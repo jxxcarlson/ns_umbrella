@@ -37,11 +37,16 @@ defmodule LookupPhoenix.NoteShow2Action do
          path_segment: "show2"} |> Note.add_options(note)
       options2 = %{mode: "show", username: conn.assigns.current_user.username,
          public: note.public, toc_history: history_string,} |> Note.add_options(note2)
-      rendered_text = String.trim(RenderText.transform(note.content, options))
+      # rendered_text = String.trim(RenderText.transform(note.content, options))
+      {:ok, rendered_text} = MU.Server.render(%{text: note.content, options: options})
+      rendered_text = String.trim(rendered_text)
+
       # content2 = "== " <> note2.title <> "\n\n" <> note2.content
       content2 = note2.content
 
-      rendered_text2 = String.trim(RenderText.transform(content2, options2))
+      {:ok, rendered_text2}  = MU.Server.render(%{text: content2, options: options2})
+      rendered_text2 = String.trim(rendered_text2)
+      # rendered_text2 = String.trim(RenderText.transform(content2, options2))
       rendered_text2 = "<h1 id=\"active_note:#{note2.id}\">#{note2.title}</h1>\n\n" <> rendered_text2
       rendered_text2 = "<h4><a href=\"/notes/#{note.id}\">#{note.title}</a></h4>\n\n" <> rendered_text2
       rendered_text2 = String.replace(rendered_text2, ":SELF", "show2/#{id}/#{id2}/#{th}")
