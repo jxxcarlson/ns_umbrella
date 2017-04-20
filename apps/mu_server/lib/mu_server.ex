@@ -13,6 +13,7 @@ defmodule MU.Server do
    use GenServer
 
     def start_link(opts \\ []) do
+      IO.puts "Starting MU.Server ..."
       GenServer.start_link(__MODULE__, :ok, opts ++ [name: MUServer])
     end
 
@@ -21,6 +22,7 @@ defmodule MU.Server do
     end
 
     def render(message) do
+      IO.puts "Rendering ..."
       GenServer.call(@name, {:render, message})
     end
 

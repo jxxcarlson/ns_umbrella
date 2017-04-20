@@ -17,6 +17,13 @@ defmodule MU.RenderText do
   alias MU.TOC
   alias MU.Collate
 
+    def process(text, options) do
+      IO.puts "1. MU.RenderText, process"
+      {:ok, rendered_text} = MU.Server.render( %{text: text, options: options})
+      IO.puts "2. MU.RenderText, process"
+      rendered_text
+    end
+
     # mode = plain | markup | latex | collate | toc
 
     def transform(text, options \\ %{mode: "show", process: "markup"}) do
@@ -24,8 +31,10 @@ defmodule MU.RenderText do
       # begin_time = Timex.now
       result = case options.process do
         "plain" -> text
-        "markup" -> format_markup(text, options) |> filterComments
-        "latex" -> format_latex(text, options)  |> filterComments
+        # "markup" -> format_markup(text, options) |> filterComments
+        "markup" -> process(text, options) |> filterComments
+        "latex" -> process(text, options)  |> filterComments
+        # "latex" -> format_latex(text, options)  |> filterComments
         "collate" -> Collate.collate(text, options) |> format_latex(options)  |> filterComments
         "toc" -> TOC.process(text, options)
         _ -> format_markup(text, options)
