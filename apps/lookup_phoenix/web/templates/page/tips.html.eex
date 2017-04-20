@@ -1,0 +1,339 @@
+ <style>
+ span {color: darkred;}
+  span.bold {color: darkred;font-weight:bold}
+ span.strike{ color: black;text-decoration: line-through; }
+ ul {font-size:1.25rem;list-style-type:none }
+ li {margin: 10px 0; font-size: 1.5rem; }
+ ul.toc {margin-left:-35px;}
+ ul.toc li {margin:0;}
+ li.heading {margin-left:-20px; font-weight:bold; font-size: 1.4rem;}
+ a {font-size: 1.5rem; }
+ .heading {
+    font-weight: bold;
+    font-size: 1.8rem;
+    margin-left:0px;
+    margin-top:25px;
+    margin-bottom:15px;
+  }
+  p.text { font-size: 1.5rem; max-width:600px;}
+ </style>
+
+
+
+ <h3 style="margin-top:2em;">LookupNote Manual</h3>
+
+ <ul class="toc">
+
+ <li><b>Getting started</b></li>
+ <li><a href="#basics">The Basics</a> </li>
+ <li><a href="#search">Search</a> </li>
+ <li><a href="#taggs">Tags</a> </li>
+ <li><a href="#links">Links to web pages, images, video, audio, and PDF files</a> </li>
+ <li><a href="#iphone">Smart phones and tablets</a> </li>
+
+ <li style="margin-top:1em;"><b>Advanced topics</b></li>
+ <li><a href="#channels">Channels</a> </li>
+ <li><a href="#public">Public notes</a> </li>
+ <li><a href="#share">Sharing notes</a> </li>
+ <li><a href="#md">Mini markup</a> </li>
+
+ <li style="margin-top:1em;"><b>Special topics</b></li>
+ <li><a href="#math">Mathematical Formulas, LaTeX</a> </li>
+ <li><a href="#chem">Chemical formulas, LaTeX</a> </li>
+ <li><a href="#longer">Longer documents</a> </li>
+
+ <li style="margin-top:1em;"><b>Appendix</b></li>
+ <li><a href="#hotkeys">Keyboard shortcuts</a> </li>
+
+
+
+ </ul>
+
+ <p class="heading" id="basics">The Basics</p>
+
+  <p class="text">Here is what you need to get started:</p>
+
+  <ul>
+
+    <li><b>Finding notes.</b> Go to the <span class="bold">Notes</span> tab.  That is where you will do most of your work.
+      Type something in the search box to find matching notes.
+    </li>
+
+    <li class="text"><b>Viewing notes.</b> Click on the title of the note to view the full note.</li>
+
+
+    <li><b>Creating notes.</b> Click on the <span class="bold">New</span>
+      tab to make a new note.  Enter the title, e.g, <span>Carpenter's wisdom</span>.  Enter
+      the contents of the note, e.g., <span>Measure twice, cut once</span>.
+      Click <span class="bold">Save</span>.
+    </li>
+
+    <li><b>Editing notes.</b> Press the <span class="bold">Edit</span> button.</li>
+
+    <li><b>Tags.</b> You will notice a place to enter tags at the bottom of the form
+    where you create or edit a note.  Tags help you find notes when you search for them.
+    Separate tags by a command and a space.</li>
+
+</ul>
+ <p class="text">That's all there is to it!</p>
+
+ <p class="heading" id="search">Search</p>
+   <ul>
+
+     <li>Put the word <span>quote</span> in the search box to find all notes
+     containing the word <span>quote</span>. Put <span>quote prais</span> to find all quotes
+      contaiing the word <span>quote</span> and the word fragment <span>prais</span>.  This
+      will match both <i>praise</i> and <i>praising</i>.</li>
+
+    <li>To search for notes tagged as <span>bird</span>, enter <span>/bird</span> in the search box.
+    The search <span>/bird/red</span> will yield notes tagged as <span>bird</span> <b>and</b> <span>red</span></li>
+
+     <li>The <span>Random</span> button brings up a random
+     list of notes.</li>
+
+     <li>You can try the above in <%= link "the Demo", to: page_path(@conn, :demo) %> if you are new to LookupNote</li>
+
+  </ul>
+  <p class="heading" id="taggs">Tags</p>
+   <ul>
+
+    <li>To add a tag to a note, put it in the <span>tag box</span> in the edit page. Separate tags by spaces.</li>
+
+
+  </ul>
+    <p class="heading" id="links">Links to web pages, images, video, audio, and PDF files</p>
+     <ul>
+
+     <li><b>Web pages.</b> Make a link by pasting a URL like <span>http://nytimes.com</span>
+     into LookupNote.  It will appear like this:
+      <span><a href="http//nytimes.com">nytimes.com</a></span>.</li>
+
+     <li>Links  entered like <span>http://nytimes.com[NYT]</span> will appear
+          as <span><a href="http//nytimes.com">NYT</a></span>.</li>
+
+
+     <li>  <b>Images.</b> To display an image, simply paste in its &quot;image address.&quot;
+     The image of the yellow bird below was made by pasting in <span>https://www.allaboutbirds.org/.../warbler.jpg</span>.
+     To copy the the address of an image, control-click on it.  Try that on the
+     image below.  You can apply light formatting to imgages, as in this example:
+     <span>https://www.allaboutbirds.org/.../warbler.jpg[height:200px]</span>.
+     The form <span>https://www.allaboutbirds.org/.../warbler.jpg[width:200px]</span> also works.
+     To see a full-size version of the image, control-click on it and select <span>open image in new Tab</span>.
+
+     </li>
+
+     <li> <img src="https://www.allaboutbirds.org/guide/bbimages/aab/images/blue-winged-warbler.jpg" width=100 align=top>
+
+     <li><b>YouTube.</b> Copy the &quot;video URL&quot; by control-clicking on the video.
+     Then paste it into Lookupnote.io as in this example: <span>https://youtu.be/EsTgr-n53Ow[George Oakley, Cello Sonata]</span>
+     It appears like thie: <a href="https://youtu.be/EsTgr-n53Ow">George Oakley, Cello Sonata</a>. This technique
+     works with Vimeo and many other services.</li>
+
+     <li><b>Audio.</b> You can also link to audio files.  Here is an example:
+     <a href="http://www.pmel.noaa.gov/acoustics/whales/sounds/whalewav/nepblue24s10x.wav" target=_blank>Blue whale</a>.
+      We made this by pasting in <span>http://www.pmel.noaa.gov/.../nepblue24s10x.wav[Blue whale]</span>
+
+     <li><b>PDFs.</b>To link to a pdf, proceed as you would for any web page: just past in its URL.  Here is an example:
+          <a href="http://www.stateofthebirds.org/2014/2014%20SotB_FINAL_low-res.pdf" target=_blank>The State of the Birds 2014</a>.
+           We made this by pasting in <span>http://www.stateofthebirds.org/...pdf[The State of the Birds 2014]</span>.
+           To display the PDF inside LookupNote, say this instead:
+           <span>display::http://www.stateofthebirds...</span>
+
+   </ul>
+
+
+   <p class="heading" id="iphone">Smart phones and tablets</p>
+     <ul style="font-size:1.25em;list-style-type:none">
+
+       <li>Add this app to the home screen of your smartphone or tablet.  Very convenient!</li>
+
+     </ul>
+
+   <p class="heading" id="channels">Channels</p>
+
+    <p class="text"><b>Basics.</b> In the figure below, the box on the left is where
+    you put your keywords for searches.  The box on the right is where
+    you set your <span>channel</span>  In the figure, the user is <span>demo</span>
+    and the channel is <span>demo.all</span>.  When LookupNotes is set to this
+    channel by the channel owner (<span>demo</span>), all of demo's notes are accesible to
+    searches. But if the channel is set to <span>demo.bird</span>, then only
+    notes tagged as <span>bird</span> are accessible.  Moreover, all notes
+    created in this channel will already be tagged <span>bird</span>. If you
+    put in the search term <span>blue</span> when the channel is set to <span>demo.bird</span>,
+    you will get a list of blue birds.  Channels are useful when you are working
+    on a single project for a while.
+    </p>
+
+    <img src="http://psurl.s3.amazonaws.com/lookupnote/search_and_channel_boxes.png" width=400>
+
+    <p class="text"><b>Channel format.</b>  Channels consist of two parts, a username and
+    a channel name, where the two are separated by a dot.  In most cases teh channel name is
+    a tag.  However, it can also be <span>all</span>, <span>public</span>, <span>nonpublic</span>,
+    or <span>notag</span>.
+    </p>
+
+
+    <p class="text"><b>Short cuts.</b>  (a) If you pres <span>RETURN</span> when
+    there is nothing in the channel box, the channel will
+    be set to <span>USERNAME.all</span>; (b) If you enter a word like <span>bird</span>
+    (no dots), the channel will be set to <span>USERNAM$.bird</span>;(c)  If you enter anything
+    that is invalid, e.g. a nonexistent username, the channel will be set to <span>USERNAME.all</span>.
+
+    </p>
+   <p class="heading" id="public">Public notes</p>
+
+   <p class="text">
+   Notes are can be declared to be public in the editor.  Public notes can
+   be read by users other than their author.  Thus, if user <span>sue</span>
+   sets the note titled <span>What Socrates had for Breakfast</span> to be public,
+   then her philolophy students can find it by setting their channel to <span>sue.all</span>,
+   then searching for <span>Socrates</span>.
+   </p>
+
+   <p class="heading" id="share">Sharing notes</p>
+
+   <p class="text">
+      Notes can be shared by sending an email message.
+      Just click on <span>Email note</span>, which you will find at the bottom right
+      of the page which gives a full view of the note.</p>
+
+   <p class="heading" id="md">Mini markup</p><p class="text"><b>Short cuts.</b>
+
+   <p class="text">This section is optional. LookupNotes' markup language
+   is much like <b>asciidoc</b> or <b>markdown</b>  Tt gives
+   a way of formatting your notes..</p>
+
+   <ul>
+
+    <li>Use *Fee fie fo fum!* for bold text: <b>Fee fie fo fum!</b></li>
+    <li>Use _Fee fie fo fum!_ for italic text: <i>Fee fie fo fum!</i></li>
+    <li>Use `a == b` for in-line code: <tt style="color:darkred">a == b</tt></li>
+    <li>Use <tt>#This is important#</tt> for red text: <span>This is important</span></li>
+    <li>The string <tt>--</tt> preceded and followed by a space becomes this: &ndash;
+    <li>The string <tt>---</tt> preceded and followed by a space becomes this: &mdash;
+    <li>The string <tt>-Bad stuff-</tt> preceded and followed by a space becomes
+         <span class="strike">Bad stuff</span> </li>
+    <li>List items: Begin with hyphen followed by a space, end with blank line</li>
+    <li>Cross references:  Put <span>xref::123[See this note]</span> in the body of
+    a note if you want to create a link to the note with ID 123.  The link text
+    is whatever you put inside the brackets, e.g., <span>See this note</span>.  Look at the bottom of the page
+    of a note &mdash; its ID is listed there, e.g., <span>ID: 123</span>.</li>
+
+
+   </ul>
+
+   <p class="text"> Use
+   <pre>
+   ----
+     for this in that['values'] do
+        whatever
+        |> hohoho
+     end
+   ----
+   </pre>
+   for code or any literal text.  It will be formatted like this:
+   <br><br>
+   <pre>
+     for this in that['values'] do
+        whatever
+        |> hohoho
+      end
+   </pre>
+   </p>
+
+
+   <p class="heading" id="math">Mathematical formulas, LaTeX</p>
+
+      <p class="text">Courtesy of <a href="http://mathjax.org" target="_blank">MathJax</a>,
+      you may use LaTeX for formulas, equations, etc.
+      Write mathematical text as in these examples:</p>
+
+      <pre>
+      The Pythagorean theorem says that $a^2 + b^2 = c^2$.
+
+      In calculus, we learned that
+
+      $$
+        \int_0^1 x^n dx = \frac{1}{n+1}
+      $$
+      </pre>
+
+      <p class="text">You can also use <tt>\[ .. \]</tt> instead of
+      <tt>$$ .. $$</tt></p>
+
+      <p  class="text"><span>Note.</span> You must put the tag <span>latex</span>
+      in the tags field of your note to activate LaTeX processing &mdash; do this
+      when you create or edit the note.</p>
+
+      <p class="text"> If you want to see some examples,
+            sign in to <span>lookupnote.io</span> with user name
+            <span>demo</span> and password <span>rundemo</span>, then
+            search for <span>math</span> or <span>math example</span>.
+
+    <p class="heading" id="chem">Chemical formulas, LaTeX</p>
+
+      <p class="text">For chemical formulas, imitate the examples
+      below.
+
+      <pre>
+      chem:[HCl] dissociates in water as follows:
+
+      chem::[H2O + HCl <=> H3O+ + Cl-]
+      </pre>
+
+      <p>Use one colon for in-line formulas and equations.  Use
+      two colons if you want them displayed.
+
+      <p  class="text"><span>Note.</span> Chemical formulas
+      and reactions are displayed using the <span>mhchem</span>: see the
+      <a href="http://ctan.mackichan.com/macros/latex/contrib/mhchem/mhchem.pdf">Official documentation</a>
+       or <a href="https://docs.moodle.org/27/en/Chemistry_notation_using_mhchem">Using mchem</a>.
+.      As with mathematical
+       text, you must put the tag <span>latex</span>
+      in the tags field of your note to activate LaTeX processing.</p>
+
+      <p class="text">  For examples of <span>mhchem</span> in action,
+      sign in to <span>lookupnote.io</span> with user name
+      <span>demo</span> and password <span>rundemo</span>, then
+      search for <span>chem</span> or <span>chem example</span>.
+
+
+    <p class="heading" id="longer">Longer documents</p>
+        <p  class="text">If you need to write longer documents
+      that can be shared on the web, e.g., lecture notes or a book,
+       please see
+      <a href="http://www.manuscripta.io">www.manuscripta.io</a></p>
+
+  <p class="heading" id="hotkeys">Keyboard shortcuts</p>
+
+     <p class="text">Mac OS: alt = option</p>
+      <ul>
+
+
+        <li class="heading">Anywhere</li>
+        <li style="color:darkred;"><b>Three keys in a row</b></li>
+        <li><b>alt-H</b> Home</li>
+        <li><b>alt-J</b> Notes</li>
+        <li><b>alt-K</b> Tag &mdash; think of <i>Keys</i></li>
+
+        <li  style="color:darkred; margin-top:15px;"><b>Two more keys</b></li>
+        <li><b>alt-N</b> New Note</li>
+        <li><b>alt-/</b> Tips</li>
+
+        <li  class="heading">Notes tab</li>
+        <li><b>alt-S</b> Focus on SEARCH box</li>
+        <li><b>alt-N</b> New Note</li>
+        <li><b>alt-R</b> Show random notes</li>
+
+        <li class="heading">New  note screen</li>
+        <li><b>alt-T</b> Focus on title field</li>
+        <li><b>alt-C</b> Focus on content field</li>
+        <li>&mdash;</li>
+        <li><b>TAB key</b> Move to next field</li>
+        <li><b>shift-TAB</b> Move to previous field</li>
+        <li>&mdash;</li>
+        <li><b>alt-B</b> Back</li>
+        <li><b>alt-S</b> Save</li>
+
+
+      </ul>

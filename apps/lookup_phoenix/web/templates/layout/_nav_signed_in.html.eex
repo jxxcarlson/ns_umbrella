@@ -1,0 +1,72 @@
+<!-- NAVIGATION BAR -->
+
+<style>
+
+.searchbar {
+  display:inline-block;
+  margin-top:-18px;
+  margin-bottom:3px;
+  width:100%;
+  height:35px;
+  font-size:1.8rem;
+  background-color:#eee;
+}
+
+</style>
+
+ <span class="hidden-xs" class="hidden-xs" style="float:left;margin-top:-9px;margin-left:4px;">
+      <%= form_for @conn, search_path(@conn, :index), [as: :search], fn f -> %>
+          <%= text_input f, :query, placeholder: "Search ...", autocorrect: "off", autocapitalize: "off", class: "searchbar", id: "search_notes" %>
+      <%= end %>
+ </span>
+
+ <ol class="breadcrumb text-right" style="background-color:#d9d9d9;height:40px;">
+
+ <li style="margin-left:1em; font-size:1.25em; color:cornflowerblue; float:right;">
+        <%= link "Sign out", to: session_path(@conn, :delete, @current_user), method: "delete" %>
+   </li>
+
+
+
+
+
+
+<li class="dropdown" style="float:right; margin-top:-6px;">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          Tools
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li  style="color:darkred; font-weight:bold; margin-left:1.5em;"><%= @conn.assigns.current_user.username %></li>
+
+          <li><%= link "Home", to: page_path(@conn, :index), id: 'home' %></li>
+          <!-- <li><%= link "Notes", to: link_name(@conn)  %></li>  -->
+          <li><%= link "Recent notes", to: "/notes?set_channel=#{@current_user.username}.all",  id: "recent_notes" %></li>
+
+
+          <li><%= link "Random note", to: "/notes?random=one" , id: 'random_one' %></li>
+          <li><%= link "New note", to: note_path(@conn, :new) , id: 'new_note' %></li>
+
+          <li role="separator" class="divider"></li>
+          <li><%= link :Sites, to: "/sites" %></li>
+          <li><%= link "Tags", to: "/tags/#{site_name(@conn)}", id: 'tags' %> </li>
+          <li><%= link :Preferences, to: "/preferences" %></li>
+
+          <li role="separator" class="divider"></li>
+          <li><%= link "User Guide", to: "/site/guide", id: 'guide' %></li>
+
+          <%= if @current_user.admin == true do %>
+             <li role="separator" class="divider"></li>
+             <li> <%= link "Users", to: user_path(@conn, :index), id: 'users' %> </li>
+           <% end %>
+
+        </ul>
+ </li>
+
+     <li style="font-size:1.25em; color:cornflowerblue  ; float:left;"> <%= link "Notes", to: note_path(@conn, :index), id: 'notes' %> </li>
+
+     <!-- <li style="margin-top:-8px;font-size:2em; font-style: bold; color:cornflowerblue; float:left;"> <%= link raw("&#65291;"), to: note_path(@conn, :new),   class: "", color: "blue", id: "new_note" %></li> -->
+
+
+
+</ol>

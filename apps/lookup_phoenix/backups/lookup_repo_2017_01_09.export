@@ -1,0 +1,343 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.1
+-- Dumped by pg_dump version 9.5.1
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: notes; Type: TABLE; Schema: public; Owner: carlson
+--
+
+CREATE TABLE notes (
+    id integer NOT NULL,
+    title character varying(255),
+    content text,
+    inserted_at timestamp without time zone DEFAULT '2016-01-01 00:00:01'::timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone DEFAULT '2016-01-01 00:00:01'::timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE notes OWNER TO carlson;
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE; Schema: public; Owner: carlson
+--
+
+CREATE SEQUENCE notes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE notes_id_seq OWNER TO carlson;
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: carlson
+--
+
+ALTER SEQUENCE notes_id_seq OWNED BY notes.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: carlson
+--
+
+CREATE TABLE schema_migrations (
+    version bigint NOT NULL,
+    inserted_at timestamp without time zone
+);
+
+
+ALTER TABLE schema_migrations OWNER TO carlson;
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: carlson
+--
+
+ALTER TABLE ONLY notes ALTER COLUMN id SET DEFAULT nextval('notes_id_seq'::regclass);
+
+
+--
+-- Data for Name: notes; Type: TABLE DATA; Schema: public; Owner: carlson
+--
+
+COPY notes (id, title, content, inserted_at, updated_at) FROM stdin;
+5	Speed of sound	343 meters/sec @ STP	2016-01-01 00:00:01	2016-01-01 00:00:01
+4	Speed of light	300,000 km/sec	2016-01-01 00:00:01	2016-01-01 00:00:01
+8	Speed of sound in water	1,484 meters/sec @ STP	2016-01-01 00:00:01	2016-01-01 00:00:01
+9	Build Elixir script	mix escript.build	2016-01-01 00:00:01	2016-01-01 00:00:01
+17	Start mysql	sudo /usr/local/bin/mysqld_safe	2016-01-01 00:00:01	2016-01-01 00:00:01
+18	Start mysql	mysql.server start\n\npid-file=/usr/local/var/mysql/jxxmbp.home.pid\ndocs: https://dev.mysql.com/doc/refman/5.7/en/problems-connecting.html	2016-01-01 00:00:01	2016-01-01 00:00:01
+19	Ecto	mix ecto.gen.migration create_people	2016-01-01 00:00:01	2016-01-01 00:00:01
+26	Number of galaxies in the universe	200 billion	2016-01-01 00:00:01	2016-01-01 00:00:01
+28	Number of stars in our galaxy	100 billion	2016-01-01 00:00:01	2016-01-01 00:00:01
+30	Number of cells in human body	37.2 trillion	2016-01-01 00:00:01	2016-01-01 00:00:01
+31	Number of bacteria in human body	30-100 trillion	2016-01-01 00:00:01	2016-01-01 00:00:01
+32	Number of bacteria on earth	5 x 10^30 five million trillion trillion	2016-01-01 00:00:01	2016-01-01 00:00:01
+50	Ecto migration	mix ecto.gen.migration create_posts	2016-01-01 00:00:01	2016-01-01 00:00:01
+51	Ecto migration	mix ecto.migrate, mix ecto.rollback	2016-01-01 00:00:01	2016-01-01 00:00:01
+14	Phoenix blog2	http://www.brightball.com/articles/insanity-with-elixir-phoenix-postgresql[brightball.com]	2016-01-01 00:00:01	2017-01-09 16:43:37.330653
+65	Mies van der Rohe	Sometimes less is more // quote	2016-12-31 12:41:40.62497	2016-12-31 12:41:40.641468
+67	Random sample from postgres	SELECT * FROM ts_test TABLESAMPLE BERNOULLI(percentage)	2016-12-31 12:57:02.788676	2016-12-31 12:57:02.804399
+10	Table salt	Crystalline form of NaCL - ionic crystal	2016-01-01 00:00:01	2017-01-03 02:13:40.116672
+114	Yada yada	Mumbo jumbo.	2017-01-01 08:23:04.517564	2017-01-01 08:23:04.524577
+116	Yada yada	Mumbo jumbo.	2017-01-01 08:43:00.848434	2017-01-01 08:43:00.852631
+117	Yada yada	Mumbo jumbo.	2017-01-01 08:45:04.027459	2017-01-01 08:45:04.03301
+13	Phoenix blog	https://monterail.com/blog/2015/phoenix-blog/[monterail.com]	2016-01-01 00:00:01	2017-01-09 16:05:11.602925
+68	Elixir forum	https://elixirforum.com/[elixirforum.com]	2016-12-31 13:06:59.084521	2017-01-09 16:46:56.233975
+25	Plancks constant	6.62607004 × 10^34 Joule-sec	2016-01-01 00:00:01	2017-01-08 23:15:38.048949
+70	Make Ruby and Elixir talk	https://blog.fazibear.me/elixir-ruby-dont-fight-talk-d83d5abc8898#.q60e8664d[blog.fazibear.me]	2016-12-31 16:35:25.08749	2017-01-09 16:48:14.847702
+33	Size of average bacterium	0.5-1.0 µm wide by 1.0-4.0 µm long // #size	2016-01-01 00:00:01	2017-01-09 03:21:29.847205
+24	Bohr radius	5.29177e-11 meters  // #size	2016-01-01 00:00:01	2017-01-09 03:21:44.731719
+16	Ecto example - ectoing	https://www.sitepoint.com/understanding-elixirs-ecto-querying-dsl-the-basics/[sitepoint.com]	2016-01-01 00:00:01	2017-01-09 15:50:24.595027
+27	Number of galaxies in the universe	It has has changed over time. See https://www.nasa.gov/feature/goddard/2016/hubble-reveals-observable-universe-contains-10-times-more-galaxies-than-previously-thought[nasa.gov]	2016-01-01 00:00:01	2017-01-09 15:51:08.647782
+41	Elm	Elixir web client, see http://elm-lang.org/[elm-lang.org]	2016-01-01 00:00:01	2017-01-09 15:52:59.730368
+103	Elm Installation Guide	https://guide.elm-lang.org/install.html[guide.elm-lang.org]	2017-01-01 03:51:34.306651	2017-01-09 15:53:30.162534
+38	Elixir string module	https://hexdocs.pm/elixir/String.html[hexdocs.pm]	2016-01-01 00:00:01	2017-01-09 16:00:15.160368
+22	Ecto Query	https://hexdocs.pm/ecto/Ecto.Query.html[hexdocs.pm]	2016-01-01 00:00:01	2017-01-09 16:01:32.739331
+36	Ecto Query Examples	https://elixirnation.io/references/ecto-query-examples[elixirnation.io]	2016-01-01 00:00:01	2017-01-09 16:03:06.122809
+21	Ecto Docs	https://hexdocs.pm/ecto/getting-started.html[hexdocs.pm]	2016-01-01 00:00:01	2017-01-09 16:01:06.40583
+43	Hexadocs	Documentation for Elixir hex packages at https://hex.pm[hex.pm]	2016-01-01 00:00:01	2017-01-09 16:02:22.886881
+35	Nice Ecto examples/tutorial	http://learningwithjb.com/posts/count[learningwithjb.com]	2016-01-01 00:00:01	2017-01-09 16:03:25.060019
+15	Polyfills	https://angular.io/docs/ts/latest/guide/browser-support.html[angular.io]	2016-01-01 00:00:01	2017-01-09 16:03:54.676978
+104	Elm, first project	https://dennisreimann.de/articles/elm-setup-first-project.html[dennisreimann.de]	2017-01-01 03:58:24.177013	2017-01-09 16:04:11.214398
+107	Elm, first app @GitHub (++)	https://github.com/kmaida/auth0-elm-with-jwt-api[github.com/kmaida]	2017-01-01 04:30:22.951891	2017-01-09 16:04:36.526168
+64	Elm, why use it for front end	https://www.toptal.com/front-end/make-web-front-end-reliable-with-elm[toptal.com]	2016-12-31 12:39:36.021096	2017-01-09 16:05:58.102187
+66	Feature creep	https://www.toptal.com/designers/ux/teach-us-about-feature-creep[toptal.com]	2016-12-31 12:51:35.6674	2017-01-09 16:06:23.586638
+63	Elixir, getting started	https://www.toptal.com/elixir/getting-started-elixir-programming-language[toptal.com]	2016-12-31 12:14:57.007806	2017-01-09 16:06:36.870945
+39	Learn Elixir	http://elixir-lang.org/getting-started/introduction.html[elixir-lang.org]	2016-01-01 00:00:01	2017-01-09 16:08:56.314294
+69	Elixir, do raw SQL query	http://stackoverflow.com/questions/27751216/how-to-use-raw-sql-with-ecto-repo[stackoverflow.com]	2016-12-31 13:09:34.93858	2017-01-09 16:09:39.132915
+42	Redis	Redis client for Elixir, https://github.com/whatyouhide/redix[github.com/whatyouhide]	2016-01-01 00:00:01	2017-01-09 16:13:07.092076
+47	Pagescroll issue	https://github.com/bbottema/ng2-simple-page-scroll/issues/12[github.com/bbottema]	2016-01-01 00:00:01	2017-01-09 16:13:27.643089
+108	Phoenix chat app	https://sheharyar.me/blog/simple-chat-phoenix-elixir/[sheharyar.me]	2017-01-01 06:44:47.993322	2017-01-09 17:03:56.323512
+48	ngx-uploader button issue	https://github.com/jkuri/ngx-uploader/issues/135[github.com/jkuri]	2016-01-01 00:00:01	2017-01-09 16:17:55.432175
+49	ngx-uploader	Angular2 file uploader @ https://github.com/jkuri/ngx-uploade[github.com/jkuri]	2016-01-01 00:00:01	2017-01-09 16:18:25.219502
+105	Elm, twelve-tone example	https://medium.com/@danigb/test-first-elm-5d5cceea0efc#.nctaw24hm[medium.com/@danigb]	2017-01-01 04:11:03.218092	2017-01-09 16:32:20.127347
+45	Simple Elixir server with Plug	http://blog.simonstrom.xyz/elixir-a-simple-server-with-plug/[blog.simonstrom.xyz]	2016-01-01 00:00:01	2017-01-09 16:38:16.510882
+44	Rails to Phoenix	http://blog.tokafish.com/rails-to-phoenix-getting-started-with-ecto/[blog.tokafish.com]	2016-01-01 00:00:01	2017-01-09 16:38:39.881598
+12	Rails to Phoenix - Blog example	http://blog.tokafish.com/rails-to-phoenix-getting-started-with-ecto[blog.tokafish.com]	2016-01-01 00:00:01	2017-01-09 16:39:20.232361
+37	Experiment with Ecto queries	http://learningelixir.joekain.com/experiments-with-ecto-queries/[learningelixir.joekain.com]	2016-01-01 00:00:01	2017-01-09 16:42:38.182918
+52	Phoenix, up and running (++)	http://www.phoenixframework.org/docs/up-and-running[phoenixframework.org]	2016-01-01 00:00:01	2017-01-09 16:43:13.052052
+46	Building a web server from scratch with Elixir	https://codewords.recurse.com/issues/five/building-a-web-framework-from-scratch-in-elixir[codewords.recurse.com]	2016-01-01 00:00:01	2017-01-09 16:57:17.466991
+23	Phoenix fuzzy search	https://github.com/cometaworks/fast_fuzzy_search_in_phoenix_and_ecto[github.com/cometaworks]	2016-01-01 00:00:01	2017-01-09 17:02:17.266917
+119	Yada yada	Mumbo jumbo.	2017-01-01 08:47:11.453937	2017-01-01 08:47:11.46473
+120	Yada yada	Mumbo jumbo.	2017-01-01 08:47:27.119196	2017-01-01 08:47:27.12542
+127	Elm install package	elm package install // command	2017-01-01 17:07:04.050477	2017-01-01 17:07:04.066769
+132	Elm commmand	elm-reactor	2017-01-01 23:47:25.981047	2017-01-01 23:47:25.991926
+133	Photos and videos on Amazon S3 (Memory Archive)	Bucket = jcng.memories	2017-01-02 02:02:56.21935	2017-01-02 02:02:56.243555
+141	elmenv	elmenv install 0.18	2017-01-02 07:40:51.315875	2017-01-02 07:40:51.333595
+166	Generate model for Phoenix with mix	$ mix phoenix.gen.html Post posts title body:text	2017-01-03 01:28:36.773893	2017-01-03 01:28:36.792699
+142	stack setup	Preparing to install GHC to an isolated location.\nThis will not interfere with any system-level installation.\nDownloaded ghc-8.0.1.                                      \nInstalled GHC.                                                                  \nstack will use a sandboxed GHC it installed\nFor more information on paths, see 'stack path' and 'stack exec env'\nTo use this GHC and packages outside of a project, consider using:\nstack ghc, stack ghci, stack runghc, or stack exec	2017-01-02 07:47:19.637124	2017-01-02 07:47:19.654296
+169	pjax: Phoenix on the client side	http://rny.io/elixir/phoenix/2015/09/20/pjax-in-phoenix.html[rny.io]	2017-01-03 02:42:54.535352	2017-01-09 16:07:10.624655
+158	Built with Elm	http://builtwithelm.co/[builtwithelm.co]	2017-01-02 09:40:03.586066	2017-01-09 17:00:54.517917
+150	Elm 0.18 http (++)	http://rundis.github.io/blog/[rundis.github.io]	2017-01-02 09:00:08.830961	2017-01-09 16:50:13.719429
+154	Rug with Elm	ron.com/2016/12/using-rug-with-elm.html // tool for setting up a project	2017-01-02 09:19:00.87275	2017-01-02 09:19:00.8898
+164	Phoenix CRUD app	http://nithinbekal.com/posts/elixir-phoenix-crud-app/[nithinbekal.com]	2017-01-02 12:48:44.379661	2017-01-09 15:51:50.664732
+165	Basic Phoenix CRUD app	http://gogogarrett.sexy/programming-in-elixir-with-the-phoenix-framework-building-a-basic-CRUD-app/[gogogarrett.sexy]	2017-01-02 13:25:37.383596	2017-01-09 15:52:27.617413
+121	Mixing Elm and Javascript	http://elm-lang.org/blog/how-to-use-elm-at-work[elm-lang.org]	2017-01-01 10:50:13.012867	2017-01-09 15:53:55.694778
+161	Elm package listing	http://package.elm-lang.org[package.elm-lang.org]	2017-01-02 10:07:09.531488	2017-01-09 15:56:09.020796
+128	Elm Starter App (++)	http://package.elm-lang.org/packages/evancz/start-app/latest[package.elm-lang.org]	2017-01-01 23:31:34.112932	2017-01-09 15:55:08.58162
+145	Http in Elm	http://package.elm-lang.org/packages/elm-lang/http/latest[package.elm-lang.org]	2017-01-02 08:21:23.395078	2017-01-09 15:56:30.617044
+148	Elm JWT - web tokens	http://package.elm-lang.org/packages/simonh1000/elm-jwt/latest[package.elm-lang.org]	2017-01-02 08:38:49.762146	2017-01-09 15:56:44.559188
+163	Journal	http://www.popsci.com/bullet-journal-guide[popsci.com]	2017-01-02 12:01:30.695854	2017-01-09 15:59:55.212454
+144	Elixir and the actor model (++)	http://theerlangelist.blogspot.com/2013/01/actors-in-erlangelixir.html[theerlangelist.blogspot.com]	2017-01-02 07:59:15.867827	2017-01-09 16:05:36.194843
+140	haskell.org	https://www.haskell.org/[haskell.org]	2017-01-02 07:22:34.25536	2017-01-09 16:07:36.245811
+162	Elm FAC	http://faq.elm-community.org/[faq.elm-community.org]	2017-01-02 11:20:23.848265	2017-01-09 16:08:05.509369
+136	Developer survey	https://stackoverflow.com/research/developer-survey-2016[stackoverflow.com]	2017-01-02 04:32:29.128761	2017-01-09 16:10:09.988125
+147	Elm http requests	http://stackoverflow.com/questions/41218917/elm-0-18-http-requests[stackoverflow.com]	2017-01-02 08:38:01.898952	2017-01-09 16:10:24.54367
+123	Elm course (++)	http://courses.knowthen.com/p/elm-for-beginners[courses.knowthen.com]	2017-01-01 11:07:21.316047	2017-01-09 16:10:45.472129
+202	Jose Valim on Phoenix	https://www.youtube.com/watch?v=bk3icU8iIto[youtube.com]	2017-01-03 04:14:03.827784	2017-01-09 16:12:03.89496
+126	Angular2 pagescroll	https://github.com/bbottema/ng2-simple-page-scroll/issues/12[github.com/bbottema]	2017-01-01 11:32:54.347047	2017-01-09 16:13:42.459767
+143	elm upgrade	https://elmseeds.thaterikperson.com/upgrade-to-elm-18[elmseeds.thaterikperson.com]	2017-01-02 07:51:40.808653	2017-01-09 16:14:04.240917
+122	Elm for the Front End, Right now	http://bendyworks.com/blog/elm-frontend-right-now[bendyworks.com]	2017-01-01 10:54:17.548847	2017-01-09 16:14:27.205123
+146	Elm chat example (0.18)	https://bendyworks.com/blog/elm-frontend-right-now-updated-for-0-18[bendyworks.com]	2017-01-02 08:26:24.830861	2017-01-09 16:14:42.014265
+204	Elixir Cookbook	https://www.safaribooksonline.com/library/view/elixir-cookbook/9781784397517/ch06s05.html[safaribooksonline.com]	2017-01-04 09:13:38.10824	2017-01-09 16:15:18.926404
+207	Elix HTML parser	https://github.com/philss/floki[github.com/philss/floki]	2017-01-04 19:41:30.944795	2017-01-09 16:16:41.543581
+129	Dreamwriter (Elm App ++)	https://github.com/rtfeldman/dreamwriter/[github.com/rfeldman]	2017-01-01 23:36:08.588472	2017-01-09 16:19:17.814519
+134	elmenv	https://github.com/sonnym/elmenv[github.com/sonnym] -- command	2017-01-02 03:52:24.490303	2017-01-09 16:20:26.816391
+137	Haskell Tool Stack	https://docs.haskellstack.org/en/stable/README/[docs.haskellstack.org]	2017-01-02 07:18:16.491202	2017-01-09 16:29:16.102318
+124	Thoughts on Elm development (++)	https://medium.com/@NewMountain/some-thoughts-on-elm-development-39a0f8a9002a#.ouzi4qv5u[medium.com/@NewMountain]	2017-01-01 11:09:16.024149	2017-01-09 16:33:54.135516
+152	Beginners guide to JSON and Elm	https://medium.com/@zenitram.oiram/a-beginners-guide-to-json-and-elm-c4a0c7e20002#.nrfd6ynah[medium.com/@zenitram]	2017-01-02 09:09:24.909353	2017-01-09 16:34:35.666858
+155	Elm 0.18 video course	https://pragmaticstudio.com/blog[pragmaticstudio.com]	2017-01-02 09:25:08.481083	2017-01-09 16:40:10.153898
+149	Phoenix server using JWT web tokens	http://simonh1000.github.io/2016/05/phoenix-elm-json-web-tokens/[simonh1000.github.io]	2017-01-02 08:41:45.054206	2017-01-09 16:40:33.324469
+138	Haskell: How I start	http://howistart.org/posts/haskell/1[howistart.org]	2017-01-02 07:18:46.18348	2017-01-09 16:40:51.294344
+135	Haskell book	http://learnyouahaskell.com/[learnyouahaskell.com]	2017-01-02 04:06:49.124394	2017-01-09 16:41:45.912742
+209	Elixir and the Brainfuck Parser	http://dev.mikamai.com/post/100075543414/elixir-as-a-parsing-tool-writing-a-brainfuck[dev.mikamai.com]	2017-01-04 19:44:46.38713	2017-01-09 16:42:22.201864
+206	Lexing and Parsing with Elixir	https://cameronp.svbtle.com/how-to-use-leex-and-yecc[cameronp.svbtle.com]	2017-01-04 19:38:53.393314	2017-01-09 16:44:56.394308
+205	Lexing and Parsing with Elixir	http://andrealeopardi.com/posts/tokenizing-and-parsing-in-elixir-using-leex-and-yecc/[andrealeopardi.com]	2017-01-04 18:34:39.559936	2017-01-09 16:47:43.4429
+157	Elm JSON decoder	https://www.brianthicks.com/post/2016/12/26/banish-type-tedium-with-json-to-elm/[brianthicks.com]	2017-01-02 09:34:43.958675	2017-01-09 17:01:27.81335
+203	Directions for Living Life	https://getpocket.com/explore/item/how-to-invest-in-yourself-1410961290[getpocket.com]	2017-01-03 20:21:41.949552	2017-01-09 16:49:19.043829
+151	Detailed comparison of 0.17 to 0.18 Elm http package (++)	http://rundis.github.io/blog/2016/haskel_elm_spa_part6.html[rundis.github.io]	2017-01-02 09:06:29.408738	2017-01-09 16:50:33.748701
+168	A Month without Sugar	http://www.nytimes.com/2016/12/30/opinion/a-month-without-sugar.html[NYT]	2017-01-03 02:25:50.188328	2017-01-09 16:51:58.832643
+159	Is Elm viable in production?	https://www.reddit.com/r/elm/comments/3h6ka7/how_viable_is_elm_in_production/[reddit.com]	2017-01-02 09:46:31.151991	2017-01-09 17:04:17.247107
+160	Elm & KaTeX	https://www.reddit.com/r/elm/comments/3h6ka7/how_viable_is_elm_in_production/[reddit.com]	2017-01-02 09:49:01.235831	2017-01-09 17:05:02.114492
+208	Elixir Markdown Parser	https://pragdave.me/blog/2014/02/12/pattern-matching-and-parsing/[pragdave.me]	2017-01-04 19:42:18.853851	2017-01-09 17:06:00.343964
+240	Monads, Haskell, and Elm	https://medium.com/@dailydrip/monads-haskell-and-elm-a-socratic-dialogue-c0a1b4f6acb2#.30rp8evul[medium.com/@dailydrip]	2017-01-06 18:39:00.122111	2017-01-09 16:35:46.24965
+221	Per capita energy consumption USA 2011	3 x 10^11 Joules	2017-01-05 14:58:06.293123	2017-01-05 14:58:06.303921
+222	Global per capita energy consumption 2011	8 x 10^10 Joules	2017-01-05 15:06:08.480167	2017-01-05 15:06:08.5025
+224	Einstein on Quantum Mechanics	In a 1926 letter to Born, Einstein complained:\r\n\r\nQuantum mechanics is very impressive. But an inner voice tells me that it is not yet the real thing. The theory produces a good deal but hardly brings us closer to the secret of the Old One. I am at all events convinced that He does not play dice.  // quote	2017-01-05 16:57:37.564792	2017-01-05 16:57:37.56484
+229	Phoenix form on Google	https://groups.google.com/forum/#!forum/phoenix-talk	2017-01-05 18:53:44.057526	2017-01-05 18:53:44.066877
+230	Fareed Zakharia on Illiberal Democracy	https://www.washingtonpost.com/opinions/america-is-becoming-a-land-of-less-liberty/2016/12/29/2a91744c-ce09-11e6-a747-d03044780a02_story.html	2017-01-05 19:01:54.388994	2017-01-05 19:01:54.414986
+232	yuuk	more	2017-01-05 20:46:22.170868	2017-01-05 20:46:22.188222
+245	Elm style discussion (Google groups)	https://groups.google.com/forum/#!topic/elm-discuss/bv9X2TYXO34	2017-01-06 20:16:53.85649	2017-01-06 20:16:53.874517
+250	A Concise Introduction to Elm	https://www.cis.upenn.edu/~matuszek/Concise%20Guides/Concise%20Elm.html	2017-01-06 20:51:46.472312	2017-01-06 20:51:46.489323
+258	Elm Interop (+++)	http://elm-lang.org:1234/guide/interop	2017-01-07 18:28:27.482715	2017-01-07 18:28:27.498217
+259	Book to Get	Elm in Action summer 2017 estimated	2017-01-07 19:27:40.3185	2017-01-07 19:27:40.336875
+244	Elm Html Attributes Package	http://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Attributes[package.elm-lang.org]	2017-01-06 20:15:48.837774	2017-01-09 15:57:14.511644
+254	Elm Packages	http://package.elm-lang.org/[package.elm-lang.org]	2017-01-07 09:29:21.778275	2017-01-09 15:57:29.966299
+251	Elm examples	http://elm-lang.org/examples[elm-lang.org]	2017-01-06 22:25:29.594512	2017-01-09 15:58:14.49673
+253	Elm Language Guide	https://guide.elm-lang.org[elm-lang.org]	2017-01-07 01:26:55.374455	2017-01-09 15:58:28.693152
+255	Blazing fast HTML: virtual DOM in Elm (+++)	http://elm-lang.org/blog/blazing-fast-html[elm-lang.org] 	2017-01-07 12:17:40.099856	2017-01-09 15:58:56.351684
+247	Hashrockets - Elm example with css	https://hashrocket.com/blog/posts/elm-by-example-soup-to-nuts-part-1[hashrocket.com]	2017-01-06 20:27:20.072658	2017-01-09 16:15:44.029687
+234	Work Life Fractal	https://wavelength.asana.com/work-life-balance/[wavelength.asana.com]	2017-01-06 01:09:25.058019	2017-01-09 16:16:07.70685
+252	Source code for Elm compiler	https://github.com/elm-lang/elm-compiler[github.com/elm-lang]	2017-01-07 01:25:23.017775	2017-01-09 16:21:01.582501
+261	Elm - KaTeX	https://github.com/bsouthga/elm-katex[github.com/bsouthga]	2017-01-07 19:53:28.304041	2017-01-09 16:21:29.284842
+262	Elm Json decoderp pipelins at NoRedInk	https://github.com/NoRedInk/elm-decode-pipeline[github.com/NoRedInk]	2017-01-07 22:43:29.315723	2017-01-09 16:21:55.820407
+211	ExMachina Phoenix test factories	https://robots.thoughtbot.com/announcing-ex-machina[robots.thoughtbot.com]	2017-01-05 00:46:49.62605	2017-01-09 16:22:55.180139
+210	Phoenix JSON Api (Thoughtbot)	https://robots.thoughtbot.com/building-a-phoenix-json-api[robots.thoughtbot.com]	2017-01-05 00:15:06.269691	2017-01-09 16:23:06.207049
+237	Elm in the Real World	http://futurice.com/blog/elm-in-the-real-world[futurice.com]	2017-01-06 18:20:16.941727	2017-01-09 16:27:05.15195
+219	Elixir and the Unix philosophy	http://lebo.io/2015/06/22/the-unix-philosophy-and-elixir-as-an-alternative-to-go.html[lebo.io]	2017-01-05 08:05:32.316743	2017-01-09 16:27:33.889375
+225	Steven Weinberg on Quantum Mechanics	http://www.nybooks.com/articles/2017/01/19/trouble-with-quantum-mechanics/[nybooks.com]	2017-01-05 17:06:41.503247	2017-01-09 16:27:53.148226
+239	Elm - modular design, page scroll, etc (++)	https://becoming-functional.com/[becoming-functional.com]	2017-01-06 18:33:21.262991	2017-01-09 16:29:38.944544
+238	Elm, gateway to functional programming	https://becoming-functional.com/elm-the-gateway-drug-to-functional-programming-23ee2ea62ad7#.alirr9ih3[becoming-functional.com]	2017-01-06 18:26:43.133055	2017-01-09 16:30:02.905338
+213	The fate of Medium.com	https://blog.medium.com/renewing-mediums-focus-98f374a960be#.4c2kvakuq[medium.com]	2017-01-05 07:13:18.74062	2017-01-09 16:35:03.977546
+242	Bridging the gap between elm nad javascript with typescript	https://medium.com/front-end-hacking/bridging-the-gap-between-elm-and-javascript-with-typescript-375771ebcd4c#.2azpcgycz[medium.com/front-end-hacking]	2017-01-06 18:42:15.710239	2017-01-09 16:36:17.03303
+228	Learn Ecto	http://learningwithjb.com/posts/introducing-ecto[learningwithjb.com]	2017-01-05 17:56:30.596297	2017-01-09 16:39:36.767658
+249	Elm, minimum viable view, css (++)	http://crossingtheruby.com/2015/11/11/minimum-viable-elm-view.html[crossingtheruby.com]	2017-01-06 20:47:41.968077	2017-01-09 16:39:55.267145
+235	simplePageScroll at devHub	https://devhub.io/repos/bbottema-ng2-simple-page-scroll[devhub.io]	2017-01-06 05:56:36.857687	2017-01-09 16:42:06.622453
+227	Learn Phoenix	http://www.phoenixframework.org/docs/resources[phoenixframework.org]	2017-01-05 17:55:03.531806	2017-01-09 16:44:00.297848
+256	Elm for web developers	https://github.com/eeue56/elm-for-web-developers#can-i-enter-html-as-a-string[github.com/eeue56]	2017-01-07 12:58:07.158076	2017-01-09 16:45:16.672614
+216	Sweden, six-hour workday	https://www.bloomberg.com/news/articles/2017-01-03/swedish-six-hour-workday-trial-runs-into-trouble-too-expensive[bloomberg.com]	2017-01-05 07:43:21.669975	2017-01-09 16:46:05.840147
+243	Elm FAQ (++)	http://faq.elm-community.org/[faq.elm-community.org]	2017-01-06 20:11:55.775697	2017-01-09 16:47:23.078825
+218	Quantum computing	http://www.nature.com/news/quantum-computers-ready-to-leap-out-of-the-lab-in-2017-1.21239[nature.com]	2017-01-05 07:51:09.671599	2017-01-09 16:53:27.987688
+257	HTTP reqeusts in Elm (++)	https://www.bassam.co/journal/2016/07/http-requests-in-elm/[bassam.co]	2017-01-07 13:39:22.918533	2017-01-09 16:53:50.587764
+246	Composing styles in Elm	https://voyageintech.wordpress.com/2015/10/25/composing-styles-in-elm/[voyageintech.wordpress.com]	2017-01-06 20:20:41.873958	2017-01-09 16:56:08.193362
+260	Elm - Javascript  (++)	https://guide.elm-lang/interop/javascript.html[guide.elm-lang]	2017-01-07 19:35:38.049358	2017-01-09 16:57:59.183755
+241	Why Elm is going to change the world (++)	https://hackernoon.com/why-elm-is-going-to-change-the-world-f5a6c693b2ca#.neavkqr4q[hackernoon.com]	2017-01-06 18:40:22.047003	2017-01-09 17:00:11.95964
+220	Advertising & Sponship of web apps	https://www.troyhunt.com/i-just-permanently-removed-all-ad-network-code-from-my-blog/[troyhunt.com]	2017-01-05 14:47:10.142346	2017-01-09 17:00:39.260871
+248	Exploring Elm part 1 (++) css	http://www.christianalfoni.com/articles/2015_11_30_Exploring-Elm-part1[christianalfoni.com]	2017-01-06 20:28:13.794841	2017-01-09 17:04:34.123177
+212	Cicero in the age of Trump	https://www.washingtonpost.com/opinions/cicero-used-to-be-boring-with-trump-around-hes-breathtaking/2017/01/04/02043c1e-d2a3-11e6-9cb0-54ab630851e8_story.html?utm_term=.cad724dd1080[WAPO]	2017-01-05 07:12:44.453745	2017-01-09 17:08:32.759973
+265	Haskell docs local	file:///Library/Haskell/doc/start.html	2017-01-08 17:26:14.902315	2017-01-08 17:26:14.912441
+267	Lookup hostname	ipconfig getifaddr $(route -n get default|awk '/interface/ { print $2 }')	2017-01-08 18:06:22.393047	2017-01-08 18:06:22.401432
+282	How to pick startup ideas (++)	http://www.defmacro.org/2015/02/25/startup-ideas.html[defmacro.org] 	2017-01-09 07:02:53.813273	2017-01-09 16:25:02.091768
+226	Books on Elixir	\t\r\ntortilla 453 days ago [-]\r\n\r\nGood for beginners:\r\nhttps://www.learnelixir.tv/[learnelixir.tv]\r\nSimilar to Destroy All Software:\r\nhttp://elixirsips.com/[elixirsips.com]\r\n- Books:\r\nhttps://www.manning.com/books/elixir-in-action[www.manning.com]\r\nhttps://pragprog.com/book/elixir/programming-elixir[pragprog.com]\r\nhttps://pragprog.com/book/phoenix/programming-phoenix[pragprog.com]\r\n	2017-01-05 17:29:20.103898	2017-01-09 17:07:41.314975
+34	Sizes of bacteria	Haemophilus influenzae, 0.5–2.0 micrometers; A sulfur bacteria found in sediments off the coast of Namibia in 1997, Thiomargarita namibiensis, is typically 0.1 to 0.3 millimeters in diameter, but some are almost half a millimeter wide and visible to the naked eye. #size	2016-01-01 00:00:01	2017-01-09 03:21:10.830112
+271	Oscar Wilde, quote	There are only two tragedies in life: one is not getting what one wants, and the other is getting it.	2017-01-09 05:16:26.763911	2017-01-09 05:16:26.763917
+272	Functional Programming for the Rest of Us (++++)	http://www.defmacro.org/ramblings/fp.html[defmacro.org]	2017-01-09 06:04:07.499086	2017-01-09 16:25:49.657485
+274	Idea (Lookup): show notes similar to given one	* Machine learning?\r\n* What can postgres do?	2017-01-09 06:10:48.1741	2017-01-09 06:10:48.174105
+275	Idea (Lookup)	Have statistical word cloud	2017-01-09 06:11:17.359357	2017-01-09 06:11:17.359362
+276	Idea (Lookup)	* Be able to rate (star) notes\r\n* Sort by rating	2017-01-09 06:15:53.885594	2017-01-09 06:15:53.885598
+277	Bug (Lookup)	searches are not fully case insensitive, nor are they independent of the order of the terms, as they should be	2017-01-09 06:17:01.562296	2017-01-09 06:20:18.322148
+270	Debugging phoenix with iex and pry	https://medium.com/@diamondgfx/debugging-phoenix-with-iex-pry-5417256e1d11#.9k4hp1pyx[medium.com/@diamondgfx]	2017-01-09 01:59:53.659074	2017-01-09 16:37:17.11109
+286	How to become a superager	http://www.nytimes.com/2016/12/31/opinion/sunday/how-to-become-a-superager.html?smprod=nytcore-iphone&smid=nytcore-iphone-share[NYT] 	2017-01-09 14:55:02.676598	2017-01-09 15:00:13.556689
+287	Regex tester	https://regex101.com/[regex101.com]	2017-01-09 15:45:40.515241	2017-01-09 15:45:40.515249
+130	Elm StartApp (++)	http://package.elm-lang.org/packages/evancz/start-app/2.0.2/StartApp[package.elm-lang.org]	2017-01-01 23:45:20.532746	2017-01-09 15:55:29.121362
+236	Elme StartApp	http://package.elm-lang.org/packages/evancz/start-app/latest[package.elm-lang.org]	2017-01-06 18:17:54.767801	2017-01-09 15:57:00.827465
+263	Elm Json decoder pipeplines at NoRedInk	http://package.elm-lang.org/packages/NoRedInk/elm-decode-pipeline/latest[package.elm-lang.org]	2017-01-07 22:52:58.036154	2017-01-09 15:57:44.377545
+264	Elm editor	http://elm-lang.org/try[elm-lang.org]	2017-01-08 05:18:04.774856	2017-01-09 15:59:26.514519
+139	Practical Haskell	http://seanhess.github.io/2015/08/04/practical-haskell-getting-started.html[seanhess.github.io]	2017-01-02 07:20:24.673686	2017-01-09 16:08:32.994125
+217	Health care: legitimate pricing	http://www.modernhealthcare.com/article/20161014/news/161019940[modernhealthcare.com]	2017-01-05 07:45:26.663844	2017-01-09 16:11:10.654577
+153	Elm project setup	http://blog.jessitron.com/2015/11/getting-off-ground-in-elm-project-setup.html[blog.jessitron.com]	2017-01-02 09:14:20.124837	2017-01-09 16:12:32.706969
+131	Elm Architecture (++)	https://github.com/evancz/elm-architecture-tutorial[github.com/evancz]	2017-01-01 23:45:50.667801	2017-01-09 16:19:46.230825
+233	Why rural voters go for Donald Trump	http://www.nytimes.com/2017/01/05/opinion/why-rural-america-voted-for-trump.html[NYT]	2017-01-06 00:58:40.565473	2017-01-09 16:22:29.09527
+281	Digital Ocean (deploy in 55 seconds)	https://www.digitalocean.com/products/one-click-apps/elixir/[digitalocean.com]	2017-01-09 06:38:04.307163	2017-01-09 16:23:39.394261
+280	Digital Ocean (deployment)	https://www.digitalocean.com/[digitalocean.com]	2017-01-09 06:37:02.758396	2017-01-09 16:24:11.671687
+268	Intro to apis with phoenix 	https://blog.codeship.com/an-introduction-to-apis-with-phoenix/[blog.codeship.com] -- REST API, Micah Woods, ++	2017-01-08 18:11:55.600615	2017-01-09 16:56:49.550601
+278	Plato	Plato suggested that everything in our world is just an approximation of perfection. He also realized that we understand the concept of perfection even though we never encountered it. -- http://www.defmacro.org/ramblings/fp.html[defmacro.org]	2017-01-09 06:23:33.589237	2017-01-09 16:26:37.121718
+167	 2 Secrets To The Good Life, Backed By Ancient Wisdom And Research (++)	http://www.bakadesuyo.com/2017/01/the-good-life/[www.bakadesuyo.com]  	2017-01-03 02:24:54.252718	2017-01-09 16:28:22.228145
+125	Angular2 and Functional Reactive Programming (FRP)	http://lukajcb.github.io/blog/angular2/2016/04/02/frp-in-angular-2.html[lukajcb.github.io]	2017-01-01 11:24:02.739293	2017-01-09 16:28:58.680763
+40	Writing a CLI app in Elixir	https://medium.com/brightergy-engineering/writing-a-cli-app-in-elixir-b308291e9f85#.1pn5py7ek[/medium.com/brightergy-engineering]	2016-01-01 00:00:01	2017-01-09 16:31:32.628631
+273	The Great AI Awakening	http://www.nytimes.com/2016/12/14/magazine/the-great-ai-awakening.html[NYT] // artificial intelligence	2017-01-09 06:09:12.940655	2017-01-09 16:51:07.401338
+269	Postgres exercises	https://www.pgexercises.com/questions/basic/[pgexercises.com]	2017-01-08 21:06:57.282034	2017-01-09 16:38:54.794359
+285	Sessions in Phoenix	http://www.phoenixframework.org/docs/sessions[phoenixframework.org]	2017-01-09 07:32:45.771779	2017-01-09 16:44:15.60271
+106	Elm, creating first app (tutorial, ++)	https://auth0.com/blog/creating-your-first-elm-app-part-1/[auth0.com]	2017-01-01 04:11:35.344706	2017-01-09 16:44:40.408883
+156	Elm Blog: Daily drip	https://www.dailydrip.com/topics/elm/drips/elm-weekly-drip-29-and-exercise-add-projects-tab[dailydrip.com]	2017-01-02 09:27:31.235623	2017-01-09 16:45:43.276436
+266	Run Phoenix server on different port	https://til.codes/start-phoenix-app-with-cowboy-server-on-different-port/[til.codes]	2017-01-08 17:57:53.013665	2017-01-09 16:58:57.753053
+279	Deploying Elixir/Phoenix (++)	https://www.mysteriouspants.com/blog/2016/07/deploying-phoenix/[mysteriouspants.com]	2017-01-09 06:31:52.218537	2017-01-09 16:53:06.247887
+283	Block chain	https://hackernoon.com/where-are-we-in-the-hype-cycle-with-blockchain-7cc215d9c6e5#.qqz8bcmvu[hackernoon.com]	2017-01-09 07:15:42.197103	2017-01-09 16:59:26.834564
+214	Tool value versus network value	https://blog.medium.com/medium-is-not-a-publishing-tool-4c3c63fa41d2#.ogc9pwj49[medium.com]  -- highlighting, thoughtful counter	2017-01-05 07:16:42.076783	2017-01-09 16:55:02.750845
+215	Basic Income in Finland	https://www.technologyreview.com/s/603296/finland-starts-handing-out-a-basic-income/?utm_campaign=internal[technologyreview.com]	2017-01-05 07:37:54.715009	2017-01-09 17:03:14.488606
+284	Make Phoenix Even Faster with a GenServer-backed Key Value Store	https://robots.thoughtbot.com/make-phoenix-even-faster-with-a-genserver-backed-key-value-store[robots.thoughtbot.com] // sessions	2017-01-09 07:29:22.504354	2017-01-09 18:13:41.35005
+293	Basic types in Elixir	 <a href="http://elixir-lang.org/getting-started/basic-types.htm" target="_blank">elixir-lang.org</a> 	2017-01-09 18:09:19.181234	2017-01-09 18:10:11.296491
+\.
+
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: carlson
+--
+
+SELECT pg_catalog.setval('notes_id_seq', 293, true);
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: carlson
+--
+
+COPY schema_migrations (version, inserted_at) FROM stdin;
+20161228225001	2016-12-28 22:53:04.287273
+20161229160628	2016-12-29 16:10:15.261891
+20161230111345	2016-12-30 11:20:15.678542
+\.
+
+
+--
+-- Name: notes_pkey; Type: CONSTRAINT; Schema: public; Owner: carlson
+--
+
+ALTER TABLE ONLY notes
+    ADD CONSTRAINT notes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: carlson
+--
+
+ALTER TABLE ONLY schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: carlson
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM carlson;
+GRANT ALL ON SCHEMA public TO carlson;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

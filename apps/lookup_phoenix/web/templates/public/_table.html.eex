@@ -1,0 +1,28 @@
+<div style="overflow: scroll; height:400px;" id="table_div">
+<table class="table">
+  <thead>
+    <tr>
+      <th class="hidden-xs"></th>
+      <th>Title</th>
+      <th class="hidden-xs"> Content</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for note <- @notes do %>
+    <tr>
+
+      <td class="hidden-xs" style="max-width:2em"> <%= note.index + 1 %> </td>
+
+      <td style=""> <%= link note.title, to: public_path(@conn, :show, note, index: note.index,
+         id_string: @id_string, site: @site), class: "" %> </td>
+
+      <td style="width:70%"  class="hidden-xs"><%= raw(MU.RenderText.format_for_index(note.content)) %></td>
+
+
+    </tr>
+<% end %>
+  </tbody>
+</table>
+</div>

@@ -1,0 +1,203 @@
+<style>
+
+
+.navarrow { float:right; font-weight:bold;}
+
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(1.5); /* IE */
+  -moz-transform: scale(1.5); /* FF */
+  -webkit-transform: scale(1.5); /* Safari and Chrome */
+  -o-transform: scale(1.5); /* Opera */
+  padding: 2px;
+}
+
+/* Might want to wrap a span around your checkbox text */
+.checkboxtext
+{
+  /* Checkbox text */
+  font-size: 110%;
+  display: inline;
+}
+
+.rendered_text3 {
+  float: left;
+  background-color: #f4f4f4;
+  margin-right:-30%;
+  width: 80%;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-top:3em;
+  clear: right;
+  padding-top:1em;
+  overflow: scroll;
+  height: 150px;
+}
+</style>
+
+<style>
+
+  <%= raw(MU.CSS.inject()) %>
+
+
+</style>
+
+<script>
+
+  <%= raw(MU.JS.inject("rendered_text3a")) %>
+
+</script>
+
+<meta name="csrf" content="<%= Plug.CSRFProtection.get_csrf_token() %>">
+
+<%= form_for @changeset, @action, fn f -> %>
+
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <!-- <%= raw(@notebook_link) %> -->
+
+  <div class="form-group">
+      <span id="yada" style="float:right;  margin-right:36px; padding-left:8p; padding-right:8px; color: cornflowerblue;">Update</span>
+    <!-- <%= label f, :title, class: "control-label" %> -->
+    <%= text_input f, :title, class: "form-control", id: 'title'  %>
+    <%= error_tag f, :title %>
+
+  </div>
+
+  <!-- INPUT -->
+
+  <div id="edit_and_display_text" style="margin-top:-2em;left:20%;">
+     <div class="form-group" style="margin-left:-30%; width:80%; float:left; margin-top:3em;" %>
+       <%= textarea f, :content, class: "form-control", style: "height:200px; overflow: scroll", id: 'content3' %>
+       <%= error_tag f, :content %>
+     </div>
+
+     <div id="rendered_text3a" class="rendered_text3">
+       <%= render "_rendered_text.html", rendered_text: @rendered_text %>
+     </div>
+  </div>
+
+
+  <!-- INPUT END -->
+
+  <div class="form-inline" style="margin-bottom:10px; clear: left; left:0;margin-left:-30%;margin-right:-30%">
+
+      <div class="form-check form-inline" style="display:inline; margin-left:0;">
+        <%= label f, :tags, class: "control-label-inline" %>
+        <%= text_input f, :tag_string, class: "form-control", style: "width: 40%;", id: "tag_string", placeholder: 'separate tags by commas'  %>
+        <%= error_tag f, :tag_string %>
+      </div>
+
+      <div class="form-check form-inline" style="display:inline; margin-left:20px;">
+          <%= text_input f, :identifier, class: "form-control", style: "width: 30%", id: 'identifier', placeholder: 'Unique identifier'  %>
+          <%= error_tag f, :identifier %>
+      </div>
+
+      <div class="form-check form-inline" style="display:inline; margin-left:20px;">
+         <%= label f, :idx, class: "control-label-inline" %>
+           <%= text_input f, :idx, class: "form-control", style: "width: 50px", id: 'idx', placeholder: 'separate tags by commas'  %>
+          <%= error_tag f, :idx %>
+      </div>
+
+      <div class="form-check form-inline" style="display:inline; margin-left:20px;">
+         <label class="form-check-label-inline"> Public &nbsp;
+           <%= checkbox f, :public, class: "checkbox", value: @note.public %>
+         </label>
+      </div>
+
+  </div>
+
+
+
+   <input type="hidden" name="index" value= <%=@index %> >
+   <input type="hidden" name="id_string" value=<%= @id_string %> >
+   <input type="hidden" name="username" id = "username" value=<%= @conn.assigns.current_user.username %> >
+   <input type="hidden" name="note_id" id = "note_id" value=<%= @note.id %> >
+
+  <div class="form-group" style="display:inline">
+    <%= if @locked do %>
+      <%= link "    Back!!", to: note_path(@conn, :index), id: 'notes' %>
+    <% else %>
+      <span><%= submit "Save & Exit", name: "save_option", value: "exit", class: "btn btn-primary", style: "width: 31%;", id: 'save1' %>
+
+      <%= submit "Save", name: "save_option", value: "continue", class: "btn btn-primary", style: "width: 19%;", id: 'save1' %>
+
+      <%= link "Back", to: note_path(@conn, :index), id: 'notes', class: "btn btn-primary", style: "width: 19%;margin-right:2em;" %>
+
+      Words: <%= @word_count %>
+      <span>
+    <% end %>
+  </div>
+
+<% end %>
+
+<script>
+    document.getElementById("content3").style.height = (window.innerHeight - 300) + 'px'
+    document.getElementById("rendered_text3a").style.height = (window.innerHeight - 300) + 'px'
+    console.log("window.innerHeight: " + window.innerHeight)
+</script>
+
+
+
+<script>
+
+function newTypeset(){
+   MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+}
+
+$("#yada").click(function() {
+
+    console.log("HI THERE!")
+
+    var note_id = document.getElementById("note_id").value
+    var title = document.getElementById("title").value
+    var content = document.getElementById("content3").value
+    var username = document.getElementById("username").value
+    var tag_string = document.getElementById("tag_string").value
+    var identifier = document.getElementById("identifier").value
+    var csrf = document.querySelector("meta[name=csrf]").content;
+
+    console.log("note_id = " + note_id)
+    console.log("title = " + title)
+    console.log("tag_string = " + tag_string)
+    console.log("identifier = " + identifier)
+    console.log("content = " + content)
+    console.log("csrf = " + csrf)
+
+    $.ajax({
+        url: "/api/notes/" + note_id,
+        type: "put",
+        data: {
+          put: {
+            title: title,
+            username: username,
+            content: content,
+            tag_string: tag_string,
+            identifier: identifier,
+            secret: "abcdef9h5vkfR1Tj0U_1f!"
+          }
+        },
+        headers: {
+            "X-CSRF-TOKEN": csrf
+        },
+        dataType: "json",
+        success: function (data) {
+
+          console.log("OKKKK!");
+          console.log(data);
+          document.getElementById("rendered_text3a").innerHTML = data.rendered_text;
+
+          newTypeset();
+
+        }
+    });
+
+  });
+
+</script>
+

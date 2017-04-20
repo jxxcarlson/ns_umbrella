@@ -1,0 +1,4 @@
+duration:1.0;mem stats:false;sys mem stats:false
+module;test;tags;iterations;elapsed
+RenderTextBench	transform input 1: wc 31, 104, 1594		1000	1037864
+RenderTextBench	transform input 2: wc 31, 513, 3150		1000	1045196

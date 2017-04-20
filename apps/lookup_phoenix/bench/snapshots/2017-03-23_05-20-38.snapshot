@@ -1,0 +1,4 @@
+duration:1.0;mem stats:false;sys mem stats:false
+module;test;tags;iterations;elapsed
+RenderTextBench	transform input 1		1000	1010601
+RenderTextBench	transform input 2		1000	1001899

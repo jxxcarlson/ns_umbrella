@@ -1,0 +1,81 @@
+<style>
+span { color: darkred; font-weight:500;}
+
+</style>
+
+<%= if @conn.assigns.current_user == nil do  %>
+ <div style="max-width:36em; margin-top:4em;">
+
+     <div class="jumbotron" style="">
+       <div>
+          <h2 style="color:darkred; font-size:3em;">www.lookupnote.io</h2>
+
+          <p>Please <a href="/sessions/new">sign in</a> or <a href="/users/new">register</a></p>
+
+          <p>Try the <a href="http://www.lookupnote.io/site/demo" target="_blank" ><b>Demo!</b></a> </p>
+       </div>
+     </div>
+
+     <div style="font-size: 1.5rem;">
+     <p><span>LookupNote</span> is a tool for storing and finding random snippets
+     of information of all kinds &mdash; text, links to web pages, even images,
+     audio, and video.
+     </p>
+
+     <p><span>LookupNote</span> is your personal mini search engine.
+     Safe, secure, always there when you need it.</p>
+
+     <p><span>Used by</span> students, writers, researchers, you name it.</p>
+
+     <p><span>Advanced features</span> for those who need them: code formatting, mini markup and
+      LaTeX for mathemtical and chemical formulas.
+      For more information, see the <a href="/site/guide">User Guide</a>.
+
+     <BR>
+
+      <p>
+
+      <span style="margin-left:15px;"> <%= link "Sign up for a free trial", to: user_path(@conn, :new) %> </span></p>
+
+         <br><br>
+              <span>Contact: jxxcarlson at gmail</span>
+
+     </div>
+
+   </div>
+<% else %>
+
+    <div class="jumbotron" style="">
+       <div>
+          <h2 style="color:darkred; font-size:3em;">www.lookupnote.io</h2>
+
+          <p>Signed in as <%= @current_user.username %> </p>
+       </div>
+     </div>
+
+
+    <p>Try the <a href="http://www.lookupnote.io/site/demo" target="_blank" >DEMO</a></p>
+
+    <p>Take a look at the <span><%= link "User Guide", to: "/site/guide" %></span> for advanced features:
+   code formatting, mini markup, and LaTeX for mathematics and chemistry. </p>
+
+    <br>
+     <span>Contact: jxxcarlson at gmail</span>
+
+     <!-- <%= link "Tips", to: page_path(@conn, :tips), class: "btn btn-default btn-xs" %> -->
+
+<% end %>
+
+
+
+</div>
+
+<div class="row marketing">
+  <div class="col-lg-6">
+
+  </div>
+
+  <div class="col-lg-6">
+
+  </div>
+</div>

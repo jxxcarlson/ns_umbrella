@@ -1,0 +1,11 @@
+
+
+
+<h1 style="margin-top:1em;">New User</h1>
+
+<%= render "_form.html", changeset: @changeset, conn: @conn %>
+
+
+
+<br>
+<%= render "_note.html"  %>

@@ -1,0 +1,31 @@
+
+
+<style>
+    span {color: darkred; font-weight: bold;}
+    li {margin: 10px 0; }
+    p {font-size:1.7rem; max-width:25em;}
+</style>
+
+<h3 style="margin-top:2em;">Demo</h3>
+
+<p> <%= link "Sign in", to: session_path(@conn, :new) %> to Lookupnote.io with user name <span>demo</span> and
+password <span>rundemo</span> to see what one user's set of notes looks like.</p>
+
+<p>
+Once you are signed in, try searching for <span>astro</span> and <span>earth</span>.   Take a look at the <span>TAGS</span>
+tab.  Try clicking on the <span>nature</span> and <span>number</span> tags. And don't forget the <span>Random</span> button!</p>
+
+<br>
+
+<p><b>Note.</b> You won't be able to create or edit notes in the demo, but by playing around with it,
+you will get a good idea what Lookupnote can do.
+Do press <span>edit</span> to see how notes are entered.  For some more advanced examples,
+search for <span>markup</span> or <span>code</span>.  You can also try <span>math</span> or <span>chem</span>.</p>
+
+<br><br>
+
+
+<p>
+<%= link "Home", to: page_path(@conn, :index) %>
+</p>
+

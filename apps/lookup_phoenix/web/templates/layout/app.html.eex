@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.js"
+      integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+      crossorigin="anonymous">
+    </script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous">
+    </script>
+
+    <style>
+
+    li.link1 { font-size: 1.6rem; }
+
+    .searchbar {
+      display:inline-block;
+      margin-top:-18px;
+      margin-bottom:3px;
+      width:100%;
+      height:35px;
+      font-size:1.8rem;
+      background-color:#eee;
+    }
+
+    </style>
+
+    <title>Lookup</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <!--
+
+    The below per: http://stackoverflow.com/questions/36629942/include-javascript-on-certain-pages-in-phoenix-framework-application
+    And also: https://hexdocs.pm/phoenix/1.0.0/Phoenix.View.html#render_existing/3
+    -->
+
+    <script>
+
+        // define a handler
+        function doc_keyUp(e) {
+
+            // this would test for whichever key is 78 and the ctrl key at the same time
+            if (e.altKey) {
+               switch(e.keyCode ) {
+                 case 72: // H
+                    document.getElementById('home').click();
+                    break;
+                 case 82:  // R (Recent notes)
+                    document.getElementById('recent_notes').click();
+                    break;
+                 case 84:  // T
+                    document.getElementById('tags').click();
+                    break;
+                 case 49:  // 1
+                    document.getElementById('random_one').click();
+                    break;
+                 case 85:  // U
+                    document.getElementById('users').click();
+                    break;
+                 case 78: // N
+                    document.getElementById('new_note').click();
+                    break;
+               }
+            }
+        }
+        // register the handler
+        document.addEventListener('keyup', doc_keyUp, false);
+
+    </script>
+
+    <link rel="apple-touch-icon-precomposed" href="/priv/static/images/apple-touch-icon.png">
+
+  </head>
+
+  <body>
+
+  <!-- http://stackoverflow.com/questions/33068021/creating-a-search-bar-in-the-permanent-layout-app-html-eex -->
+
+    <div class="container">
+
+     <span class="visible-xs" style="margin-top:-9px;margin-left:4px;width:100%">
+          <%= form_for @conn, search_path(@conn, :index), [as: :search], fn f -> %>
+              <%= text_input f, :query, placeholder: "Search ...", autocorrect: "off", autocapitalize: "off", class: "searchbar", id: "search_notes" %>
+          <%= end %>
+     </span>
+
+      <header id="header">
+
+
+
+
+         <!-- NAVIGATION BAR -->
+         <%= if @current_user do %>
+           <%= render "_nav_signed_in.html", conn: @conn, current_user: @current_user %>
+         <% else %>
+            <%= render "_nav_signed_out.html", conn: @conn, site: cookies(@conn, "site") %>
+         <% end %>
+
+
+         <!-- FLASH MESSAGES -->
+         <div style="margin-top:0;; margin-bottom:0">
+            <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+            <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+         </div>
+         
+
+    </header>
+
+
+      <!-- MAIN -->
+      <!-- role="main" -->
+      <main style="clear:left;">
+        <%= render @view_module, @view_template, assigns %>
+      </main>
+
+    </div> <!-- /container -->
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+
+
+
+<style>
+
+span.standard {
+
+ float:right;
+ margin-right:8px;
+
+}
+
+
+
+.navarrow { float:right; font-weight:bold;}
+
+.rendered_text {
+  background-color: #f4f4f4;
+  font-size:0.9em;
+  padding-left: 1em;
+  overflow: scroll;
+  height: 150px;
+  clear: left;
+  padding-bottom:4em;
+}
+
+</style>
+
+<style>
+
+   <%= MU.CSS.inject() %>
+
+</style>
+
+<div style="font-size: 1.2em; margin-top:-0.5em;">
+
+ <div style="margin-top:0;">
+
+
+      <span class="standard" ><%= link "Edit", to: note_path(@conn, :edit, @note, index: @nav.index, id_string: @nav.id_string) %> </span>
+      <span class="standard" ><%= link "Print", to: note_path(@conn, :print, @note) %>  | </span>
+      <span class="standard" ><%= link "Back", to: note_path(@conn, :index) %> | </span>
+      <!-- <span class="standard hidden-xs" >Channel <%= @channela %></span> -->
+
+      <%= if @nav.note_count > 1 do %>
+
+        <span style="float:left;margin-right:9px; font-weight:bold;" ><%= link "first", to: note_path(@conn, :show, @nav.first_id, index: 0, id_string: @nav.id_string) %></span>
+        <span style="float:left;margin-right:9px; font-weight:bold;" ><%= link "prev", to: note_path(@conn, :show, @nav.previous_id, index: @nav.previous_index, id_string: @nav.id_string) %></span>
+        <span style="background-color:#35d; color: white; padding-left:5px; padding-right:8px; float:left;margin-right:8px;" ><%= @nav.index + 1 %>:<%= @nav.note_count %></span>
+        <span class: "btn btn-primary" style="float:left;margin-right:8px; font-weight:bold;" ><%= link "next", to: note_path(@conn, :show, @nav.next_id, index: @nav.next_index, id_string: @nav.id_string) %></span>
+        <span class: "btn btn-primary" style="float:left;margin-right:28px; font-weight:bold;" ><%= link "last", to: note_path(@conn, :show, @nav.last_id, index: @nav.last_index, id_string: @nav.id_string) %></span>
+
+      <% end %>
+
+</div>
+
+<div style="height:2em;"> &nbsp; </div>
+
+
+<div id="rendered_text" class="rendered_text">
+   <%= raw(@rendered_text) %>
+</div>
+
+
+
+</div>
+
+
+<p style="margin-top:1em;"> <i>
+  <span class="small hidden-xs"><b><%= LookupPhoenix.Note.public_indicator(@note) %></b>, Last updated: <%= @updated_at %></span>
+
+  <span class="small hidden-xs" style='margin-left:2em;'>ID: <%= @note.id %> </span>
+  <span class="small hidden-xs" style='margin-left:2em;'>Word count: <%= @word_count %> </span>
+  <span style='margin-left:2em;'>Tags: <%= @note.tag_string %></span></i>
+  <%= if @sharing_is_authorized do %>
+    <span style='margin-left:2em;'>
+      <%= link "Email Note", to: note_path(@conn, :mailto, @note.id, index: @nav.next_index, id_string: @nav.id_string) %>
+    </span>
+  <% end %>
+
+  </p>
+<br>
+
+<script>
+    document.getElementById("rendered_text").style.height = (window.innerHeight - 170) + 'px'
+</script>
+
+
+<script>
+
+  <%= raw(MU.JS.inject()) %>
+
+
+
+</script>
