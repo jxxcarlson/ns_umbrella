@@ -4,6 +4,7 @@ defmodule LookupPhoenix.PublicController do
     alias LookupPhoenix.Note
     alias LookupPhoenix.User
     alias LookupPhoenix.Utility
+    alias LookupPhoenix.Text
     alias LookupPhoenix.Search
     alias LookupPhoenix.Constant
     alias LookupPhoenix.NoteNavigation
@@ -102,9 +103,9 @@ defmodule LookupPhoenix.PublicController do
         options = %{mode: "show", username: user.username, public: note.public,
            toc_history: history_string, path_segment: "public"} |> Note.add_options(note)
         options2 = %{mode: "show", username: user.username, public: note.public, toc_history: history_string} |> Note.add_options(note2)
-        rendered_text = String.trim(RenderText.transform(note.content, options))
+        rendered_text = String.trim(Text.render(note.content, options))
         content2 = "== " <> note2.title <> "\n\n" <> note2.content
-        rendered_text2 = String.trim(RenderText.transform(content2, options2))
+        rendered_text2 = String.trim(Text.render(content2, options2))
 
         inserted_at= Note.inserted_at_short(note)
         updated_at= Note.updated_at_short(note)

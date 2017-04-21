@@ -5,6 +5,7 @@ defmodule LookupPhoenix.NoteUpdateAction do
   alias LookupPhoenix.Identifier
   alias LookupPhoenix.Tag
   alias LookupPhoenix.NoteNavigation
+  alias LookupPhoenix.Text
   alias LookupPhoenix.Utility
 
   alias MU.RenderText
@@ -80,7 +81,7 @@ defmodule LookupPhoenix.NoteUpdateAction do
       })
 
      options =  Note.add_options(%{mode: "show", public: note.public, toc_history: "", path_segment: "show2"}, note)
-     rendered_text = RenderText.transform(content, options)
+     rendered_text = Text.render(content, options)
 
      # Update database
      changeset = Note.changeset(note, Map.delete(new_params, :nav))

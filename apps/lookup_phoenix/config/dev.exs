@@ -8,6 +8,7 @@ use Mix.Config
 # with brunch.io to recompile .js and .css sources.
 config :lookup_phoenix, LookupPhoenix.Endpoint,
   http: [port: 4000],
+  secret_key_base: "XWnt9yqvc8ZpWu/WS4epERXm4wRytM+OAkY+mSs3x+wAvudH+PBim8ioF021P5wa",
   debug_errors: true,
   code_reloader: true,
   check_origin: false,

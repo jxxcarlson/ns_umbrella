@@ -3,6 +3,7 @@ defmodule LookupPhoenix.NotePrintAction do
   alias LookupPhoenix.User
   alias LookupPhoenix.Note
   alias LookupPhoenix.Repo
+  alias LookupPhoenix.Text
   alias LookupPhoenix.Utility
   alias LookupPhoenix.NoteNavigation
 
@@ -18,7 +19,7 @@ defmodule LookupPhoenix.NotePrintAction do
      note = Note.get(note_id)
      options = %{ mode: "show" } |> Note.add_options(note)
      Utility.report("SHOW, OPTIONS", options)
-     rendered_text = String.trim(RenderText.transform(note.content, options))
+     rendered_text = String.trim(Text.render(note.content, options))
      rendered_text = "<h1>#{note.title}</h1>\n\n" <> rendered_text
      %{rendered_text: rendered_text, note_id: note_id}
 

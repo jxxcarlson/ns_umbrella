@@ -46,6 +46,13 @@ defmodule LookupPhoenix.NoteApiController do
       end
     end
 
+    def stats(conn, %{}) do
+      # {:reply, result, _} = MU.Server.get_stats
+      Utility.report("result", MU.Server.get_stats)
+      result = MU.Server.get_stats
+      render conn, result
+    end
+
     def update(conn, %{"id" => id, "put" => data}) do
 
 #      Utility.report("conn", conn)

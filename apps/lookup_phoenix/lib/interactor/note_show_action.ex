@@ -4,6 +4,7 @@ defmodule LookupPhoenix.NoteShowAction do
   alias LookupPhoenix.Note
   alias LookupPhoenix.Repo
   alias LookupPhoenix.Utility
+  alias LookupPhoenix.Text
   alias LookupPhoenix.NoteNavigation
   alias LookupPhoenix.AppState
 
@@ -46,7 +47,7 @@ defmodule LookupPhoenix.NoteShowAction do
      Utility.report("SHOW, OPTIONS", options)
      # content = "== " <> note.title <> "\n\n" <> note.content
      content = note.content
-     rendered_text = String.trim(RenderText.transform(content, options))
+     rendered_text = String.trim(Text.render(content, options))
      rendered_text = "<h1>#{note.title}</h1>\n\n" <> rendered_text
 
      parent_note = Note.get_parent(note)

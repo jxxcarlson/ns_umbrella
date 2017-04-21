@@ -12,7 +12,7 @@ config :lookup_phoenix,
 # Configures the endpoint
 config :lookup_phoenix, LookupPhoenix.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "NCRIi0mLUGO10aY0NiQOdR/koQKu5av0091x9TpguKOud86+QK4zYAhJ1OV9Kj9R",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: LookupPhoenix.ErrorView, accepts: ~w(html json)],
   pubsub: [name: LookupPhoenix.PubSub,
            adapter: Phoenix.PubSub.PG2]

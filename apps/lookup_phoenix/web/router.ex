@@ -32,6 +32,7 @@ defmodule LookupPhoenix.Router do
     pipe_through :api
 
     resources "/notes", NoteApiController
+    get "/stats", NoteApiController, :stats
   end
 
   scope "/", LookupPhoenix do

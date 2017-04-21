@@ -5,6 +5,7 @@ defmodule LookupPhoenix.NoteController do
   alias LookupPhoenix.Note
   alias LookupPhoenix.User
   alias LookupPhoenix.AppState
+  alias LookupPhoenix.Test
   alias LookupPhoenix.Utility
   alias LookupPhoenix.NoteNavigation
   alias MU.TOC
@@ -197,7 +198,7 @@ defmodule LookupPhoenix.NoteController do
         word_count = RenderText.word_count(note.content)
         tags = Note.tags2string(note)
 
-        rendered_text = RenderText.transform(note.content, %{mode: "latex", toc: false, mode: "show", process: "latex"})
+        rendered_text = Text.render(note.content, %{mode: "latex", toc: false, mode: "show", process: "latex"})
 
         params1 = %{note: note, changeset: changeset,
                     word_count: word_count, locked: locked,

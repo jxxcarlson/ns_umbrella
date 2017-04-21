@@ -33,4 +33,11 @@ defmodule LookupPhoenix.NoteApiView do
     }
   end
 
+  def render("stats.json", result) do
+    %{requests: result.requests,
+      kchars: result.kchars,
+      processing_time: result.processing_time,
+      rate: result.rate}
+  end
+
 end

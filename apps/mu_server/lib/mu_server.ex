@@ -62,7 +62,17 @@ defmodule MU.Server do
     end
 
     def handle_call(:get_stats, _from, stats) do
-       {:reply, stats, stats}
+       characters = stats.characters/1000.0 |> Float.round(0)
+       processing_time = stats.processing_time/(1000.0*1000.0) |> Float.round(3)
+       rate = stats.rate/1000.0 |> Float.round(1)
+#       reply = ["req: #{stats.requests}", "kchars: #{characters}",
+#                        "proc. time: #{processing_time} sec",
+#                        "rate: #{rate} ms/kchar"]
+       reply = %{requests: stats.requests,
+                 kchars: characters,
+                 processing_time: processing_time,
+                 rate: rate}
+       {:reply, reply, stats}
     end
 
     def handle_cast(:reset_stats, _stats) do

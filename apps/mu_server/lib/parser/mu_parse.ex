@@ -12,6 +12,10 @@ defmodule MU.Parse do
     Combine.parse(input, sequence([char("["), take_while(fn(a) -> !Enum.member?('][-=+*\n\r', a) end), char("]")]))
   end
 
+  def block_separator(input) do
+
+  end
+
   @doc ~S"""
   # iex> Combine.parse("[foo]", char("[") |> word() |> char("]"))
   # ["[", "foo", "]"]
