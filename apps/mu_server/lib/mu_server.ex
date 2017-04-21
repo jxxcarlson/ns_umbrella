@@ -62,16 +62,24 @@ defmodule MU.Server do
     end
 
     def handle_call(:get_stats, _from, stats) do
+
        characters = stats.characters/1000.0 |> Float.round(0)
        processing_time = stats.processing_time/(1000.0*1000.0) |> Float.round(3)
        rate = stats.rate/1000.0 |> Float.round(1)
-#       reply = ["req: #{stats.requests}", "kchars: #{characters}",
-#                        "proc. time: #{processing_time} sec",
-#                        "rate: #{rate} ms/kchar"]
+       
+       if stats.requests > 0 do
+         time_per_request = stats.processing_time/stats.requests |> Float.round(1)
+       else
+         time_per_request = "-"
+       end
+
        reply = %{requests: stats.requests,
                  kchars: characters,
                  processing_time: processing_time,
-                 rate: rate}
+                 rate: rate,
+                 t_per_request: time_per_request
+                 }
+
        {:reply, reply, stats}
     end
 
