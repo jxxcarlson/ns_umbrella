@@ -5,6 +5,14 @@ defmodule MU.Parse do
   use Combine
 
   @doc ~S"""
+  iex> MU.Parse.block_heading("[env.theorem#pyth]")
+  [["[", 'env.theorem#pyth', "]"]]
+  """
+  def block_heading(input) do
+    Combine.parse(input, sequence([char("["), take_while(fn(a) -> !Enum.member?('][-=+*\n\r', a) end), char("]")]))
+  end
+
+  @doc ~S"""
   # iex> Combine.parse("[foo]", char("[") |> word() |> char("]"))
   # ["[", "foo", "]"]
 """
@@ -112,8 +120,11 @@ defmodule MU.Parse do
 
   def str2(input) do
     parser = take_while(fn(a) -> !Enum.member?('-=+*\n\r', a) end)
-    input |> Combine.parse(parser)
+    #input |> Combine.parse(parser)
   end
+
+  # Combine.parse("[foo bar]", sequence([char("["), MU.Parse.str2(), char("]")]))
+  # Combine.parse("[foo bar]", sequence([char("["), take_while(fn(a) -> !Enum.member?('-=+*\n\r', a) end), char("]")]))
 
 #  def section1(input) do
 #    Combine.parse(sequence([char("="), spaces(), many(word_space()), word(), newline()]))

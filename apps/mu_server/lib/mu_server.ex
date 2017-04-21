@@ -22,7 +22,7 @@ defmodule MU.Server do
     end
 
     def render(message) do
-      IO.puts "Rendering ..."
+      IO.puts "Rendering ... "
       GenServer.call(@name, {:render, message})
     end
 
