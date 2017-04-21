@@ -21,12 +21,12 @@ defmodule LookupPhoenix.PublicController do
 
          options = %{mode: "show"} |> Note.add_options(note)
 
-
+         rendered_text = Text.render(note.content, options)
          # plug LookupPhoenix.Plug.Site, site: site
 
 
          # options = %{mode: "show", process: "none"}
-         params = %{note: note, site: site, options: options}
+         params = %{note: note, site: site, options: options, rendered_text: rendered_text}
 
 
          case [note.public, note.shared] do

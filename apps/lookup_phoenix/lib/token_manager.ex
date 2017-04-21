@@ -1,4 +1,7 @@
-defmodule TokenManager do
+defmodule LookupPhoenix.TokenManager do
+
+     alias LookupPhoenix.Note
+     alias LookupPhoenix.Repo
 
     # Utility.generate_time_limited_token(10,240)
 

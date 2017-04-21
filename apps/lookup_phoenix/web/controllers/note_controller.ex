@@ -6,6 +6,7 @@ defmodule LookupPhoenix.NoteController do
   alias LookupPhoenix.User
   alias LookupPhoenix.AppState
   alias LookupPhoenix.Test
+  alias LookupPhoenix.Text
   alias LookupPhoenix.Utility
   alias LookupPhoenix.NoteNavigation
   alias MU.TOC
@@ -224,7 +225,9 @@ defmodule LookupPhoenix.NoteController do
           notebook_link = ""
         end
 
-        params = Map.merge(params1, %{nav: navigation_data})
+        rendered_text = Text.render(note.content, %{collate: "no", mode: "show", process: "latex"})
+
+        params = Map.merge(params1, %{nav: navigation_data, rendered_text: rendered_text})
         params = Map.merge(params, %{notebook_link: "NL" })
         render(conn, "edit.html", params)
 
