@@ -27,7 +27,7 @@ defmodule MU.RenderText do
     # mode = plain | markup | latex | collate | toc
 
     def transform(text, options \\ %{mode: "show", process: "markup"}) do
-      # Utility.report "IN TRANSFORM TEXT, OPTIONS ARE", options
+      Utility.report "IN TRANSFORM TEXT, OPTIONS ARE", options
       # begin_time = Timex.now
       result = case options.process do
         "plain" -> text
