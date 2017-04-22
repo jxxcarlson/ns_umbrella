@@ -67,8 +67,12 @@ defmodule LookupPhoenix.NoteController do
     if (locked) do
            read_only_message(conn)
     else
+        current_notebook_id = AppState.get(:user, conn.assigns.current_user.id, :current_notebook)
+        current_notebook = Note.get(current_notebook_id)
         changeset = Note.changeset(%Note{})
-        render(conn, "new.html", changeset: changeset, locked: locked, word_count: 0, conn: conn, index: 0, id_string: "[0,1]" )
+        render(conn, "new.html", changeset: changeset, locked: locked,
+        word_count: 0, conn: conn, index: 0, id_string: "[0,1]",
+        notebook_title:  current_notebook.title)
     end
   end
 
@@ -208,10 +212,11 @@ defmodule LookupPhoenix.NoteController do
 
         # Ensure that id is in id_list
         current_notebook_id = AppState.get(:user, current_user.id, :current_notebook)
+        current_notebook = Note.get(current_notebook_id)
         current_note_id = AppState.get(:user, current_user.id, :current_note)
 
             id_list = AppState.update({:user, current_user.id, :search_history, id})
-        if current_notebook_id != nil do
+        if current_notebook != nil do
            id_list = AppState.update({:user, current_user.id, :search_history, current_notebook_id})
         end
 
@@ -228,7 +233,7 @@ defmodule LookupPhoenix.NoteController do
         rendered_text = Text.render(note.content, %{collate: "no", mode: "show", process: "latex"})
 
         params = Map.merge(params1, %{nav: navigation_data, rendered_text: rendered_text})
-        params = Map.merge(params, %{notebook_link: "NL" })
+        params = Map.merge(params, %{notebook_link: "NL", notebook_title:  current_notebook.title})
         render(conn, "edit.html", params)
 
   end

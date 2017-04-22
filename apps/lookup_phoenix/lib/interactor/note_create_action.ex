@@ -11,52 +11,41 @@ defmodule LookupPhoenix.NoteCreateAction do
   alias LookupPhoenix.Utility
 
   def call(conn, note_params) do
-     [changeset, notebook] = setup(conn, note_params)
+     current_user = conn.assigns.current_user
+     [changeset, current_notebook, attach] = setup(conn, note_params)
      case Repo.insert(changeset) do
         {:ok, note} ->
-          [note.id] ++ AppState.recall_list(conn.assigns.current_user.id)
-          |> AppState.memorize_list(conn.assigns.current_user.id)
-          if notebook != nil and note_params["attach"] == true do
+          [note.id] ++ AppState.recall_list(current_user.id)
+          |> AppState.memorize_list(current_user.id)
+          if current_notebook != nil and attach == "true" do
              # add the note being created to the current notebook:
-             content = notebook.content <> "\n" <> "#{note.id}, #{note.title}\n"
-             notebook_changeset = Note.changeset(notebook, %{content: content})
+             content = current_notebook.content <> "\n" <> "#{note.id}, #{note.title}\n"
+             notebook_changeset = Note.changeset(current_notebook, %{content: content})
              Repo.update(notebook_changeset)
           end
-          IO.puts "ABOUT TO EXIT NOTE CREATE ACTION . CALL"
           {:ok, conn, note }
         {:error, changeset} ->
           {:error, changeset: changeset}
       end
   end
 
-  defp get_parent_id(channel, tags) do
-    IO.puts "GET PARENT ID"
-    Utility.report("[channel, tags]", [channel, tags])
-    master_notes = Enum.map(tags, fn(tag) -> "parent:" <> tag end)
-    |> Enum.map(fn(tag) -> Search.tag_search([tag], channel, :all) end)
-    |> List.flatten
-    Utility.report("master_notes", master_notes)
-    cond do
-      length(master_notes) == 1 && Note.get(hd(master_notes) != nil) ->
-        Note.get(hd(master_notes)).id
-        true -> nil
-    end
+  defp get_current_notebook(current_user_id) do
+    AppState.get(:user, current_user_id, :current_notebook)
+    |> Note.get()
   end
 
 
   defp setup(conn, note_params) do
+      current_user = conn.assigns.current_user
       [access, channel_name, user_id] = User.decode_channel(conn.assigns.current_user)
       [tag_string, tags] = get_tags(note_params, channel_name)
-      parent_id =  get_parent_id(conn.assigns.current_user.channel, tags)
-      if note_params[:current_notebook]  != nil and note_params["attach"] == true   do
-        parent_id = note_params[:current_notebook]
-        notebook = Note.get(parent_id)
-        parent_tag = "parent:#{notebook.identifier}"
+      current_notebook = get_current_notebook(current_user.id)
+      attach = note_params["attach"]
+      if current_notebook != nil and attach == "true"   do
+        parent_tag = "parent:#{current_notebook.identifier}"
         tag_string = "#{tag_string}, #{parent_tag}"
         tags = tags ++ [parent_tag]
-        IO.puts "Setting parent ID to that of current_notebook (#{parent_id})"
-      else
-        notebook = nil
+        IO.puts "Setting parent ID to that of current_notebook (#{current_notebook.id})"
       end
 
       content = note_params["content"] || " "
@@ -76,12 +65,12 @@ defmodule LookupPhoenix.NoteCreateAction do
 
       new_content = content
       new_title = title
-      identifier = Identifier.make(conn.assigns.current_user.username, new_title)
+      identifier = Identifier.make(current_user.username, new_title)
       new_params = %{"content" => new_content, "title" => new_title,
          "user_id" => conn.assigns.current_user.id, "viewed_at" => Timex.now, "edited_at" => Timex.now,
          "tag_string" => tag_string, "tags" => tags, "public" => false, "identifier" => identifier,
-         "parent_id" => parent_id}
-      [Note.changeset(%Note{}, new_params), notebook]
+         "parent_id" => current_notebook.id}
+      [Note.changeset(%Note{}, new_params), current_notebook, attach]
   end
 
   defp get_tags(note_params, channel_name) do
