@@ -1,5 +1,7 @@
 defmodule MU.Server do
 
+  alias LookupPhoenix.Utility
+
   @name MUServer
 
   @module_doc """
@@ -38,7 +40,7 @@ defmodule MU.Server do
  # SERVER
 
    def init(:ok) do
-       {:ok, %{requests: 0, characters: 0, processing_time: 0.0, rate: 0.0}}
+       {:ok, %{requests: 0, characters: 0, processing_time: 0.0, rate: 0.0, t_per_request: 0.0}}
      end
 
 
@@ -48,16 +50,18 @@ defmodule MU.Server do
       finish_time = Timex.now
 
       elapsed_time = Timex.diff( finish_time, start_time, :microseconds)
-      IO.puts("elapsed_time = #{elapsed_time}")
+      requests = stats.requests + 1
       total_elapsed_time = stats.processing_time + elapsed_time
       characters = String.length(rendered_text)
       total_characters = stats.characters + characters
       rate = 1000*total_elapsed_time/total_characters
 
+      t_per_request = total_elapsed_time/requests
+
       new_stats = %{ requests: stats.requests + 1,
         characters: total_characters,
         processing_time: total_elapsed_time,
-        rate: rate}
+        rate: rate, t_per_request: t_per_request}
       {:reply, {:ok, rendered_text}, new_stats}
     end
 
@@ -66,12 +70,8 @@ defmodule MU.Server do
        characters = stats.characters/1000.0 |> Float.round(0)
        processing_time = stats.processing_time/(1000.0*1000.0) |> Float.round(3)
        rate = stats.rate/1000.0 |> Float.round(1)
-       
-       if stats.requests > 0 do
-         time_per_request = stats.processing_time/stats.requests |> Float.round(1)
-       else
-         time_per_request = "-"
-       end
+       time_per_request = stats.t_per_request/1000.0 |> Float.round(1)
+
 
        reply = %{requests: stats.requests,
                  kchars: characters,
@@ -79,7 +79,7 @@ defmodule MU.Server do
                  rate: rate,
                  t_per_request: time_per_request
                  }
-
+       Utility.report("reply", reply)
        {:reply, reply, stats}
     end
 

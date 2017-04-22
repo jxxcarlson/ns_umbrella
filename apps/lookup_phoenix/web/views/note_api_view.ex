@@ -37,6 +37,7 @@ defmodule LookupPhoenix.NoteApiView do
     %{requests: result.requests,
       kchars: result.kchars,
       processing_time: result.processing_time,
+      t_per_request: result.t_per_request,
       rate: result.rate}
   end
 
