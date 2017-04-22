@@ -59,9 +59,6 @@ defmodule LookupPhoenix.Note do
       text
     end
 
-
-
-
   def update_viewed_at(note) do
     params = %{"viewed_at" => Timex.now}
     changeset = Note.changeset(note, params)
@@ -127,7 +124,9 @@ defmodule LookupPhoenix.Note do
     end
 
     def get(id) do
+      IO.puts "SSSSS: #{id}"
       cond do
+        # id == nil -> nil
         is_integer(id) -> Repo.get(Note, id)
         Regex.match?(~r/^[A-Za-z].*/, id) -> Identifier.find_note(id)
         true -> Repo.get(Note, String.to_integer(id))
@@ -166,6 +165,73 @@ defmodule LookupPhoenix.Note do
 
    def is_toc?(note) do
      Enum.member?(note.tags, ":toc")
+   end
+
+   def parent_identfier_from_tags(note) do
+     parent_tags = Enum.filter(note.tags, fn(tag) -> Regex.match?(~r/\Aparent:/, tag) end)
+     if parent_tags == [] do
+       nil
+     else
+       parent_tags |> hd |> String.replace("parent:", "")
+     end
+   end
+
+   def tags_minus_parent_tag(tags, note) do
+     if tags != nil do
+       List.delete(tags, "parent:#{note.parent_id}")
+     else
+       []
+     end
+   end
+
+   def tags_plus_parent_tag(tags, tag) do
+     Utility.report("TAGS in page plus parent tag", tags)
+     if tag != nil do
+       tags ++ ["parent:#{tag}"]
+     else
+       tags
+     end
+   end
+
+
+   def set_parent(note, parent_id) do
+     tags = note.tags
+     |> tags_minus_parent_tag(note)
+     |> Utility.stream_report("TAGS (1)")
+     |> tags_plus_parent_tag(parent_id)
+     |> Utility.stream_report("TAGS (2)")
+     if tags == [""] or tags == nil do
+       tags = []
+     end
+     tag_string = Enum.join(tags, ", ")
+     if tag_string == "" do
+       tag_string = "-"
+     end
+     IO.puts "tag_string!!!! = ||#{tag_string}||-- length = #{String.length(tag_string)}"
+     changeset = Note.changeset(note, %{parent_id: parent_id, tags: tags, tag_string: tag_string})
+     Repo.update!(changeset)
+   end
+
+   def set_tags(note, tags) do
+     tag_string = Enum.join(tags, ",")
+     changeset = Note.changeset(note, %{tags: tags, tag_string: tag_string})
+     Repo.update!(changeset)
+     # Note.get(note.id)
+   end
+
+   def no_op do
+     "nothing"
+   end
+
+   def set_parent_from_tags(note) do
+     pt = parent_identfier_from_tags(note)
+     cond do
+       pt == nil -> note
+       pt == "none" -> set_parent(note, nil)
+       true ->
+         parent = Note.get(pt)
+         set_parent(note, parent.id)
+     end
    end
 
 

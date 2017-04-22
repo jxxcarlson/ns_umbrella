@@ -212,7 +212,9 @@ defmodule LookupPhoenix.NoteController do
 
         # Ensure that id is in id_list
         current_notebook_id = AppState.get(:user, current_user.id, :current_notebook)
-        current_notebook = Note.get(current_notebook_id)
+        if current_notebook_id != nil do
+            current_notebook = Note.get(current_notebook_id)
+        end
         current_note_id = AppState.get(:user, current_user.id, :current_note)
 
             id_list = AppState.update({:user, current_user.id, :search_history, id})
@@ -233,7 +235,11 @@ defmodule LookupPhoenix.NoteController do
         rendered_text = Text.render(note.content, %{collate: "no", mode: "show", process: "latex"})
 
         params = Map.merge(params1, %{nav: navigation_data, rendered_text: rendered_text})
-        params = Map.merge(params, %{notebook_link: "NL", notebook_title:  current_notebook.title})
+        if current_notebook != nil do
+           params = Map.merge(params, %{notebook_link: "NL", notebook_title:  current_notebook.title})
+        else
+           params = Map.merge(params, %{notebook_link: "NL", notebook_title:  "-"})
+        end
         render(conn, "edit.html", params)
 
   end

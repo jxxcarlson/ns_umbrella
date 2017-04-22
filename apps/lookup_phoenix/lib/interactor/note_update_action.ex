@@ -98,6 +98,8 @@ defmodule LookupPhoenix.NoteUpdateAction do
      live_tags = tags |> Enum.filter(fn(tag) -> Regex.match?(~r/live/, tag) end)
      if live_tags != [] do LiveNotebook.update(note) end
 
+     Note.set_parent_from_tags(note)
+
      params = %{
        changeset: changeset,
        rendered_text: rendered_text,
