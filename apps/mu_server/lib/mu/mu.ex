@@ -12,14 +12,18 @@ defmodule MU.RenderText do
   alias MU.MathSci
   alias MU.Scholar
 
+  alias NS.Notebook.TOC
+
 
     # mode = plain | markup | latex | collate | toc
 
     def transform(text, options \\ %{mode: "show", process: "markup"}) do
+      IO.puts "This is MU.RenderText.transform in app MU_SERVER"
       case options.process do
         "plain" -> text
         "markup" -> format_markup(text, options) |> filterComments
         "latex" -> format_latex(text, options)  |> filterComments
+        "toc" -> TOC.process(text, options)
         _ -> format_markup(text, options)
       end
     end

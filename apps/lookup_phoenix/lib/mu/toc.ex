@@ -161,15 +161,6 @@ defmodule MU.TOC do
     |> Enum.filter(fn(item) -> item != "" end)
   end
 
-  defp first_id (text) do
-    item = lines_from_note_content(text)
-    |> Enum.filter(fn(line) -> !Regex.match?(~r/^title/, line) end)
-    |> hd
-    |> String.split(",")
-    [id, _] = item
-    id
-  end
-
 
 
   defp prepare_toc(text, options) do
