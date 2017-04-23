@@ -183,7 +183,7 @@ defmodule MU.TOC do
   """
   defp make_toc_item(line, options) do
       IO.puts("LINE (mti): #{line}")
-      Utility.report("OPTIONS (mti)", options)
+      # Utility.report("OPTIONS (mti)", options)
 
       ### THE BELOW IS A TEMPORARY FIX.  WHY IS IT THAT
       ### options[:path_segment] is sometimes nil?

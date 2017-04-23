@@ -209,7 +209,7 @@ defmodule LookupPhoenix.NoteController do
         tags = Note.tags2string(note)
 
         process = Note.rendering_process(note)
-        rendered_text = Text.render(note.content, %{toc: false, mode: "show", process: process})
+        rendered_text = Text.render(note.content, %{note_id: note.id, toc: false, mode: "show", process: :process})
 
         params1 = %{note: note, changeset: changeset,
                     word_count: word_count, locked: locked,
@@ -239,7 +239,7 @@ defmodule LookupPhoenix.NoteController do
         end
 
         process = Note.rendering_process(note)
-        rendered_text = Text.render(note.content, %{collate: "no", mode: "show", process: process})
+        rendered_text = Text.render(note.content, %{collate: "no", mode: "show", note_id: note.id, process: process})
 
         params = Map.merge(params1, %{nav: navigation_data, rendered_text: rendered_text})
         if current_notebook != nil do
