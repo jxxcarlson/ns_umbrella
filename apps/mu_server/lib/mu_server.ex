@@ -46,7 +46,19 @@ defmodule MU.Server do
 
     def handle_call({:render, message}, _from, stats) do
       start_time = Timex.now
+
       rendered_text = MU.RenderText.transform(message.text, message.options)
+      # {:ok, rendered_text} = RubyBridge.render_asciidoc(message.text)
+      # rendered_text = rendered_text <> "\n\n" <> MU.MathSci.inject_mathjax2()
+      # IO.puts "ASCIIDOC => ???"
+#      if message.options["processs"] == "asciidoctor" do
+#        rendered_text = RubyBridge.render_asciidoc(message.text)
+#      else
+#        # rendered_text = RubyBridge.render_asciidoc(message.text)
+#        rendered_text = MU.RenderText.transform(message.text, message.options)
+#      end
+
+
       finish_time = Timex.now
 
       elapsed_time = Timex.diff( finish_time, start_time, :microseconds)
