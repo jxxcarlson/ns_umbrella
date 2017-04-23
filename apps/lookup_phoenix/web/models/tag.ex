@@ -5,6 +5,7 @@ defmodule LookupPhoenix.Tag do
     alias LookupPhoenix.Repo
     alias LookupPhoenix.Tag
     alias LookupPhoenix.Search
+    alias LookupPhoenix.NoteSearch
     alias LookupPhoenix.Utility
 
 
