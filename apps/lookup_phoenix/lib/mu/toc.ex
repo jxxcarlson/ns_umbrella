@@ -182,6 +182,9 @@ defmodule MU.TOC do
   note with the given ID, or a shortened version of the title.
   """
   defp make_toc_item(line, options) do
+      IO.puts("LINE (mti): #{line}")
+      Utility.report("OPTIONS (mti)", options)
+
       ### THE BELOW IS A TEMPORARY FIX.  WHY IS IT THAT
       ### options[:path_segment] is sometimes nil?
       ### This solution will break in the public view.
@@ -190,7 +193,7 @@ defmodule MU.TOC do
       else
         path_segment = "show2"
       end
-      toc_history = options.toc_history ## id>id2
+      toc_history = options[:toc_history] || "" ## id>id2
       Utility.report("XXX, in make_toc_item,  toc_history", toc_history)
       line_parts = String.split(line, ",")
       id = String.trim( hd(line_parts) )
