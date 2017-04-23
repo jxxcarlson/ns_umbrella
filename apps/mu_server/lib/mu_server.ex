@@ -48,17 +48,6 @@ defmodule MU.Server do
       start_time = Timex.now
 
       rendered_text = MU.RenderText.transform(message.text, message.options)
-      # {:ok, rendered_text} = RubyBridge.render_asciidoc(message.text)
-      # rendered_text = rendered_text <> "\n\n" <> MU.MathSci.inject_mathjax2()
-
-
-#      if message.options["processs"] == "asciidoctor" do
-#        rendered_text = RubyBridge.render_asciidoc(message.text)
-#      else
-#        # rendered_text = RubyBridge.render_asciidoc(message.text)
-#        rendered_text = MU.RenderText.transform(message.text, message.options)
-#      end
-
 
       finish_time = Timex.now
 

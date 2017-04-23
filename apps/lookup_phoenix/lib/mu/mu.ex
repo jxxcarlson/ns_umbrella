@@ -18,28 +18,28 @@ defmodule MU.RenderText do
   alias MU.TOC
   alias MU.Collate
 
-    def process(text, options) do
-      IO.puts "1. MU.RenderText, process"
-      {:ok, rendered_text} = MU.Server.render( %{text: text, options: options})
-      IO.puts "2. MU.RenderText, process"
-      rendered_text
-    end
+#    def process(text, options) do
+#      IO.puts "1. MU.RenderText, process"
+#      {:ok, rendered_text} = MU.Server.render( %{text: text, options: options})
+#      IO.puts "2. MU.RenderText, process"
+#      rendered_text
+#    end
 
     # mode = plain | markup | latex | collate | toc
 
     def transform(text, options \\ %{mode: "show", process: "markup"}) do
-      Utility.report "IN TRANSFORM TEXT, OPTIONS ARE", options
+      Utility.report "OPTIONS", options
       # begin_time = Timex.now
       result = case options.process do
-        "plain" -> text
-        "markup" -> format_markup(text, options) |> filterComments
-        "adoc-latex" ->
+        :plain -> text
+        :exmark -> format_markup(text, options) |> filterComments
+        :adoc_latex ->
           {:ok, rendered_text} = RubyBridge.render_asciidoc(text)
           rendered_text = rendered_text <> "\n\n" <> MU.MathSci.inject_mathjax2()
           # rendered_text
-        "latex" -> format_latex(text, options)  |> filterComments
-        "collate" -> Collate.collate(text, options) |> format_latex(options)  |> filterComments
-        "toc" -> TOC.process(text, options)
+        :exmark_latex -> format_latex(text, options)  |> filterComments
+        :collection -> Collate.collate(text, options) |> format_latex(options)  |> filterComments
+        :notebook -> TOC.process(text, options)
         _ -> format_markup(text, options)
       end
       # Utility.benchmark(begin_time, text, "0. MU.transform")
@@ -65,7 +65,7 @@ defmodule MU.RenderText do
       |> format_markup(options)
       |> MathSci.formatChem
       |> MathSci.formatChemBlock
-      |> MathSci.insert_mathjax(options)
+      |> MathSci.insert_mathjax
     end
 
     def firstParagraph(text) do

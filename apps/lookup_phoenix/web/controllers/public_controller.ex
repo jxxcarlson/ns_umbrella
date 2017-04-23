@@ -20,7 +20,6 @@ defmodule LookupPhoenix.PublicController do
          site = user.username
 
          options = %{mode: "show"} |> Note.add_options(note)
-
          rendered_text = Text.render(note.content, options)
          # plug LookupPhoenix.Plug.Site, site: site
 
@@ -102,7 +101,9 @@ defmodule LookupPhoenix.PublicController do
         #    collate: true | false
         options = %{mode: "show", username: user.username, public: note.public,
            toc_history: history_string, path_segment: "public"} |> Note.add_options(note)
-        options2 = %{mode: "show", username: user.username, public: note.public, toc_history: history_string} |> Note.add_options(note2)
+        options2 = %{mode: "show", username: user.username, public: note.public, toc_history: history_string}
+          |> Note.add_options(note2)
+
         rendered_text = String.trim(Text.render(note.content, options))
         content2 = "== " <> note2.title <> "\n\n" <> note2.content
         rendered_text2 = String.trim(Text.render(content2, options2))

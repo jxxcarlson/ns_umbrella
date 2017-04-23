@@ -203,7 +203,8 @@ defmodule LookupPhoenix.NoteController do
         word_count = RenderText.word_count(note.content)
         tags = Note.tags2string(note)
 
-        rendered_text = Text.render(note.content, %{mode: "latex", toc: false, mode: "show", process: "latex"})
+        process = Note.rendering_process(note)
+        rendered_text = Text.render(note.content, %{toc: false, mode: "show", process: process})
 
         params1 = %{note: note, changeset: changeset,
                     word_count: word_count, locked: locked,
@@ -232,7 +233,8 @@ defmodule LookupPhoenix.NoteController do
           notebook_link = ""
         end
 
-        rendered_text = Text.render(note.content, %{collate: "no", mode: "show", process: "latex"})
+        process = Note.rendering_process(note)
+        rendered_text = Text.render(note.content, %{collate: "no", mode: "show", process: process})
 
         params = Map.merge(params1, %{nav: navigation_data, rendered_text: rendered_text})
         if current_notebook != nil do

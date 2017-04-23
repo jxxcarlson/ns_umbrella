@@ -10,6 +10,7 @@ defmodule LookupPhoenix.Note do
   alias LookupPhoenix.Utility
   alias LookupPhoenix.Constant
   alias LookupPhoenix.Identifier
+  alias LookupPhoenix.NoteSettings
 
   schema "notes" do
     use Timex.Ecto.Timestamps
@@ -42,11 +43,6 @@ defmodule LookupPhoenix.Note do
        :edited_at, :tag_string, :public, :shared, :tokens, :idx, :identifier, :parent_id])
     |> unique_constraint(:identifier)
     |> validate_required([:title, :content])
-  end
-
-  def settings_changeset(struct, params \\ %{}) do
-
-
   end
 
      def extract_id_list(list) do
@@ -115,18 +111,8 @@ defmodule LookupPhoenix.Note do
     end
 
     def add_options(options, note) do
-
-        options = Map.merge(options, %{note_id: note.id})
-
-        cond do
-          note.tags == nil -> Map.merge(options, %{process: "markup"})
-          Enum.member?(note.tags, ":latex") -> Map.merge(options, %{process: "latex"})
-          Enum.member?(note.tags, ":collate") -> Map.merge(options, %{process: "collate", user_id: note.user_id})
-          Enum.member?(note.tags, ":toc") -> Map.merge(options, %{process: "toc", user_id: note.user_id})
-          Enum.member?(note.tags, ":plain") -> Map.merge(options, %{process: "plain"})
-          true -> Map.merge(options, %{process: "markup"})
-        end
-
+        Map.merge(options, %{note_id: note.id, user_id: note.user_id})
+        |> Map.merge(%{process: Note.rendering_process(note)})
     end
 
     def get(id) do
@@ -238,6 +224,22 @@ defmodule LookupPhoenix.Note do
          parent = Note.get(pt)
          set_parent(note, parent.id)
      end
+   end
+
+   def rendering_process(note) do
+     tags = note.tags
+     cond do
+          Enum.member?(tags, ":exmark") -> :exmark
+          Enum.member?(tags, ":latex") -> :exmark_latex
+          Enum.member?(tags, ":adoc") -> :adoc_latex
+          Enum.member?(tags, ":adoc_latex") -> :adoc_latex
+          Enum.member?(tags, ":plain") -> :plain
+          Enum.member?(tags, ":collate") -> :collection
+          Enum.member?(tags, ":collection") -> :collection
+          Enum.member?(tags, ":toc") -> :notebook
+          Enum.member?(tags, ":notebook") -> :notebook
+          true -> :exmark
+      end
    end
 
 
