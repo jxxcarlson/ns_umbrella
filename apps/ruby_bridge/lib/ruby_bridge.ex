@@ -3,7 +3,7 @@ defmodule RubyBridge do
   Documentation for RubyBridge.
   https://blog.fazibear.me/elixir-ruby-dont-fight-talk-d83d5abc8898
   """
-    @ruby_dir Application.app_dir(:ruby_bridge, "apps/ruby_bridge/priv/ruby")
+    @ruby_dir Application.app_dir(:ruby_bridge, "priv/ruby")
 
     use Export.Ruby
 

@@ -33,11 +33,11 @@ defmodule MU.RenderText do
       result = case options.process do
         "plain" -> text
         "markup" -> format_markup(text, options) |> filterComments
-        "latex" ->
+        "adoc-latex" ->
           {:ok, rendered_text} = RubyBridge.render_asciidoc(text)
           rendered_text = rendered_text <> "\n\n" <> MU.MathSci.inject_mathjax2()
           # rendered_text
-        "latex2" -> format_latex(text, options)  |> filterComments
+        "latex" -> format_latex(text, options)  |> filterComments
         "collate" -> Collate.collate(text, options) |> format_latex(options)  |> filterComments
         "toc" -> TOC.process(text, options)
         _ -> format_markup(text, options)
