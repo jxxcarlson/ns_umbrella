@@ -1,11 +1,16 @@
+GIT
+  remote: https://github.com/asciidoctor/asciidoctor-latex
+  revision: b5c9de1363de53d24d3e188d2f40d8e0cd3865e7
+  specs:
+    asciidoctor-latex (1.5.0.17.dev)
+      asciidoctor (~> 1.5, >= 1.5.2)
+      htmlentities (~> 4.3)
+      opal (~> 0.6.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
     asciidoctor (1.5.5)
-    asciidoctor-latex (1.5.0.18.dev)
-      asciidoctor (~> 1.5, >= 1.5.2)
-      htmlentities (~> 4.3)
-      opal (~> 0.6.3)
     concurrent-ruby (1.0.5)
     htmlentities (4.3.4)
     json (2.1.0)
@@ -23,7 +28,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  asciidoctor-latex
+  asciidoctor-latex!
 
 BUNDLED WITH
    1.12.3
