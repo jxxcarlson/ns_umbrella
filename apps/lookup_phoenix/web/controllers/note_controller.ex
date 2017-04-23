@@ -68,11 +68,16 @@ defmodule LookupPhoenix.NoteController do
            read_only_message(conn)
     else
         current_notebook_id = AppState.get(:user, conn.assigns.current_user.id, :current_notebook)
-        current_notebook = Note.get(current_notebook_id)
+        if current_notebook_id != nil do
+           current_notebook = Note.get(current_notebook_id)
+           current_notebook_title = current_notebook.title
+        else
+           current_notebook_title = ""
+        end
         changeset = Note.changeset(%Note{})
         render(conn, "new.html", changeset: changeset, locked: locked,
         word_count: 0, conn: conn, index: 0, id_string: "[0,1]",
-        notebook_title:  current_notebook.title)
+        notebook_title:  current_notebook_title)
     end
   end
 
