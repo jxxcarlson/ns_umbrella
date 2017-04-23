@@ -50,7 +50,11 @@ CREATE TABLE notes (
     tag_string character varying(255),
     public boolean,
     tokens jsonb[] DEFAULT ARRAY[]::jsonb[],
-    shared boolean DEFAULT false
+    shared boolean DEFAULT false,
+    idx integer DEFAULT '-1'::integer,
+    identifier character varying(255),
+    parent_id integer,
+    settings jsonb
 );
 
 
@@ -103,7 +107,10 @@ CREATE TABLE users (
     search_filter character varying(255),
     channel character varying(255),
     public_tags jsonb[] DEFAULT ARRAY[]::jsonb[],
-    tags jsonb[] DEFAULT ARRAY[]::jsonb[]
+    tags jsonb[] DEFAULT ARRAY[]::jsonb[],
+    preferences jsonb,
+    public boolean DEFAULT false,
+    blurb character varying(255) DEFAULT '-'::character varying
 );
 
 
@@ -165,6 +172,13 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: notes_identifier_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX notes_identifier_index ON notes USING btree (identifier);
+
+
+--
 -- Name: users_username_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -183,5 +197,5 @@ ALTER TABLE ONLY notes
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO "schema_migrations" (version) VALUES (20161228225001), (20161229160628), (20161230111345), (20170110085403), (20170116193638), (20170116225953), (20170117043601), (20170119043413), (20170120133012), (20170120234444), (20170121183138), (20170125152450), (20170125173500), (20170127112237), (20170127113246), (20170205104446), (20170205205347), (20170209113142), (20170213192119), (20170217104343), (20170217203139), (20170217225254), (20170217232552), (20170219152215), (20170219153000);
+INSERT INTO "schema_migrations" (version) VALUES (20161228225001), (20161229160628), (20161230111345), (20170110085403), (20170116193638), (20170116225953), (20170117043601), (20170119043413), (20170120133012), (20170120234444), (20170121183138), (20170125152450), (20170125173500), (20170127112237), (20170127113246), (20170205104446), (20170205205347), (20170209113142), (20170213192119), (20170217104343), (20170217203139), (20170217225254), (20170217232552), (20170219152215), (20170219153000), (20170225022853), (20170226160539), (20170226181731), (20170226182014), (20170307120252), (20170408112954), (20170423035626);
 
