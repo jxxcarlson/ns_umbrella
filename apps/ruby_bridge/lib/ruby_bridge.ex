@@ -14,6 +14,8 @@ defmodule RubyBridge do
     def render_asciidoc(text) do
       {:ok, ruby} = Ruby.start(ruby_lib: @ruby_dir)
 
+      IO.puts "Hello! This is render_asciidoc"
+
        ruby
        |> Ruby.call(render(text), from_file: "asciidoc")
     end
