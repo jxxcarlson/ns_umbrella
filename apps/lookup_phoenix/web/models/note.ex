@@ -26,6 +26,7 @@ defmodule LookupPhoenix.Note do
     field :idx, :integer
     field :identifier, :string
     field :parent_id, :integer
+    embeds_one :settings, NoteSettings
 
     belongs_to :user, LookupPhoenix.User
 
@@ -41,6 +42,11 @@ defmodule LookupPhoenix.Note do
        :edited_at, :tag_string, :public, :shared, :tokens, :idx, :identifier, :parent_id])
     |> unique_constraint(:identifier)
     |> validate_required([:title, :content])
+  end
+
+  def settings_changeset(struct, params \\ %{}) do
+
+
   end
 
      def extract_id_list(list) do
