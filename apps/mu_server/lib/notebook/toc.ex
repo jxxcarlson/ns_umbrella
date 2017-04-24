@@ -49,29 +49,12 @@ defmodule NS.Notebook.TOC do
         end
         toc_history = options.toc_history ## id>id2
         line_parts = String.split(line, ",")
-        IO.puts("LINE PARTS = #{IO.inspect line_parts}")
-        [part_a, part_b] = line_parts
-        IO.puts("A = #{part_a}, B = #{part_b}")
         id = String.trim( hd(line_parts) )
-        # id = String.trim( part_a )
         note = Note.get(id)
         heading = tl(line_parts) |> Enum.join(", ")
         cond do
           id == "title" ->
-            IO.puts "XXXXXX HEADING: #{heading}"
             "<p class=\"title\">#{heading}</p>\n"
-          id == "subsections" ->
-            id2 = String.trim(part_b) |> String.to_integer
-            IO.puts "ID2 = #{id2}"
-            IO.puts "-------"
-            index_note = Note.get(id2)
-            IO.puts "title of index note = #{index_note.title}"
-            IO.puts "content of index note = #{index_note.content}"
-            # IO.puts "content of index note = #{process(index_note.content, %{})}"
-            IO.puts "-------"
-            # IO.puts "PART B NOTE (#{part_b}) CONTENTS: #{index_note.contents}"
-            # IO.puts "PART B NOTE (#{part_b}) CONTENTS: #{Note.get(part_b).contents}"
-            "<div>\n#{index_note.content}\n</div>"
           note == nil ->
               ""
           true ->
@@ -80,8 +63,7 @@ defmodule NS.Notebook.TOC do
     end
 
     def process(text, options) do
-      # Utility.report("process, options", options)
-      # IO.puts "PROCESS OPTIONS: #{IO.inspect(options)}"
+      IO.puts "THIS IS NOTEBOOK . TOC . PROCESS in app MU SERVER"
       prepare_toc(text, options)
       |> Enum.reduce("", fn(item, acc) -> acc <> item end)
     end

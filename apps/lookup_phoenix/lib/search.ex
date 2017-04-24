@@ -70,7 +70,6 @@ defmodule LookupPhoenix.Search do
       |> NoteSearch.for_user(user.id)
       |> NoteSearch.select_public(scope == :public)
       |> NoteSearch.limit(max)
-      |> Utlity.stream_report("Using NoteSearch.limit", 11111)
       |> Repo.all
     end
 

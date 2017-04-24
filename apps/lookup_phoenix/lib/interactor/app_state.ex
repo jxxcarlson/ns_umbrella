@@ -43,19 +43,21 @@ defmodule LookupPhoenix.AppState do
     if record == nil do record = initial_record() end
     record = %{ record | key => value }
     put(:user, id, record)
+    value
   end
 
   def update({:user, user_id, :search_history, note_id}) do
     Utility.report("NC . UPDATE . note_id", note_id)
     if !is_number(note_id) do note_id = String.to_integer(note_id) end
     sh = get(:user, user_id, :search_history)
-    if !Enum.member?(sh, note_id) do
-      new_search_history = [note_id|sh]
-      update(:user, user_id, :search_history, new_search_history)
-    else
-      new_search_history = sh
+    if sh != nil do
+      if !Enum.member?(sh, note_id) do
+         new_search_history = [note_id|sh]
+         update(:user, user_id, :search_history, new_search_history)
+       else
+         sh
+       end
     end
-      new_search_history
   end
 
   ## Existing API
