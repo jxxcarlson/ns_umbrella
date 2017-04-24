@@ -169,9 +169,11 @@ defmodule LookupPhoenix.NoteController do
   end
 
 
+  def show3(conn, %{"id" => id, "id2" => id2, "toc_history" => toc_history}) do
+     conn |> redirect(to: "/show2/#{id}/#{id2}")
+  end
 
-
-  def show2(conn, %{"id" => id, "id2" => id2, "toc_history" => toc_history}) do
+  def show2(conn, %{"id" => id, "id2" => id2}) do
 
     id = Note.normalize_id(id)
     id2 = Note.normalize_id(id2)
@@ -181,7 +183,7 @@ defmodule LookupPhoenix.NoteController do
     AppState.update(:user, current_user.id, :current_notebook, id)
     AppState.update(:user, current_user.id, :current_note, id2)
 
-    params = NoteShow2Action.call(conn, %{"id" => id, "id2" => id2, "toc_history" => toc_history})
+    params = NoteShow2Action.call(conn, %{"id" => id, "id2" => id2, "toc_history" => ""})
     render(conn, "show2.html", params)
   end
 

@@ -58,7 +58,7 @@ defmodule NS.Notebook.TOC do
           note == nil ->
               ""
           true ->
-             "<p id=\"note:#{note.id}\" class=\"toc\"><a href=\"#{Application.get_env(:deploy_vars, :host_url)}/#{path_segment}/#{options.note_id}/#{id}/#{toc_history}\">#{heading}</a></p>\n"
+             "<p id=\"note:#{note.id}\" class=\"toc\"><a href=\"#{Application.get_env(:deploy_vars, :host_url)}/#{path_segment}/#{options.note_id}/#{id}\">#{heading}</a></p>\n"
         end
     end
 
