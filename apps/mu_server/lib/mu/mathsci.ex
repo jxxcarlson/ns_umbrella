@@ -9,7 +9,7 @@ defmodule MU.MathSci do
     end
 
     def insert_mathjax(text, options) do
-      if options[:process] == "latex" do
+      if Enum.member?([:exmark_latex, :adoc_latex], options[:process])  do
         text = insert_mathjax!(text)
       else
         text
