@@ -42,7 +42,7 @@ foo
     assert Enum.at(triples, 5) == %{level: 1, title:  "Animals", id: "19"}
   end
 
-  test "compile_one (0)" do
+  test "compile_one" do
     triples = TOC2.parse_lines(@text)
 
     input = %{triples: triples, stack: [], item: nil}
@@ -63,7 +63,48 @@ foo
 
     output = TOC2.compile_one(output)
     assert output.item == %{level: 1, stack: ["43", "19"], title: "Animals"}
-
   end
+
+  test "compile_datum" do
+
+    triples = TOC2.parse_lines(@text)
+    input = %{triples: triples, stack: [], item: nil}
+    datum = %{input: input, output: []}
+
+    datum = TOC2.compile_datum(datum)
+    datum = TOC2.compile_datum(datum)
+    datum = TOC2.compile_datum(datum)
+    datum = TOC2.compile_datum(datum)
+    datum = TOC2.compile_datum(datum)
+    datum = TOC2.compile_datum(datum)
+
+    expected_output = %{input: %{item: %{level: 1, stack: ["43", "19"], title: "Animals"},
+                           stack: ["43", "19"], triples: []},
+                         output: [%{level: 0, stack: ["43"], title: "Introductory Biology"},
+                          %{level: 1, stack: ["43", "61"], title: "Introduction"},
+                          %{level: 1, stack: ["43", "7"], title: "Plants"},
+                          %{level: 2, stack: ["43", "7", "99"], title: "Flowers"},
+                          %{level: 2, stack: ["43", "7", "432"], title: "Trees"},
+                          %{level: 1, stack: ["43", "19"], title: "Animals"}]}
+
+     assert datum == expected_output
+  end
+
+  test "compile" do
+
+    datum = TOC2.compile(@text)
+
+    expected_output = [%{level: 0, stack: ["43"], title: "Introductory Biology"},
+                           %{level: 1, stack: ["43", "61"], title: "Introduction"},
+                           %{level: 1, stack: ["43", "7"], title: "Plants"},
+                           %{level: 2, stack: ["43", "7", "99"], title: "Flowers"},
+                           %{level: 2, stack: ["43", "7", "432"], title: "Trees"},
+                           %{level: 1, stack: ["43", "19"], title: "Animals"}]
+
+   assert datum.output == expected_output
+
+   IO.inspect(datum.output)
+
+   end
 
 end

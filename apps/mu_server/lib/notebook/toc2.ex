@@ -105,6 +105,33 @@ defmodule  NS.Notebook.TOC2 do
     end
   end
 
+  @doc """
+  Initial datum: %{input: %{triples: triples, stack: [], item: nil}, output: []}
+"""
+  def compile_datum(datum) do
+    output = compile_one(datum.input)
+    new_output = datum.output ++ [output.item]
+    %{input: output, output: new_output}
+  end
+
+  @doc """
+  compile(text) returns a list of triples ... TBC
+"""
+  def compile(text) do
+    triples = parse_lines(text)
+    n = Enum.count(triples)
+    input = %{triples: triples, stack: [], item: nil}
+    datum = %{input: input, output: []}
+    Enum.reduce(1..n, datum, fn(k,datum) -> compile_datum(datum) end)
+  end
+
+
+  @doc """
+
+"""
+  def render(text) do
+    {head_item,data} = compile(text) |> List.pop_at(0)
+  end
 
 
 end
