@@ -222,7 +222,12 @@ defmodule LookupPhoenix.Note do
        pt == "none" -> set_parent(note, nil)
        true ->
          parent = Note.get(pt)
-         set_parent(note, parent.id)
+         if parent != nil do
+           set_parent(note, parent.id)
+         else
+           IO.puts("ERROR: parent of #{note.title} (#{note.id}) is NIL -- pt = #{pt}")
+           note
+         end
      end
    end
 

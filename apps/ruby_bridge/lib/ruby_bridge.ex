@@ -16,8 +16,11 @@ defmodule RubyBridge do
 
       IO.puts "Hello! This is render_asciidoc"
 
+       # asciidoc_path = "/app/apps/ruby_bridge/priv/ruby/asciidoc"
+       asciidoc_path = "asciidoc"
+
        ruby
-       |> Ruby.call(render(text), from_file: "asciidoc")
+       |> Ruby.call(render(text), from_file: asciidoc_path)
     end
 
 

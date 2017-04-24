@@ -233,9 +233,10 @@ defmodule MU.Block do
 
     contents = String.split(params.contents, ["\n", "\r", "\r\n"])
       |> Enum.filter(fn(line) -> line != "" end)
+      |> Enum.map(fn(line) -> "\\[#{line}\\]" end)
       |> Enum.join("\n")
 
-     replacement = "<div style=\"display:none\">\n\\[\n#{contents}\n\\]\n</div>"
+     replacement = "<div style=\"display:none\">\n#{contents}\n</div>"
 
      text = String.replace(data.text, params.target,replacement)
     %{ data | :text => text }

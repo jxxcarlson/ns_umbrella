@@ -8,6 +8,7 @@ defmodule MU.RenderText do
   alias MU.Table
   alias MU.Link
   alias LookupPhoenix.Utility
+  alias LookupPhoenix.Note
 
   alias MU.MathSci
   alias MU.Scholar
@@ -29,7 +30,14 @@ defmodule MU.RenderText do
           {:ok, rendered_text} = RubyBridge.render_asciidoc(text)
           rendered_text = rendered_text <> "\n\n" <> MU.MathSci.inject_mathjax2()
           # rendered_text
-        :exmark_latex -> format_latex(text, options)  |> filterComments
+        :exmark_latex ->
+          texmacros = Note.get("jxxcarlson.texmacros").content
+          if texmacros != nil do
+            texmacros = texmacros |> String.replace("----", "")
+            env_texmacro = "\n[env.texmacro]\n--\n#{texmacros}\n--\n"
+            text = env_texmacro <> text
+          end
+          format_latex(text, options)  |> filterComments
         :collection -> Collate.collate(text, options) |> format_latex(options)  |> filterComments
         :notebook -> TOC.process(text, options)
         :book -> TOC2.render(text)
