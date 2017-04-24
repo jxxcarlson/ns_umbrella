@@ -117,6 +117,12 @@ defmodule MU.CSS do
 
     td { padding-left:1em;}
 
+    .toc_level_1 { padding-left:0; }
+    .toc_level_2 { padding-left:1em; }
+    .toc_level_3 { padding-left:2.0em; }
+    .toc_level_4 { padding-left:3.05em; }
+    .toc_level_5 { padding-left:4.0em; }
+
     """
   end
 

@@ -66,10 +66,15 @@ defmodule LookupPhoenix.NoteCreateAction do
       new_content = content
       new_title = title
       identifier = Identifier.make(current_user.username, new_title)
+      if current_notebook != nil do
+        parent_id = current_notebook.id
+      else
+        parent_id = nil
+      end
       new_params = %{"content" => new_content, "title" => new_title,
          "user_id" => conn.assigns.current_user.id, "viewed_at" => Timex.now, "edited_at" => Timex.now,
          "tag_string" => tag_string, "tags" => tags, "public" => false, "identifier" => identifier,
-         "parent_id" => current_notebook.id}
+         "parent_id" => parent_id}
       [Note.changeset(%Note{}, new_params), current_notebook, attach]
   end
 

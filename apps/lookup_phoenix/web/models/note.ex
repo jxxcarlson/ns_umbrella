@@ -118,7 +118,7 @@ defmodule LookupPhoenix.Note do
     def get(id) do
       IO.puts "SSSSS: #{id}"
       cond do
-        # id == nil -> nil
+        id == nil -> nil
         is_integer(id) -> Repo.get(Note, id)
         Regex.match?(~r/^[A-Za-z].*/, id) -> Identifier.find_note(id)
         true -> Repo.get(Note, String.to_integer(id))
@@ -238,6 +238,7 @@ defmodule LookupPhoenix.Note do
           Enum.member?(tags, ":collection") -> :collection
           Enum.member?(tags, ":toc") -> :notebook
           Enum.member?(tags, ":notebook") -> :notebook
+          Enum.member?(tags, ":book") -> :book
           true -> :exmark
       end
    end

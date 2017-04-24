@@ -122,15 +122,24 @@ defmodule  NS.Notebook.TOC2 do
     n = Enum.count(triples)
     input = %{triples: triples, stack: [], item: nil}
     datum = %{input: input, output: []}
-    Enum.reduce(1..n, datum, fn(k,datum) -> compile_datum(datum) end)
+    Enum.reduce(1..n, datum, fn(k,datum) -> compile_datum(datum) end).output
   end
 
+
+  def render_item(item) do
+    {id2, stack} = List.pop_at(item.stack, -1)
+    {id, _} = List.pop_at(stack, 0)
+
+    "<p id=\"note:#{id}\" class=\"toc toc_level_#{item.level}\"><a href=\"/show2/#{id}/#{id2}\">#{item.title}</a></p>"
+  end
 
   @doc """
 
 """
   def render(text) do
-    {head_item,data} = compile(text) |> List.pop_at(0)
+    compile(text)
+    |> tl
+    |> Enum.reduce("", fn(item, acc) -> acc <> "\n" <> render_item(item) end)
   end
 
 

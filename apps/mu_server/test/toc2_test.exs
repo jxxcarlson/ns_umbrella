@@ -92,7 +92,7 @@ foo
 
   test "compile" do
 
-    datum = TOC2.compile(@text)
+    output = TOC2.compile(@text)
 
     expected_output = [%{level: 0, stack: ["43"], title: "Introductory Biology"},
                            %{level: 1, stack: ["43", "61"], title: "Introduction"},
@@ -101,10 +101,14 @@ foo
                            %{level: 2, stack: ["43", "7", "432"], title: "Trees"},
                            %{level: 1, stack: ["43", "19"], title: "Animals"}]
 
-   assert datum.output == expected_output
+   assert output == expected_output
 
-   IO.inspect(datum.output)
+   end
 
+   test "render" do
+     html = TOC2.render(@text)
+     expected_html = "\n<p id=\"note:43\" class=\"toc toc_level_1\"><a href=\"/show2/43/61\">Introduction</a></p>\n<p id=\"note:43\" class=\"toc toc_level_1\"><a href=\"/show2/43/7\">Plants</a></p>\n<p id=\"note:43\" class=\"toc toc_level_2\"><a href=\"/show2/43/99\">Flowers</a></p>\n<p id=\"note:43\" class=\"toc toc_level_2\"><a href=\"/show2/43/432\">Trees</a></p>\n<p id=\"note:43\" class=\"toc toc_level_1\"><a href=\"/show2/43/19\">Animals</a></p>"
+     assert html == expected_html
    end
 
 end

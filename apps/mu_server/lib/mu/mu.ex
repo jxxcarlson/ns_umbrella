@@ -13,6 +13,7 @@ defmodule MU.RenderText do
   alias MU.Scholar
 
   alias NS.Notebook.TOC
+  alias NS.Notebook.TOC2
 
 
     # mode = plain | markup | latex | collate | toc
@@ -31,6 +32,7 @@ defmodule MU.RenderText do
         :exmark_latex -> format_latex(text, options)  |> filterComments
         :collection -> Collate.collate(text, options) |> format_latex(options)  |> filterComments
         :notebook -> TOC.process(text, options)
+        :book -> TOC2.render(text)
         _ -> format_markup(text, options)
       end
       # Utility.benchmark(begin_time, text, "0. MU.transform")

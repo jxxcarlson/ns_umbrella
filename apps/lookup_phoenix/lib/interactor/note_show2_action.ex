@@ -20,7 +20,7 @@ defmodule LookupPhoenix.NoteShow2Action do
       IO.puts "!!!! TOC_HISTORY = #{toc_history}"
       qsMap = Utility.qs2map(conn.query_string)
       note = Note.get(id); id = note.id
-      note2 = Note.get(id2); id2 = note2.id
+      note2 = Note.get(id2); # id2 = note2.id
 
      history_string = "#{id}>#{id2}"
 
