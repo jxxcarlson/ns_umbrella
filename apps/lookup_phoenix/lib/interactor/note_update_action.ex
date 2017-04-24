@@ -95,8 +95,8 @@ defmodule LookupPhoenix.NoteUpdateAction do
 
      # If the note is a master note (index note), then update it
      tags = note.tags || []
-     live_tags = tags |> Enum.filter(fn(tag) -> Regex.match?(~r/live/, tag) end)
-     if live_tags != [] do LiveNotebook.update(note) end
+     # live_tags = tags |> Enum.filter(fn(tag) -> Regex.match?(~r/live/, tag) end)
+     # if live_tags != [] do LiveNotebook.update(note) end
 
      Note.set_parent_from_tags(note)
 
@@ -105,7 +105,7 @@ defmodule LookupPhoenix.NoteUpdateAction do
        rendered_text: rendered_text,
        random: "no",
        locked: locked,
-       word_count: RenderText.word_count(note.content),
+       word_count: Text.word_count(note.content),
      }
 
      navigation_parameters = params["nav"]

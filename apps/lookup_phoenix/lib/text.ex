@@ -8,4 +8,11 @@ defmodule LookupPhoenix.Text do
     rendered_text
   end
 
+
+   def word_count(text) do
+      text
+      |> String.split(~r/\s/)
+      |> length
+   end
+
 end

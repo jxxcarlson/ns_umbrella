@@ -38,6 +38,7 @@ defmodule NS.Notebook.TOC do
     note with the given ID, or a shortened version of the title.
     """
     defp make_toc_item(line, options) do
+        IO.puts "MTI in APPLICATION MU SERVER"
         ### THE BELOW IS A TEMPORARY FIX.  WHY IS IT THAT
         ### options[:path_segment] is sometimes nil?
         ### This solution will break in the public view.

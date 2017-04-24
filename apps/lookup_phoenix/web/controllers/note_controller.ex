@@ -9,7 +9,7 @@ defmodule LookupPhoenix.NoteController do
   alias LookupPhoenix.Text
   alias LookupPhoenix.Utility
   alias LookupPhoenix.NoteNavigation
-  alias MU.TOC
+  alias Notebook.TOC
 
 
   alias LookupPhoenix.NoteIndexAction
@@ -20,8 +20,8 @@ defmodule LookupPhoenix.NoteController do
   alias LookupPhoenix.NoteUpdateAction
   alias LookupPhoenix.NoteMailtoAction
 
-  alias MU.RenderText
-  alias MU.LiveNotebook
+  # alias MU.RenderText
+  # alias MU.LiveNotebook
 
    def cookies(conn, cookie_name) do
      conn.cookies[cookie_name]
@@ -153,9 +153,9 @@ defmodule LookupPhoenix.NoteController do
 
     note = Note.get(id)
 
-    TOC.update_toc_history2(current_user, note)
+    Notebook.TOC.update_toc_history2(current_user, note)
 
-    LiveNotebook.auto_update(note)
+    # LiveNotebook.auto_update(note)
 
     cond do
       note.parent_id != nil ->
@@ -205,7 +205,7 @@ defmodule LookupPhoenix.NoteController do
         note = Repo.get!(Note, id)
         changeset = Note.changeset(note)
         locked = conn.assigns.current_user.read_only
-        word_count = RenderText.word_count(note.content)
+        word_count = Text.word_count(note.content)
         tags = Note.tags2string(note)
 
         process = Note.rendering_process(note)
@@ -239,7 +239,7 @@ defmodule LookupPhoenix.NoteController do
         end
 
         process = Note.rendering_process(note)
-        rendered_text = Text.render(note.content, %{collate: "no", mode: "show", note_id: note.id, process: process})
+        rendered_text = Text.render(note.content, %{collate: "no", mode: "show", note_id: note.id, process: process, toc_history: ""})
 
         params = Map.merge(params1, %{nav: navigation_data, rendered_text: rendered_text})
         if current_notebook != nil do

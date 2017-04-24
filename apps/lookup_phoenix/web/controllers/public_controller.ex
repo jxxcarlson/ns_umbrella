@@ -10,7 +10,7 @@ defmodule LookupPhoenix.PublicController do
     alias LookupPhoenix.NoteNavigation
     alias LookupPhoenix.TokenManager
     alias MU.RenderText
-    alias MU.TOC
+    alias Notebook.TOC
 
 
    def share(conn, %{"id" => id}) do
@@ -110,7 +110,7 @@ defmodule LookupPhoenix.PublicController do
 
         inserted_at= Note.inserted_at_short(note)
         updated_at= Note.updated_at_short(note)
-        word_count = RenderText.word_count(note.content)
+        word_count = Text.word_count(note.content)
 
         sharing_is_authorized = true #  conn.assigns.current_user.id == note.user_id
 

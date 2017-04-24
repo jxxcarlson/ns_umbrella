@@ -1,4 +1,4 @@
-defmodule MU.TOC do
+defmodule Notebook.TOC do
 
   require IEx
 
@@ -8,7 +8,7 @@ defmodule MU.TOC do
   alias LookupPhoenix.AppState
 
   @module_doc """
-  MU.TOC Manages "index notes" that represent a table of contents
+  Notebook.TOC Manages "index notes" that represent a table of contents
   for a set of notes, i.e., a notebook.  WE NEED TO GET THIS CIRCLE
   OF IDEAS STRAIGHTENED OUT -- BEFORE I TOTALL FORGET HOW THIS WORKS
   AND WHAT IT IS FOR: NESTED NOTEBOOKS.
@@ -108,7 +108,7 @@ defmodule MU.TOC do
      "#{id}>#{id2}"
   end
 
-  #   MU.TOC.historify(foo)
+  #   Notebook.TOC.historify(foo)
   #   => [[1], [1, 2], [1, 2, 3], [1, 2, 3, 4]]
   def historify(list) do
     n = length(list) - 1
@@ -182,6 +182,7 @@ defmodule MU.TOC do
   note with the given ID, or a shortened version of the title.
   """
   defp make_toc_item(line, options) do
+      IO.puts "MTI in APPLICATION PHX APP"
       IO.puts("LINE (mti): #{line}")
       # Utility.report("OPTIONS (mti)", options)
 

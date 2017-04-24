@@ -17,15 +17,24 @@ defmodule MU.RenderText do
 
     # mode = plain | markup | latex | collate | toc
 
-    def transform(text, options \\ %{mode: "show", process: "markup"}) do
-      IO.puts "This is MU.RenderText.transform in app MU_SERVER"
-      case options.process do
-        "plain" -> text
-        "markup" -> format_markup(text, options) |> filterComments
-        "latex" -> format_latex(text, options)  |> filterComments
-        "toc" -> TOC.process(text, options)
+    def transform(text, options \\ %{mode: "show", process: :exmark}) do
+      IO.puts "MU.RenderText in APPLICATION MU_SERVER"
+      Utility.report "OPTIONS", options
+      # begin_time = Timex.now
+      result = case options.process do
+        :plain -> text
+        :exmark -> format_markup(text, options) |> filterComments
+        :adoc_latex ->
+          {:ok, rendered_text} = RubyBridge.render_asciidoc(text)
+          rendered_text = rendered_text <> "\n\n" <> MU.MathSci.inject_mathjax2()
+          # rendered_text
+        :exmark_latex -> format_latex(text, options)  |> filterComments
+        :collection -> Collate.collate(text, options) |> format_latex(options)  |> filterComments
+        :notebook -> TOC.process(text, options)
         _ -> format_markup(text, options)
       end
+      # Utility.benchmark(begin_time, text, "0. MU.transform")
+      result
     end
 
     defp format_markup(text, options) do
@@ -102,10 +111,6 @@ defmodule MU.RenderText do
       String.split(text, ["\r", "\n", "\rn"]) |> Enum.filter(fn(line) -> !Regex.match?(~r/^\/\//, line) end) |> Enum.join("\n")
     end
 
-   def word_count(text) do
-      text
-      |> String.split(~r/\s/)
-      |> length
-   end
+
 
 end
