@@ -229,18 +229,14 @@ defmodule MU.Block do
   """
   defp transform_env_block(:texmacro, data, params) do
 
+     IO.puts "HOLA -- this is transform_env_block :TEXMACRO"
+
     contents = String.split(params.contents, ["\n", "\r", "\r\n"])
       |> Enum.filter(fn(line) -> line != "" end)
       |> Enum.join("\n")
 
-    replacement = "<div class='env'>\n\\[\n#{contents}\n\\]\n</div>"
-    """
-     <div class="env">
-           <div>
-             #{params.contents}
-           </div>
-     </div>
-    """
+     replacement = "<div style=\"display:none\">\n\\[\n#{contents}\n\\]\n</div>"
+
      text = String.replace(data.text, params.target,replacement)
     %{ data | :text => text }
   end
