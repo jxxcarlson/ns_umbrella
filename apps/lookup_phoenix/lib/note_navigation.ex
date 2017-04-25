@@ -66,6 +66,7 @@ defmodule LookupPhoenix.NoteNavigation do
 
 
      # Compute outputs
+     index = index || 0  # NIL SAFETY
       current_id = Enum.at(id_list, index)
       note_count = length(id_list)
       last_index = note_count - 1
