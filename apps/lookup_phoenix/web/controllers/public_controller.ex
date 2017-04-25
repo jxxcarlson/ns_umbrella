@@ -164,6 +164,9 @@ defmodule LookupPhoenix.PublicController do
     qsMap = Utility.qs2map(conn.query_string)
 
     cond do
+       qsMap["page"] == "home" and Note.get("#{site}.home") != nil ->
+          conn
+          |> redirect(to: "/public/#{site}.home")
        current_user == nil ->
          channel = site <> ".public"
          access = %{"access" => :public}
@@ -204,18 +207,30 @@ defmodule LookupPhoenix.PublicController do
   end
 
   def site(conn, params) do
+
+     IO.puts "SITE CONTROLLER, HOLA!"
+     qsMap = Utility.qs2map(conn.query_string)
+     Utility.report("qsMap", qsMap)
      site = params["data"]["site"]
      current_user = conn.assigns.current_user
-     if current_user != nil and current_user.username == site do
-        conn
-        |> put_resp_cookie("site", site)
-        |> redirect(to: "/notes")
-     else
-        conn
-        |> put_resp_cookie("site", site)
-        |> redirect(to: "/site/#{site}")
-     end
 
+     cond do
+
+       current_user = nil ->
+          conn
+          |> put_resp_cookie("site", site)
+          |> redirect(to: "/site/#{site}")
+
+       current_user != nil and current_user.username == site ->
+          conn
+          |> put_resp_cookie("site", site)
+          |> redirect(to: "/notes")
+
+       true ->
+          conn
+          |> put_resp_cookie("site", site)
+          |> redirect(to: "/site/#{site}")
+     end
 
   end
 
