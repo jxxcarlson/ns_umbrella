@@ -53,9 +53,12 @@ defmodule LookupPhoenix.PublicController do
           end
 
           options = %{mode: "show"} |> Note.add_options(note)
-          params1 = %{note: note, options: options, site: site, channela: user.channel}
+          rendered_text = Text.render(note.content, options)
+
+          params1 = %{note: note, options: options, site: site, channela: user.channel, rendered_text: rendered_text}
           params2 = NoteNavigation.get([id], id)
           params = Map.merge(params1, params2)
+
 
           case note.public do
             true -> render(conn, "show.html", Map.merge(params, %{title: "LookupNotes: Public"})) |> put_resp_cookie("site", site)
