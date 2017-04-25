@@ -8,7 +8,7 @@ span { color: darkred; font-weight:500;}
 
      <div class="jumbotron" style="">
        <div>
-          <h2 style="color:darkred; font-size:3em;">NoteFile</h2>
+          <h2 style="color:darkred; font-size:3em;"><%= LookupPhoenix.Global.app_name() %></h2>
 
           <p>Please <a href="/sessions/new">sign in</a> or <a href="/users/new">register</a></p>
 
@@ -17,12 +17,12 @@ span { color: darkred; font-weight:500;}
      </div>
 
      <div style="font-size: 1.5rem;">
-     <p><span>LookupNote</span> is a tool for storing and finding random snippets
+     <p><span><%= LookupPhoenix.Global.app_name() %></span> is a tool for storing and finding random snippets
      of information of all kinds &mdash; text, links to web pages, even images,
      audio, and video.
      </p>
 
-     <p><span>LookupNote</span> is your personal mini search engine.
+     <p><span><%= LookupPhoenix.Global.app_name() %></span> is your personal mini search engine.
      Safe, secure, always there when you need it.</p>
 
      <p><span>Used by</span> students, writers, researchers, you name it.</p>
