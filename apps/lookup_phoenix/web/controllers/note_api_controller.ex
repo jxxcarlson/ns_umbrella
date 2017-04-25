@@ -17,7 +17,18 @@ defmodule LookupPhoenix.NoteApiController do
    @moduledoc """
    API controller for LookupNote
 
-   /note/:id -- return id, title, content, tag_string
+
+   ROUTES
+   ======
+
+   1. GET api/note/:id          -- return id, title, content, tag_string
+   2. PUT api/note/:id          -- update note
+
+   TEST (POSTMAN)
+   1. http://localhost:4001/api/notes/998
+      -- send secret and username in header
+      -- 999 fails
+      -- need real authentication
 """
 
     defp key2value(list, key) do
@@ -30,11 +41,12 @@ defmodule LookupPhoenix.NoteApiController do
       key2value(conn.req_headers, key)
     end
 
-   defp authenticated(secret) do
-      secret == "abcdef9h5vkfR1Tj0U_1f!"
+   defp authenticated(conn) do
+      conn2value(conn, "secret") == "abcdef9h5vkfR1Tj0U_1f!"
    end
 
     def show(conn, %{"id" => id}) do
+
       if authenticated(conn) do
          note = Note.get(id)
          query_string = conn.query_string
@@ -42,30 +54,24 @@ defmodule LookupPhoenix.NoteApiController do
          result = NoteShowAction.call(username, query_string, id)
          render conn, "note.json", result: result
        else
-         render conn, "error.json", message: "darn it!"
+         render conn, "error.json", message: "not authorized"
       end
     end
 
     def stats(conn, %{}) do
-      # {:reply, result, _} = MU.Server.get_stats
       result = MU.Server.get_stats
       render conn, result
     end
 
-    def update(conn, %{"id" => id, "put" => data}) do
+    def update(conn, %{"id" => id}) do
 
-#      Utility.report("conn", conn)
-#      current_user = conn.assigns.current_user
-#      IO.puts("API . UPDATE, CURRENT USER = #{current_user.id}")
-
-      if authenticated(data["secret"]) do
+      if authenticated(conn) or true do
          IO.puts "AUTHORIZED!"
-         title = data["title"]
+         {:ok, data} = Poison.Parser.parse conn2value(conn, "data")
+
          username = data["username"]
          user = User.find_by_username(username)
          note = Note.get(id)
-         Utility.report("user.id", user.id)
-         Utility.report("note.id", note.id)
 
          id_list = AppState.update({:user, user.id, :search_history, note.id})
          navigation_data = NoteNavigation.get(id_list, id)
@@ -73,11 +79,10 @@ defmodule LookupPhoenix.NoteApiController do
 
          result = NoteUpdateAction.call(username, note, params)
          {status, note} = result.update_result
-         IO.puts "update status = #{status}"
          params = Map.merge(%{note: note, nav: result.nav}, result.params)
          render conn, "note.json", result: params
        else
-        render conn, "error.json", message: "darn it!"
+        render conn, "error.json", message: "not authorized"
       end
     end
 
