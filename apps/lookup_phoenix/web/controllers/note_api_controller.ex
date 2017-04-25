@@ -57,55 +57,106 @@ defmodule LookupPhoenix.NoteApiController do
       |> verify
     end
 
-    def authenticated(token) do
-      result = verify_token(token)
-      result.error == nil
-    end
+#    def authenticated(token) do
+#      result = verify_token(token)
+#      result.error == nil
+#    end
+#
+#    def show(conn, %{"id" => id}) do
+#
+#      {:ok, token} = Poison.Parser.parse conn2value(conn, "token")
+#
+#      if authenticated(token) do
+#         note = Note.get(id)
+#         query_string = conn.query_string
+#         username = "jxxcarlson"
+#
+#         result = NoteShowAction.call(username, query_string, id)
+#
+#         render conn, "note.json", result: result
+#       else
+#         render conn, "error.json", message: "not authorized"
+#      end
+#    end
+#
+#    def stats(conn, %{}) do
+#      result = MU.Server.get_stats
+#      render conn, result
+#    end
+#
+#    def update(conn, %{"id" => id}) do
+#
+#       {:ok, data} = Poison.Parser.parse conn2value(conn, "data")
+#       {:ok, token} = Poison.Parser.parse conn2value(conn, "token")
+#
+#      if authenticated(token) do
+#         username = data["username"]
+#         user = User.find_by_username(username)
+#         note = Note.get(id)
+#
+#         id_list = AppState.update({:user, user.id, :search_history, note.id})
+#         navigation_data = NoteNavigation.get(id_list, id)
+#         params = Map.merge(data, %{nav: navigation_data})
+#
+#         result = NoteUpdateAction.call(username, note, params)
+#
+#         {status, note} = result.update_result
+#         params = Map.merge(%{note: note, nav: result.nav}, result.params)
+#         render conn, "note.json", result: params
+#       else
+#        render conn, "error.json", message: "not authorized"
+#      end
+#    end
+
+    ################ OLD VERSION ###############
 
     def show(conn, %{"id" => id}) do
+          if authenticated(conn) do
+             note = Note.get(id)
+             query_string = conn.query_string
+             username = "jxxcarlson"
+             result = NoteShowAction.call(username, query_string, id)
+             render conn, "note.json", result: result
+           else
+             render conn, "error.json", message: "darn it!"
+          end
+        end
 
-      {:ok, token} = Poison.Parser.parse conn2value(conn, "token")
+        def stats(conn, %{}) do
+          # {:reply, result, _} = MU.Server.get_stats
+          result = MU.Server.get_stats
+          render conn, result
+        end
 
-      if authenticated(token) do
-         note = Note.get(id)
-         query_string = conn.query_string
-         username = "jxxcarlson"
+        def update(conn, %{"id" => id, "put" => data}) do
 
-         result = NoteShowAction.call(username, query_string, id)
+    #      Utility.report("conn", conn)
+    #      current_user = conn.assigns.current_user
+    #      IO.puts("API . UPDATE, CURRENT USER = #{current_user.id}")
 
-         render conn, "note.json", result: result
-       else
-         render conn, "error.json", message: "not authorized"
-      end
-    end
+          if authenticated(data["secret"]) do
+             IO.puts "AUTHORIZED!"
+             title = data["title"]
+             username = data["username"]
+             user = User.find_by_username(username)
+             note = Note.get(id)
+             Utility.report("user.id", user.id)
+             Utility.report("note.id", note.id)
 
-    def stats(conn, %{}) do
-      result = MU.Server.get_stats
-      render conn, result
-    end
+             id_list = AppState.update({:user, user.id, :search_history, note.id})
+             navigation_data = NoteNavigation.get(id_list, id)
+             params = Map.merge(data, %{nav: navigation_data})
 
-    def update(conn, %{"id" => id}) do
+             result = NoteUpdateAction.call(username, note, params)
+             {status, note} = result.update_result
+             IO.puts "update status = #{status}"
+             params = Map.merge(%{note: note, nav: result.nav}, result.params)
+             render conn, "note.json", result: params
+           else
+            render conn, "error.json", message: "darn it!"
+          end
+        end
 
-       {:ok, data} = Poison.Parser.parse conn2value(conn, "data")
-       {:ok, token} = Poison.Parser.parse conn2value(conn, "token")
 
-      if authenticated(token) do
-         username = data["username"]
-         user = User.find_by_username(username)
-         note = Note.get(id)
-
-         id_list = AppState.update({:user, user.id, :search_history, note.id})
-         navigation_data = NoteNavigation.get(id_list, id)
-         params = Map.merge(data, %{nav: navigation_data})
-
-         result = NoteUpdateAction.call(username, note, params)
-
-         {status, note} = result.update_result
-         params = Map.merge(%{note: note, nav: result.nav}, result.params)
-         render conn, "note.json", result: params
-       else
-        render conn, "error.json", message: "not authorized"
-      end
-    end
 
 end
