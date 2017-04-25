@@ -1,7 +1,9 @@
 defmodule LookupPhoenix.Image do
   use LookupPhoenix.Web, :model
+  use Arc.Ecto.Schema
 
   schema "images" do
+    field :image, LookupPhoenix.ImageUploader.Type
     field :title, :string
     field :url, :string
     field :owner_id, :integer
@@ -19,4 +21,6 @@ defmodule LookupPhoenix.Image do
     |> cast(params, [:title, :url, :owner_id, :public, :source])
     |> validate_required([:title, :url, :owner_id, :public, :source])
   end
+
+
 end
