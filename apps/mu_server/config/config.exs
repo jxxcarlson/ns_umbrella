@@ -8,7 +8,7 @@ use Mix.Config
 # if you want to provide default values for your application for
 # 3rd-party users, it should be done in your "mix.exs" file.
 
-config :mu_server, host: "http://localhost:4001"
+# config :mu_server, host: "http://localhost:4001"
 
 # You can configure for your application as:
 #
