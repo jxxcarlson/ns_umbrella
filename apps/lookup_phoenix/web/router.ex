@@ -40,6 +40,7 @@ defmodule LookupPhoenix.Router do
     pipe_through :browser # Use the default browser stack
 
     resources "/notes", NoteController
+    resources "/images", ImageController
     resources "/users", UserController, only: [:index, :show, :new, :create, :update, :delete]
     resources "/sessions", SessionController, only: [:new, :create, :delete ]
 
@@ -82,6 +83,8 @@ defmodule LookupPhoenix.Router do
 
     get "/", PageController, :index
   end
+  
+
 
   # Other scopes may use custom stacks.
   # scope "/api", LookupPhoenix do

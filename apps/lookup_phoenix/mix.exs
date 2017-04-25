@@ -23,7 +23,7 @@ defmodule LookupPhoenix.Mixfile do
   def application do
     [mod: {LookupPhoenix, []},
      applications: [:comeonin, :mnemonix, :phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :timex, :timex_ecto]]
+                    :phoenix_ecto, :postgrex, :timex, :timex_ecto, :arc_ecto]]
   end
 
   # Specifies which paths to compile per environment.
@@ -48,7 +48,9 @@ defmodule LookupPhoenix.Mixfile do
      {:timex_ecto, "~> 3.0"},
      {:benchfella, "~> 0.3.2"},
      {:json, "~> 1.0"},
-     {:joken, "~> 1.1"}]
+     {:joken, "~> 1.1"},
+     {:arc, "~> 0.5.2"},
+     {:arc_ecto, "~> 0.4.4"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
