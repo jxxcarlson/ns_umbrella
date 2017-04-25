@@ -37,7 +37,7 @@ defmodule LookupPhoenix.NoteNavigation do
   # but handle bad inputs
   def s2i(n) do
     IO.puts("s2i, arg = #{n}")
-    IO.puts Regex.match?(~r/^[a-z][A-Z].*/, n)
+    # IO.puts Regex.match?(~r/^[a-z][A-Z].*/, n)
     cond do
       is_nil(n) -> 0
       is_number(n) -> n
