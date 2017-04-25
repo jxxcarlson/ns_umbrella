@@ -83,7 +83,11 @@ defmodule LookupPhoenix.PublicController do
       redirect(conn, to: "/public/#{note.id}/#{id2}/#{note.id}>#{id2}")
   end
 
-   def show2(conn, %{"id" => id, "id2" => id2, "toc_history" => toc_history}) do
+     def show3(conn, %{"id" => id, "id2" => id2, "toc_history" => toc_history}) do
+       redirect(:to, "/public/#{id}/{id2}")
+     end
+
+   def show2(conn, %{"id" => id, "id2" => id2}) do
 
         qsMap = Utility.qs2map(conn.query_string)
         note = Note.get(id); id = note.id
@@ -138,14 +142,16 @@ defmodule LookupPhoenix.PublicController do
          render(conn, "show2.html", params)
       end # SHOW
 
-   def show(conn, %{"id" => id, "site" => site}) do
+   def show(conn, %{"id" => id}) do
+   #def show(conn, %{"id" => id, "site" => site}) do
 
       note = Note.get(id)
+      author = Repo.get(User, note.user_id)
 
       if Enum.member?(note.tags, ":toc") do
         do_show2(conn, note)
       else
-        do_show(conn, %{"id" => id, "site" => site})
+        do_show(conn, %{"id" => id, "site" => author.username})
       end
 
     end

@@ -1,6 +1,7 @@
 defmodule LookupPhoenix.NoteNavigation do
 
   alias LookupPhoenix.Utility
+  alias LookupPhoenix.Note
 
   @moduledoc """
   NoteNavigation.get(id_list, id) takes a query string as input
@@ -35,9 +36,13 @@ defmodule LookupPhoenix.NoteNavigation do
   # String to integer,
   # but handle bad inputs
   def s2i(n) do
+    IO.puts("s2i, arg = #{n}")
+    IO.puts Regex.match?(~r/^[a-z][A-Z].*/, n)
     cond do
       is_nil(n) -> 0
       is_number(n) -> n
+      Regex.match?(~r/^[a-zA-Z].*/, n) ->
+        Note.get(n).id
       true -> String.to_integer n
     end
   end

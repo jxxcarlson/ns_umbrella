@@ -12,7 +12,7 @@ span { color: darkred; font-weight:500;}
 
           <p>Please <a href="/sessions/new">sign in</a> or <a href="/users/new">register</a></p>
 
-          <p>Try the <a href="http://www.lookupnote.io/site/demo" target="_blank" ><b>Demo!</b></a> </p>
+          <p>Try the <a href="#{LookupPhoenix.Global.host()}/site/demo" target="_blank" ><b>Demo!</b></a> </p>
        </div>
      </div>
 
@@ -54,7 +54,7 @@ span { color: darkred; font-weight:500;}
      </div>
 
 
-    <p>Try the <a href="http://www.lookupnote.io/site/demo" target="_blank" >DEMO</a></p>
+    <p>Try the <a href="/site/demo" target="_blank" >DEMO</a></p>
 
     <p>Take a look at the <span><%= link "User Guide", to: "/site/guide" %></span> for advanced features:
    code formatting, mini markup, and LaTeX for mathematics and chemistry. </p>
