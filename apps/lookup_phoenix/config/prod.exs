@@ -14,7 +14,7 @@ use Mix.Config
 
 config :lookup_phoenix, LookupPhoenix.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: "lookupnote.herokuapp.com", port: 443],
+  url: [scheme: "https", host: "notefile.herokuapp.com", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/manifest.json",
   secret_key_base: System.get_env("SECRET_KEY_BASE")
@@ -26,7 +26,8 @@ config :lookup_phoenix, LookupPhoenix.Repo,
   ssl: true
 
 config :lookup_phoenix,
-  host_url: "http://www.lookupnote.io"
+  host_url: "http://www.notefile.io",
+   app_name: "NoteFile"
 
 
 # Do not print debug messages in production

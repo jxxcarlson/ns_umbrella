@@ -45,6 +45,7 @@ config :lookup_phoenix, LookupPhoenix.Repo,
   pool_size: 10
 
 config :lookup_phoenix,
-  host_url: "http://localhost:4001"
+  host_url: "http://localhost:4001",
+  app_name: "NoteFile"
 
 # Access the above by: Application.get_env(:deploy_vars, :host_url)
