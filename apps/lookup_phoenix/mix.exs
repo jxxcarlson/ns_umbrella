@@ -50,7 +50,8 @@ defmodule LookupPhoenix.Mixfile do
      {:json, "~> 1.0"},
      {:joken, "~> 1.1"},
      {:arc, "~> 0.5.2"},
-     {:arc_ecto, "~> 0.4.4"}]
+     {:arc_ecto, "~> 0.4.4"},
+     {:shared, in_umbrella: true}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
