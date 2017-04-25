@@ -47,7 +47,8 @@ defmodule LookupPhoenix.Mixfile do
      {:timex, "~>3.0"},
      {:timex_ecto, "~> 3.0"},
      {:benchfella, "~> 0.3.2"},
-     {:json, "~> 1.0"}]
+     {:json, "~> 1.0"},
+     {:joken, "~> 1.1"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

@@ -1,6 +1,6 @@
 defmodule LookupPhoenix.UserController do
   use LookupPhoenix.Web, :controller
-  plug :authenticate when action in [:index, :show]
+  plug :authenticate when action in [:index, :show, :get_token]
 
   alias LookupPhoenix.User
   alias LookupPhoenix.Tag
@@ -8,6 +8,28 @@ defmodule LookupPhoenix.UserController do
   alias LookupPhoenix.Utility
   alias LookupPhoenix.SearchController
   alias LookupPhoenix.Constant
+
+  import Joken
+
+   def get_token(conn, _params) do
+
+      IO.puts "I will make a token for you ..."
+
+      current_user = conn.assigns.current_user
+      my_token = %{"user_id" => current_user.id}
+#      |> token
+#      |> with_signer(hs256("yada82043mU,@izq0#$mcq^&!HFQpnp8i-nc"))
+      |> token
+      |> with_validation("user_id", &(&1 == 1))
+      |> with_signer(hs256("yada82043mU,@izq0#$mcq^&!HFQpnp8i-nc"))
+      |> sign
+      |> get_compact
+
+      Utility.report("my_token", my_token)
+
+     render conn, "token.json", token: my_token
+
+    end
 
 
   def index(conn, _params) do

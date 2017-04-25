@@ -33,6 +33,7 @@ defmodule LookupPhoenix.Router do
 
     resources "/notes", NoteApiController
     get "/stats", NoteApiController, :stats
+
   end
 
   scope "/", LookupPhoenix do
@@ -73,7 +74,10 @@ defmodule LookupPhoenix.Router do
     get "/random_site", PublicController, :random_site
     post "/site", PublicController, :site
 
+    get "/token", UserController, :get_token
+
     get "/mailto/:id", NoteController, :mailto
+
 
 
     get "/", PageController, :index
