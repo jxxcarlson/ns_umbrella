@@ -84,7 +84,7 @@ defmodule LookupPhoenix.PublicController do
   end
 
      def show3(conn, %{"id" => id, "id2" => id2, "toc_history" => toc_history}) do
-       redirect(:to, "/public/#{id}/{id2}")
+       redirect(:to, "/public/#{id}/#{id2}")
      end
 
    def show2(conn, %{"id" => id, "id2" => id2}) do
