@@ -130,7 +130,7 @@ defmodule  NS.Notebook.TOC2 do
     {id2, stack} = List.pop_at(item.stack, -1)
     {id, _} = List.pop_at(stack, 0)
 
-    "<p id=\"note:#{id}\" class=\"toc toc_level_#{item.level}\"><a href=\"/show2/#{id}/#{id2}\">#{item.title}</a></p>"
+    "<p id=\"note:#{id2}\" class=\"toc toc_level_#{item.level}\"><a href=\"/show2/#{id}/#{id2}\">#{item.title}</a></p>"
   end
 
   @doc """
