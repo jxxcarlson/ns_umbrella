@@ -57,6 +57,11 @@ defmodule LookupPhoenix.NoteApiController do
       |> verify
     end
 
+
+   defp authenticated(secret) do
+      secret == "abcdef9h5vkfR1Tj0U_1f!"
+   end
+
 #    def authenticated(token) do
 #      result = verify_token(token)
 #      result.error == nil
