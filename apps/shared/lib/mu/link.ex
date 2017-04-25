@@ -75,7 +75,7 @@ defmodule MU.Link do
   # https://lookupnote.herokuapp.com/notes/439?index=0&previous=439&next=439&id_list=439
 
    def formatXREF(text) do
-     Regex.replace(xref_regex(), text, "<a href=\"#{host()}/notes/\\1?index=0&previous=\\1&next=\\1&id_string=\\1\">\\2</a>")
+     Regex.replace(xref_regex(), text, "<a href=\"#{LookupPhoenix.Global.host()}/notes/\\1?index=0&previous=\\1&next=\\1&id_string=\\1\">\\2</a>")
    end
 
 
