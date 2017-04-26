@@ -40,7 +40,7 @@ defmodule MU.Server do
  # SERVER
 
    def init(:ok) do
-       {:ok, %{requests: 0, characters: 0, processing_time: 0.0, rate: 0.0, t_per_request: 0.0}}
+       {:ok, %{start_time: Timex.now, requests: 0, characters: 0, processing_time: 0.0, rate: 0.0, t_per_request: 0.0}}
      end
 
 
@@ -61,6 +61,7 @@ defmodule MU.Server do
       t_per_request = total_elapsed_time/requests
 
       new_stats = %{ requests: stats.requests + 1,
+        start_time: stats.start_time,
         characters: total_characters,
         processing_time: total_elapsed_time,
         rate: rate, t_per_request: t_per_request}
@@ -78,6 +79,8 @@ defmodule MU.Server do
        reply = %{requests: stats.requests,
                  kchars: characters,
                  processing_time: processing_time,
+                 start_time: stats.start_time,
+                 uptime: Timex.diff(Timex.now, stats.start_time, :seconds)/(60.0*60.0) |> Float.round(2),
                  rate: rate,
                  t_per_request: time_per_request
                  }

@@ -19,6 +19,11 @@
 
     <table style="margin-top:0;  width:270px;background-colorr="pink">
       <tr>
+         <td class="mylabel"> up time </td>
+         <td> <%= @stats.uptime %> hours</td>
+      </tr>
+
+      <tr>
          <td class="mylabel"> requests </td>
          <td> <%= @stats.requests %></td>
       </tr>
