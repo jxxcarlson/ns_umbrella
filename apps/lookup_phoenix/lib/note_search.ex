@@ -41,7 +41,10 @@ defmodule LookupPhoenix.NoteSearch do
 
 
     def select_by_channel(query, channel) do
-       [username, tag] = String.split(channel, ".")
+       # BAD CODE ALERT
+       parts = String.split(channel, ".")
+       username = Enum.at(parts, 0)
+       tag = Enum.at(parts, -1)
        user = User.find_by_username(username)
        if user == nil do
          user_id = -1

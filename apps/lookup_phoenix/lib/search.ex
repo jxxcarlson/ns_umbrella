@@ -80,7 +80,11 @@ defmodule LookupPhoenix.Search do
     ############ NOTES FOR CHANNEL ######
 
     defp set_channel(channel, options) do
-      [channel_user_name, channel_name] = String.split(channel, ".")
+
+      # BAD CODE ALERT:
+      parts = String.split(channel, ".")
+      channel_user_name = Enum.at(parts, 0)
+      channel_name = Enum.at(parts, -1)
 
       if channel_user_name == nil do
         channel_user = User.find_by_username("demo")

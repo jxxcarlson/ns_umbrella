@@ -12,7 +12,8 @@
 
   <% end %>
 
-    <span class="standard" >Channel <%= @channela %></span>
+    <!-- <span class="standard" ><%= link @channela, to: "/notes?channel=#{@channela}" %></span> -->
+    <span class="standard" ><%= link @channela, to: "/site/#{@channela}" %></span>
     <span style="float:right">
       <%= link "Back", to: public_path(@conn, :index, @site), class: "" %>
     </span>

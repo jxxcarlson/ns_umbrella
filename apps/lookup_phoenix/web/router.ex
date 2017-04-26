@@ -71,7 +71,10 @@ defmodule LookupPhoenix.Router do
     get "public/:id/:id2", PublicController, :show2
     get "public/:id/:id2/:toc_history", PublicController, :show3
     get "/site/:site", PublicController, :index
+
     get "/sites", PublicController, :site_index
+    get "/sites/:site", PublicController, :yada
+
     get "/random_site", PublicController, :random_site
     post "/site", PublicController, :site
 

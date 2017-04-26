@@ -2,6 +2,7 @@ defmodule LookupPhoenix.PublicController do
   use LookupPhoenix.Web, :controller
   # plug LookupPhoenix.Plug.Site, site: "foo"
     alias LookupPhoenix.Note
+    alias LookupPhoenix.Identifier
     alias LookupPhoenix.User
     alias LookupPhoenix.Utility
     alias LookupPhoenix.Text
@@ -35,7 +36,27 @@ defmodule LookupPhoenix.PublicController do
             _ ->  render(conn, "error.html", params) #                                                                                     `````````````````|> put_resp_cookie("site", site)
           end
 
+   end
+
+   def yada(conn, %{"site" => site}) do
+
+     qsMap = Utility.qs2map(conn.query_string)
+     current_user = conn.assigns.current_user
+     page = qsMap["page"]
+     IO.puts("YADA: site = #{site}, page = #{page}")
+
+     cond do
+       qsMap["page"] == "home" and Note.get("#{site}.home") != nil ->
+         if current_user do
+           channel = site
+           User.set_channel(current_user, site)
+         end
+         conn
+         |> redirect(to: "/public/#{site}.home")
+       true ->
+         redirect(conn, to: "/site/#{site}")
      end
+   end
 
   def do_show(conn, %{"id" => id, "site" => site}) do
       note = Note.get(id)
@@ -165,9 +186,7 @@ defmodule LookupPhoenix.PublicController do
     qsMap = Utility.qs2map(conn.query_string)
 
     cond do
-       qsMap["page"] == "home" and Note.get("#{site}.home") != nil ->
-          conn
-          |> redirect(to: "/public/#{site}.home")
+
        current_user == nil ->
          channel = site <> ".public"
          access = %{"access" => :public}
@@ -179,6 +198,7 @@ defmodule LookupPhoenix.PublicController do
          channel = site <>  ".public"
          User.set_channel(current_user, channel)
          access = %{"access" => :public}
+
      end
 
     cond do
@@ -212,10 +232,16 @@ defmodule LookupPhoenix.PublicController do
      IO.puts "SITE CONTROLLER, HOLA!"
      qsMap = Utility.qs2map(conn.query_string)
      Utility.report("qsMap", qsMap)
-     site = params["data"]["site"]
+     site = params["data"]["site"] || params["site"]
      current_user = conn.assigns.current_user
 
+     Utility.report("status", [qsMap, site, qsMap["page"] == "home", Identifier.find_note("#{site}.home") != nil])
+
      cond do
+
+       qsMap["page"] == "home" and Identifier.find_note("#{site}.home") != nil ->
+         conn
+         |> redirect(to: "/public/#{site}.home")
 
        current_user = nil ->
           conn

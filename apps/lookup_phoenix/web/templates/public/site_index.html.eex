@@ -14,7 +14,7 @@
   <tbody>
 <%= for user <- @users do %>
     <tr>
-      <td><%= link user.username, to: "/site/#{user.username}?page=home" %></td>
+      <td><%= link user.username, to: "/sites/#{user.username}?page=home" %></td>
       <td><%= user.blurb %></td>
     </tr>
 <% end %>
