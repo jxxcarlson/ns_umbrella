@@ -158,7 +158,7 @@ defmodule LookupPhoenix.PublicController do
     end
 
 
-  def index_old(conn, params) do
+  def index(conn, params) do
 
     current_user = conn.assigns.current_user
     site = params["site"]
@@ -236,16 +236,12 @@ defmodule LookupPhoenix.PublicController do
   end
 
   def site_index(conn, _params) do
-    params = %{users: User.public_users}
-    conn |> render("site_index.html", params)
-  end
-
-  def index(conn, _params) do
+    IO.puts "Hello, this is SITE_INDEX"
     query = Ecto.Query.from user in User,
               where: user.public == ^true,
               order_by: [asc: user.username]
     users = Repo.all(query)
-    conn |> render("index.html", users: users)
+    conn |> render("site_index.html", users: users)
   end
 
   def random_site(conn, _params) do
