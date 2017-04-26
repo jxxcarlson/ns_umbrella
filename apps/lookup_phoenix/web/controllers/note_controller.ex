@@ -139,6 +139,10 @@ defmodule LookupPhoenix.NoteController do
 
     IO.puts "THIS IS NOTECONTROLLER . SHOW, ID = #{id}"
     current_user = conn.assigns.current_user
+    if current_user == nil do
+      redirect(:to, "/public/#{id}")
+    end
+
     username = current_user.username
 
     AppState.update(:user, current_user.id, :current_note, String.to_integer(id))
