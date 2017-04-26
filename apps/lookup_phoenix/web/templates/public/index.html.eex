@@ -24,8 +24,6 @@
    <%= link "More", to: "/site/#{@site}", class: "btn btn-default btn-s", id: "more_articles" %>
    <%= link "Random", to: "/site/#{@site}?random=one", class: "btn btn-default btn-s", id: "more_articles" %>
 
-   <span class="hidden-xs" style="margin-left:10px;"><%= link "Random site", to: "/random_site", class: "btn btn-default btn-s", id: "more_articles" %></span>
-
    <span class="hidden-xs" style="float:right;margin-top:-12px;">
 
        <%= form_for @conn, public_path(@conn, :site),[name: :data], fn f -> %>

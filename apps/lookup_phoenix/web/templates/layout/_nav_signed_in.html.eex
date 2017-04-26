@@ -48,7 +48,7 @@
           <li><%= link "New note", to: note_path(@conn, :new) , id: 'new_note' %></li>
 
           <li role="separator" class="divider"></li>
-          <li><%= link :Sites, to: "/sites" %></li>
+          <li><%= link :Sites, to: "/users" %></li>
           <li><%= link "Tags", to: "/tags/#{site_name(@conn)}", id: 'tags' %> </li>
           <li><%= link :Preferences, to: "/preferences" %></li>
 
@@ -57,7 +57,7 @@
 
           <%= if @current_user.admin == true do %>
              <li role="separator" class="divider"></li>
-             <li> <%= link "Users", to: user_path(@conn, :index), id: 'users' %> </li>
+             <li> <%= link "Admin", to: admin_path(@conn, :dashboard) %> </li>
            <% end %>
 
         </ul>

@@ -71,7 +71,7 @@ defmodule LookupPhoenix.Router do
     get "public/:id/:id2", PublicController, :show2
     get "public/:id/:id2/:toc_history", PublicController, :show3
     get "/site/:site", PublicController, :index
-    get "/sites", PublicController, :site_index
+    get "/sites", UserController, :index
     get "/random_site", PublicController, :random_site
     post "/site", PublicController, :site
 
@@ -79,7 +79,10 @@ defmodule LookupPhoenix.Router do
 
     get "/mailto/:id", NoteController, :mailto
 
-
+    get "/admin/users", AdminController, :user_index
+    get "/admin/users/:id", AdminController, :edit_user
+    put "/admin/users/:id", AdminController, :update_user
+    get "/admin/dashboard", AdminController, :dashboard
 
     get "/", PageController, :index
   end

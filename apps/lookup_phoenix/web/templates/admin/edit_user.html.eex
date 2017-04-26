@@ -1,0 +1,54 @@
+<style>
+
+ .mylabel { font-weight:bold; width:80px; }
+  tr > td
+  {
+    padding-bottom: 0.35em;
+  }
+
+</style>
+
+
+<h4>
+   <%= link "Dashboard:", to: "/admin/dashboard" %>
+   <%= link "Users:", to: "/admin//users" %>
+   User change form</h4>
+
+   <table>
+
+     <tr>
+       <td class="mylabel"> Full name </td>
+       <td>  <%= @user.name %> </td>
+     </tr>
+
+     <tr>
+       <td class="mylabel"> Username </td>
+       <td>  <%= @user.username %> </td>
+     </tr>
+
+     <tr>
+       <td class="mylabel"> Email</td>
+       <td>  <%= @user.email %> </td>
+     </tr>
+
+   </table>
+
+
+<%= form_for @changeset, admin_path(@conn, :edit_user, @user_id), fn f -> %>
+
+    <div class="form-group">
+
+
+        <div class="form-group">
+            <%= text_input f, :password, placeholder: "Password", class: "form-control" %>
+        </div>
+
+        <%= submit "Update", class: "btn btn-primary" %>
+
+        <span style="font-size:1.25em; color:cornflowerblue;margin-left:20px;">
+           <%= link "Cancel", to: admin_path(@conn, :update_user, @user_id) %>
+        </span>
+
+
+
+<% end %>

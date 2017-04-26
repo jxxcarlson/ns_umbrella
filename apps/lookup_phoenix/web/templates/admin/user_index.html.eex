@@ -1,0 +1,39 @@
+<h3><%= link "Dashboard:: ", to: "/admin/dashboard" %> Users: <%= length(@users) %>  </h3>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th style="text-align:right;">id</th>
+      <th style="text-align:right;">LK</th>
+      <th style="text-align:right;">NO</th>
+      <th style="text-align:right;">SE</th>
+
+      <th>Username</th>
+      <th>Name</th>
+
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for user <- @users do %>
+    <tr>
+      <td style="text-align:right;"><%= user.id %></td>
+      <td style="text-align:right;"><%= LookupPhoenix.Utility.xForTrue(user.read_only) %></td>
+      <td style="text-align:right;"><%= LookupPhoenix.Search.count_for_user(user.id) %>
+      <td style="text-align:right;"><%= user.number_of_searches %>
+
+      <td><%= link user.username, to: "/admin/users/#{user.id}" %></td>
+      <td><%= user.name %></td>
+
+      <td><%= user.email %></td>
+
+      <td class="text-right">
+         <%= link "Lock/unlock", to: user_path(@conn, :delete, user), method: :delete, class: "btn btn-default btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+

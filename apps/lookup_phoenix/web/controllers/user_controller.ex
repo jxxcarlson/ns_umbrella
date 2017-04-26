@@ -1,6 +1,7 @@
 defmodule LookupPhoenix.UserController do
+
   use LookupPhoenix.Web, :controller
-  plug :authenticate when action in [:index, :show, :get_token]
+  plug :authenticate when action in [:index, :show, :delete, :get_token]
 
   alias LookupPhoenix.User
   alias LookupPhoenix.Tag
@@ -36,8 +37,8 @@ defmodule LookupPhoenix.UserController do
     if conn.assigns.current_user.admin == true do
         query = Ecto.Query.from user in User,
                   # select: note.id,
-                  # where: note.user_id == ^user_id and note.updated_at >= ^then,
-                  order_by: [asc: user.id]
+                  where: user.public == ^true,
+                  order_by: [asc: user.username]
         users = Repo.all(query)
         render conn, "index.html", users: users
       else
@@ -229,6 +230,7 @@ defmodule LookupPhoenix.UserController do
         render(conn, "preferences .html", changeset: changeset)
     end
   end
+
 
   defp authenticate(conn, _opts) do
     if conn.assigns.current_user do
