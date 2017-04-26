@@ -91,7 +91,7 @@
      <li>The <span>Random</span> button brings up a random
      list of notes.</li>
 
-     <li>You can try the above in <%= link "the Demo", to: page_path(@conn, :demo) %> if you are new to LookupNote</li>
+     <li>You can try the above in <a href="/sites/demo?page=home" target="_blank" ><b>Demo!</b></a> if you are new to <%= LookupPhoenix.Global.app_name() %></li>
 
   </ul>
   <p class="heading" id="taggs">Tags</p>
