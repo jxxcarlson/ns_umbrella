@@ -11,39 +11,43 @@
 </style>
 
 
-<h3>Admin Dashboard</h3>
+<h3 style="margin-top:1em;"> Admin Dashboard</h3>
 
-<p style="font-weight:bold; font-size:1.2em margin-bottom:0;padding-bottom:0;margin-top:2em;">MU Server</p>
+<div style="float:left; margin-top:1em;padding-left:1em; padding-right:1em; padding-top:0.25em; padding-bottom:0.25em; width:280px;background-color: #eee; ;">
 
-<table style="margin-top:0;">
-  <tr>
-     <td class="mylabel"> requests </td>
-     <td> <%= @stats.requests %></td>
-  </tr>
+    <p style="font-weight:bold; font-size:1.2em margin-bottom:0;padding-bottom:0;margin-top:1em;">MU Server</p>
 
-  <tr>
-     <td class="mylabel"> kchars </td>
-     <td> <%= @stats.kchars %></td>
-  </tr>
+    <table style="margin-top:0;  width:270px;background-colorr="pink">
+      <tr>
+         <td class="mylabel"> requests </td>
+         <td> <%= @stats.requests %></td>
+      </tr>
 
-  <tr>
-     <td class="mylabel"> proc. time </td>
-     <td> <%= @stats.processing_time %> sec</td>
-  </tr>
+      <tr>
+         <td class="mylabel"> kchars </td>
+         <td> <%= @stats.kchars %></td>
+      </tr>
 
-  <tr>
-     <td class="mylabel"> rate </td>
-     <td> <%= @stats.rate %> ms/1000 chars</td>
-  </tr>
+      <tr>
+         <td class="mylabel"> proc. time </td>
+         <td> <%= @stats.processing_time %> sec</td>
+      </tr>
 
-  <tr>
-     <td class="mylabel"> ms/request </td>
-     <td> <%= @stats.t_per_request %></td>
-  </tr>
+      <tr>
+         <td class="mylabel"> rate </td>
+         <td> <%= @stats.rate %> ms/1000 chars</td>
+      </tr>
 
+      <tr>
+         <td class="mylabel"> ms/request </td>
+         <td> <%= @stats.t_per_request %></td>
+      </tr>
 
+    </table>
+</div>
 
-</table>
+<div style="float:left;margin-left:3em; margin-top:0.5em;">
 
+  <p class="large"><a href="/admin/users">Users</a></p>
 
-<p class="large"><a href="/admin/users">Users</a></p>
+</div>
