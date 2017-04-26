@@ -17,7 +17,11 @@ defmodule LookupPhoenix.AdminController do
     end
 
     def dashboard(conn, _) do
-      render(conn, "dashboard.html")
+      stats = MU.Server.get_stats
+      kchars= stats.kchars
+      IO.puts "\nkchars: #{kchars}\n"
+      IO.inspect(stats)
+      render(conn, "dashboard.html", stats: stats)
     end
 
     def edit_user(conn, params) do

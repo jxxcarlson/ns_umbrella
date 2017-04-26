@@ -1,3 +1,49 @@
+<style>
+ p.large { font-size: 1.4em; }
+
+  .mylabel { font-weight:bold; width:100px; }
+   tr > td
+   {
+     padding-bottom: 0.15em;
+   }
+
+
+</style>
+
+
 <h3>Admin Dashboard</h3>
 
-<p><a href="/admin/users">Users</a></p>
+<p style="font-weight:bold; font-size:1.2em margin-bottom:0;padding-bottom:0;margin-top:2em;">MU Server</p>
+
+<table style="margin-top:0;">
+  <tr>
+     <td class="mylabel"> requests </td>
+     <td> <%= @stats.requests %></td>
+  </tr>
+
+  <tr>
+     <td class="mylabel"> kchars </td>
+     <td> <%= @stats.kchars %></td>
+  </tr>
+
+  <tr>
+     <td class="mylabel"> proc. time </td>
+     <td> <%= @stats.processing_time %> sec</td>
+  </tr>
+
+  <tr>
+     <td class="mylabel"> rate </td>
+     <td> <%= @stats.rate %> ms/1000 chars</td>
+  </tr>
+
+  <tr>
+     <td class="mylabel"> ms/request </td>
+     <td> <%= @stats.t_per_request %></td>
+  </tr>
+
+
+
+</table>
+
+
+<p class="large"><a href="/admin/users">Users</a></p>
