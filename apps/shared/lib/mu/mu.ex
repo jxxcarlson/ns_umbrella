@@ -12,9 +12,11 @@ defmodule MU.RenderText do
 
   alias MU.MathSci
   alias MU.Scholar
+  alias MU.Collate
 
   alias NS.Notebook.TOC
   alias NS.Notebook.TOC2
+
 
 
     # mode = plain | markup | latex | collate | toc

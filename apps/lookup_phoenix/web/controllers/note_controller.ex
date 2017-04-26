@@ -257,7 +257,9 @@ defmodule LookupPhoenix.NoteController do
         end
 
         process = Note.rendering_process(note)
-        rendered_text = Text.render(note.content, %{collate: "no", mode: "show", note_id: note.id, process: process, toc_history: ""})
+        rendered_text = Text.render(note.content, %{collate: "no", mode: "show",
+           note_id: note.id, process: process, toc_history: "",
+           public: note.public})
 
         params = Map.merge(params1, %{nav: navigation_data, rendered_text: rendered_text})
         if current_notebook != nil do
