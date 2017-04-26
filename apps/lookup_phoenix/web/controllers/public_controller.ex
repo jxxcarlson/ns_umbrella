@@ -80,7 +80,7 @@ defmodule LookupPhoenix.PublicController do
       |> Enum.filter(fn(line) -> !Regex.match?(~r/^title/, line) end)
       first_line  = hd(lines)
       [id2, _] = String.split(first_line, ",")
-      redirect(conn, to: "/public/#{note.id}/#{id2}/#{note.id}>#{id2}")
+      redirect(conn, to: "/public/#{note.id}/#{id2}")
   end
 
      def show3(conn, %{"id" => id, "id2" => id2, "toc_history" => toc_history}) do
@@ -149,6 +149,7 @@ defmodule LookupPhoenix.PublicController do
       author = Repo.get(User, note.user_id)
 
       if Enum.member?(note.tags, ":toc") do
+        IO.puts ":TOC => BRANCHING TO DO SHOW2"
         do_show2(conn, note)
       else
         do_show(conn, %{"id" => id, "site" => author.username})

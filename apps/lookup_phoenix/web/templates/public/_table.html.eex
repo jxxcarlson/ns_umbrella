@@ -15,8 +15,10 @@
 
       <td class="hidden-xs" style="max-width:2em"> <%= note.index + 1 %> </td>
 
-      <td style=""> <%= link note.title, to: public_path(@conn, :show, note, index: note.index,
-         id_string: @id_string, site: @site), class: "" %> </td>
+     <!-- <td style=""> <%= link note.title, to: public_path(@conn, :show, note, index: note.index,
+         id_string: @id_string, site: @site), class: "" %> </td> -->
+
+      <td style=""> <%= link note.title, to: public_path(@conn, :show, note), class: "" %> </td>
 
       <td style="width:70%"  class="hidden-xs"><%= raw(MU.RenderText.format_for_index(note.content)) %></td>
 
