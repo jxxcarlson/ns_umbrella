@@ -16,7 +16,7 @@
          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
            <li><%= link "Home", to: page_path(@conn, :index), id: 'home' %></li>
            <li style="font-weight:bold;"><%= link @site, to: "/site/#{@site}" %></li>
-           <li><%= link :Sites, to: "/users" %></li>
+           <li><%= link :Sites, to: "/sites" %></li>
            <li><%= link "Tags", to: "/tags/#{site_name(@conn)}", id: 'tags' %> </li>
 
            <li role="separator" class="divider"></li>
