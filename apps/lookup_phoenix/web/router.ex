@@ -19,7 +19,6 @@ defmodule LookupPhoenix.Router do
     plug :protect_from_forgery
     # plug :assign_kv, ["site", "foobar"]
 
-
     plug :put_secure_browser_headers
     plug LookupPhoenix.Auth, repo: LookupPhoenix.Repo
   end

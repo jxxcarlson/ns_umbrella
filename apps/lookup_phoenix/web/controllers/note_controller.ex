@@ -1,4 +1,5 @@
 defmodule LookupPhoenix.NoteController do
+
   use LookupPhoenix.Web, :controller
   use Timex
 
@@ -124,13 +125,13 @@ defmodule LookupPhoenix.NoteController do
            first_line  = hd(lines)
            parts = String.split(first_line, ",")
            if length(parts) == 1 do
-             redirect(conn, to: "/show2/#{note.id}/#{note.id}/#{note.id}>#{note.id}")
+             redirect(conn, to: "/show2/#{note.id}/#{note.id}")
            else
              [id2, _] = parts
-             redirect(conn, to: "/show2/#{note.id}/#{id2}/#{note.id}>#{id2}")
+             redirect(conn, to: "/show2/#{note.id}/#{id2}")
            end
         true ->
-           redirect(conn, to: "/show2/#{note.id}/#{note.id}/#{note.id}>#{note.id}")
+           redirect(conn, to: "/show2/#{note.id}/#{note.id}")
       end
 
   end
@@ -139,17 +140,12 @@ defmodule LookupPhoenix.NoteController do
 
     IO.puts "THIS IS NOTECONTROLLER . SHOW, ID = #{id}"
     current_user = conn.assigns.current_user
-    if current_user == nil do
-      redirect(:to, "/public/#{id}")
-    end
 
     username = current_user.username
 
     AppState.update(:user, current_user.id, :current_note, String.to_integer(id))
 
     query_string = conn.query_string
-
-
 
     if query_string == "" do
        query_string = "index=0&id_string=#{id}"
@@ -163,7 +159,7 @@ defmodule LookupPhoenix.NoteController do
 
     cond do
       note.parent_id != nil ->
-        conn |> redirect(to: "/show2/#{note.parent_id}/#{note.id}/#{note.parent_id}>#{note.id}")
+        conn |> redirect(to: "/show2/#{note.parent_id}/#{note.id}")
       Enum.member?(note.tags, ":toc") ->
          do_show2(conn, note)
       true ->
@@ -237,7 +233,7 @@ defmodule LookupPhoenix.NoteController do
         navigation_data = NoteNavigation.get(id_list, id)
 
 
-        notebook_url  = "/show2/#{current_notebook_id}/#{current_note_id}/#{current_notebook_id}>#{current_note_id}"
+        notebook_url  = "/show2/#{current_notebook_id}/#{current_note_id}"
         if note.parent_id != nil do
           notebook_link = "<p style=\"float:left\"><a href=\"#{notebook_url}\"> Notebook</a></p>"
         else
