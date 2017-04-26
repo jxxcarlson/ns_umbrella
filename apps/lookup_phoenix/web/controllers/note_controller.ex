@@ -150,30 +150,34 @@ defmodule LookupPhoenix.NoteController do
     IO.puts "THIS IS NOTECONTROLLER . SHOW, ID = #{id}"
     current_user = conn.assigns.current_user
 
-    username = current_user.username
+    if current_user == nil do
 
-    AppState.update(:user, current_user.id, :current_note, String.to_integer(id))
+      redirect(conn, to: "/public/#{id}")
 
-    query_string = conn.query_string
+    else
+        username = current_user.username
 
-    if query_string == "" do
-       query_string = "index=0&id_string=#{id}"
-    end
+        AppState.update(:user, current_user.id, :current_note, String.to_integer(id))
 
-    note = Note.get(id)
+        query_string = conn.query_string
+        if query_string == "" do
+           query_string = "index=0&id_string=#{id}"
+        end
 
-    Notebook.TOC.update_toc_history2(current_user, note)
+        note = Note.get(id)
 
-    # LiveNotebook.auto_update(note)
+        Notebook.TOC.update_toc_history2(current_user, note)
 
-    cond do
-      note.parent_id != nil ->
-        conn |> redirect(to: "/show2/#{note.parent_id}/#{note.id}")
-      Enum.member?(note.tags, ":toc") ->
-         do_show2(conn, note)
-      true ->
-        result = NoteShowAction.call(username, query_string, id)
-      render(conn, "show.html", result)
+        cond do
+          note.parent_id != nil ->
+            conn |> redirect(to: "/show2/#{note.parent_id}/#{note.id}")
+          Enum.member?(note.tags, ":toc") ->
+             do_show2(conn, note)
+          true ->
+            result = NoteShowAction.call(username, query_string, id)
+          render(conn, "show.html", result)
+        end
+
     end
   end
 
@@ -186,14 +190,17 @@ defmodule LookupPhoenix.NoteController do
 
     id = Note.normalize_id(id)
     id2 = Note.normalize_id(id2)
-    Utility.report("SHOW2, ID, ID2", [id, id2])
-    current_user = conn.assigns.current_user
-    IO.puts "current_user: #{current_user.id}"
-    AppState.update(:user, current_user.id, :current_notebook, id)
-    AppState.update(:user, current_user.id, :current_note, id2)
 
-    params = NoteShow2Action.call(conn, %{"id" => id, "id2" => id2, "toc_history" => ""})
-    render(conn, "show2.html", params)
+    current_user = conn.assigns.current_user
+
+    if current_user != nil do
+      AppState.update(:user, current_user.id, :current_notebook, id)
+      AppState.update(:user, current_user.id, :current_note, id2)
+      params = NoteShow2Action.call(conn, %{"id" => id, "id2" => id2, "toc_history" => ""})
+    else
+      redirect(conn, to: "/public/#{id}/#{id2}")
+    end
+
   end
 
   def print(conn, %{"id" => id}) do
