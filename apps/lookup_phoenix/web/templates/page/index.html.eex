@@ -54,9 +54,9 @@ span { color: darkred; font-weight:500;}
      </div>
 
 
-    <p>Try the <a href="/site/demo" target="_blank" >DEMO</a></p>
+    <p>Try the <a href="/sites/demo?page=home" target="_blank" >DEMO</a></p>
 
-    <p>Take a look at the <span><%= link "User Guide", to: "/site/guide" %></span> for advanced features:
+    <p>Take a look at the <span><%= link "User Guide", to: "/sites/guide?page=all" %></span> for advanced features:
    code formatting, mini markup, and LaTeX for mathematics and chemistry. </p>
 
     <br>

@@ -5,6 +5,7 @@ defmodule LookupPhoenix.Search do
     import Ecto.Query
     alias LookupPhoenix.Note
     alias LookupPhoenix.NoteSearch
+    alias LookupPhoenix.Channel
     alias LookupPhoenix.User
     alias LookupPhoenix.Repo
     alias LookupPhoenix.Utility
@@ -81,10 +82,7 @@ defmodule LookupPhoenix.Search do
 
     defp set_channel(channel, options) do
 
-      # BAD CODE ALERT:
-      parts = String.split(channel, ".")
-      channel_user_name = Enum.at(parts, 0)
-      channel_name = Enum.at(parts, -1)
+      [channel_user_name, channel_name] = Channel.normalize(channel)
 
       if channel_user_name == nil do
         channel_user = User.find_by_username("demo")

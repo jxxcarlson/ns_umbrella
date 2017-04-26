@@ -5,6 +5,7 @@ defmodule LookupPhoenix.PublicController do
     alias LookupPhoenix.Identifier
     alias LookupPhoenix.User
     alias LookupPhoenix.Utility
+    alias LookupPhoenix.Channel
     alias LookupPhoenix.Text
     alias LookupPhoenix.Search
     alias LookupPhoenix.Constant
@@ -211,7 +212,8 @@ defmodule LookupPhoenix.PublicController do
       qsMap["tag"] != nil ->
          channel_user = User.find_by_username(site)
          channel = channel_user.channel
-         [channel_name, _] = String.split(channel, ".")
+
+         [channel_name, _] = Channel.normalize(channel)
           access = :public
          notes = Search.tag_search([qsMap["tag"]], channel, access)
       true ->
