@@ -182,7 +182,8 @@ defmodule LookupPhoenix.PublicController do
   def index(conn, params) do
 
     current_user = conn.assigns.current_user
-    site = params["site"]
+    # params["site"] could be like foo.all or it could be like foo
+    site = params["site"] |> String.split(".") |> hd
     qsMap = Utility.qs2map(conn.query_string)
 
     cond do
@@ -208,8 +209,8 @@ defmodule LookupPhoenix.PublicController do
         |> Utility.random_element
         notes = [note]
       qsMap["tag"] != nil ->
-        user = User.find_by_username(site)
-         channel = user.channel
+         channel_user = User.find_by_username(site)
+         channel = channel_user.channel
          [channel_name, _] = String.split(channel, ".")
           access = :public
          notes = Search.tag_search([qsMap["tag"]], channel, access)
