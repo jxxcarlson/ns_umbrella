@@ -136,6 +136,15 @@ defmodule LookupPhoenix.NoteController do
 
   end
 
+  def xnote(conn, %{"id" => id}) do
+    current_user = conn.assigns.current_user
+    if current_user == nil do
+      redirect(conn, to: "/public/#{id}")
+    else
+      redirect(conn, to: "notes/#{id}")
+    end
+  end
+
   def show(conn, %{"id" => id}) do
 
     IO.puts "THIS IS NOTECONTROLLER . SHOW, ID = #{id}"

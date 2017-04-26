@@ -46,6 +46,7 @@ defmodule LookupPhoenix.Router do
     get "show2/:id/:id2", NoteController, :show2
     get "show2/:id/:id2/:toc_history", NoteController, :show3
     get "print/:id", NoteController, :print
+    get "xnotes/:id", NoteController, :xnote
 
     post "/set_channel", NoteController, :set_channel
 
