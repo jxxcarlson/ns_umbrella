@@ -18,7 +18,8 @@ defmodule LookupPhoenix.AdminController do
 
     def dashboard(conn, _) do
       stats = MU.Server.get_stats
-      render(conn, "dashboard.html", stats: stats)
+      requests_per_hour = stats.requests/stats.uptime |> Float.round(1)
+      render(conn, "dashboard.html", stats: stats, requests_per_hour: requests_per_hour)
     end
 
     def edit_user(conn, params) do

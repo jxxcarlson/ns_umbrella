@@ -29,6 +29,11 @@
       </tr>
 
       <tr>
+         <td class="mylabel"> requests/hr </td>
+         <td> <%= @requests_per_hour %></td>
+      </tr>
+
+      <tr>
          <td class="mylabel"> kchars </td>
          <td> <%= @stats.kchars %></td>
       </tr>

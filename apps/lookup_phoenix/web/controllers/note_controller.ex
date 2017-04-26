@@ -197,6 +197,7 @@ defmodule LookupPhoenix.NoteController do
       AppState.update(:user, current_user.id, :current_notebook, id)
       AppState.update(:user, current_user.id, :current_note, id2)
       params = NoteShow2Action.call(conn, %{"id" => id, "id2" => id2, "toc_history" => ""})
+      render(conn, "show2.html", params)
     else
       redirect(conn, to: "/public/#{id}/#{id2}")
     end
