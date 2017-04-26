@@ -34,6 +34,7 @@ defmodule LookupPhoenix.AdminController do
     def update_user(conn, params) do
       user = Repo.get!(User, params["id"])
       password = params["user"]["password"]
+      User.change_password(user, password)
       conn
       |> put_flash(:info, "Password changed for #{user.username}")
       |> redirect(to: "/admin/users" )
