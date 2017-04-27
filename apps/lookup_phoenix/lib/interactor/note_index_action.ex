@@ -49,6 +49,8 @@ defmodule LookupPhoenix.NoteIndexAction do
   end
 
   defp handle_recall(current_user) do
+     channel = current_user.username <> ".all"
+     User.set_channel(current_user, channel)
      notes = ( AppState.get(:user, current_user.id, :search_history) || [] )
      |> Enum.map(fn(id) -> Note.get(id) end)
       %{notes: notes, note_count: Enum.count(notes), original_note_count: 0}

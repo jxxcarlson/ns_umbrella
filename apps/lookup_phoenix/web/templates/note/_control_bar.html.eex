@@ -23,13 +23,15 @@
 <div style="height:40px;margin-top:-20px;">
 
   <span class="hidden-xs">
+
   <span  style="margin-left:6px; float: right;"><%= button("My channel", to: "/set_channel", method: "post", channel: "jxxcarlson.all", class: "btn", style: "background-color: white;") %></span>
+
    <%= form_for @conn, note_path(@conn, :set_channel), [as: :set], fn f -> %>
         <%= text_input f, :channel, placeholder: "Enter channel ...", autocorrect: "off", autocapitalize: "off",
             value: @conn.assigns.current_user.channel, class: "channel", id: "search_notes" %>
-        <!-- <%= submit "cc", as: "save_option", value: "continue", class: "btn btn-primary", style: "width: 20px;", id: 'save1', style: "float:right;margin-right:6px;" %> -->
-    <%= end %>
-  <span>
+   <%= end %>
+
+  </span>
 
   <span>
    <!-- <%= link "Get", to: note_path(@conn, :index, mode: "all"), class: "btn btn-default btn-s", id: "all_notes", style: "" %> -->
@@ -46,8 +48,6 @@
    -->
 
   </span>
-
-   <!-- <span style="float:right; margin-right:5px;margin-top:4px;"><%= @conn.assigns.current_user.channel %> <span> -->
 
 </div>
 </div>

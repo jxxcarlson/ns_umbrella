@@ -106,6 +106,8 @@ defmodule LookupPhoenix.NoteController do
 
 
   def set_channel(conn, params) do
+    IO.puts "this is NOTE CONTROLLER . SET CHANNEL"
+    Utility.report("params", params)
     current_user = conn.assigns.current_user
     channel = params["set"]["channel"]
     if channel == nil or channel == "" do
@@ -114,6 +116,7 @@ defmodule LookupPhoenix.NoteController do
     if current_user != nil do
       IO.puts "USER . SET CHANNEL TO #{channel} for user #{current_user.username}"
     end
+    User.set_channel(current_user, channel)
     redirect(conn, to: "/notes?channel=#{channel}")
   end
 
