@@ -2,6 +2,7 @@ defmodule LookupPhoenix.NoteIndexAction do
 
   alias LookupPhoenix.Note
   alias LookupPhoenix.Search
+  alias LookupPhoenix.Channel
   alias LookupPhoenix.User
   alias LookupPhoenix.Utility
 
@@ -80,7 +81,8 @@ defmodule LookupPhoenix.NoteIndexAction do
 
   defp channel_access(current_user) do
     channel = current_user.channel
-    [channel_name, _] = String.split(channel, ".")
+    [channel, channel_name, tag] = Channel.normalize(channel)
+
     if channel_name == current_user.username do
       [channel, %{access: :all}]
     else

@@ -43,7 +43,7 @@ defmodule LookupPhoenix.NoteSearch do
 
     def select_by_channel(query, channel) do
 
-       [username, tag] = Channel.normalize(channel)
+       [_, username, tag] = Channel.normalize(channel)
 
        user = User.find_by_username(username)
        if user == nil do

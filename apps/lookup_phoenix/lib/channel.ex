@@ -18,7 +18,7 @@ defmodule LookupPhoenix.Channel do
     if tag == site_name do
       tag = "public"
     end
-    [site_name, tag]
+    [site_name <> "." <> tag, site_name, tag]
   end
 
 

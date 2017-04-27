@@ -82,7 +82,7 @@ defmodule LookupPhoenix.Search do
 
     defp set_channel(channel, options) do
 
-      [channel_user_name, channel_name] = Channel.normalize(channel)
+      [_, channel_user_name, channel_name] = Channel.normalize(channel)
 
       if channel_user_name == nil do
         channel_user = User.find_by_username("demo")

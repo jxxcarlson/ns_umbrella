@@ -10,6 +10,7 @@ defmodule LookupPhoenix.User do
   alias LookupPhoenix.Tag
   alias LookupPhoenix.User
   alias LookupPhoenix.Utility
+  alias LookupPhoenix.Channel
 
 
   schema "users" do
@@ -112,7 +113,7 @@ defmodule LookupPhoenix.User do
         user_id = user.id
         access = :public
 
-        [channel_user_name, channel_name] = String.split(user.channel, ".")
+        [_, channel_user_name, channel_name] = Channel.normalize(user.channel)
 
         if channel_user_name == user.username do
           access = :all
@@ -281,6 +282,8 @@ defmodule LookupPhoenix.User do
   end
 
   def set_channel(user, channel) do
+    # Make sure that the channel is valid before changing it
+    [channel, _, _] = Channel.normalize(channel)
     params = %{"channel" =>  channel}
     changeset = User.channel_changeset(user, params)
     Repo.update(changeset)

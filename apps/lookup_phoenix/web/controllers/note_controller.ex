@@ -141,7 +141,7 @@ defmodule LookupPhoenix.NoteController do
     if current_user == nil do
       redirect(conn, to: "/public/#{id}")
     else
-      redirect(conn, to: "notes/#{id}")
+      redirect(conn, to: "/notes/#{id}")
     end
   end
 
