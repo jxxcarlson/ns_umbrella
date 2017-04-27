@@ -48,4 +48,12 @@ config :lookup_phoenix,
   host_url: "http://localhost:4001",
   app_name: "NoteFile"
 
+config :arc,
+ storage: Arc.Storage.Local,
+ bucket: "noteimages"
+
+config :ex_aws,
+ access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+ secret_access_key: "AWS_SECRET_ACCESS_KEY"
+
 # Access the above by: Application.get_env(:deploy_vars, :host_url)

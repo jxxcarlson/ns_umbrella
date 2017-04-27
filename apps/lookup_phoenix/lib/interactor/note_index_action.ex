@@ -4,11 +4,15 @@ defmodule LookupPhoenix.NoteIndexAction do
   alias LookupPhoenix.Search
   alias LookupPhoenix.Channel
   alias LookupPhoenix.User
+  alias LookupPhoenix.AppState
   alias LookupPhoenix.Utility
 
   def call(conn) do
     current_user = conn.assigns.current_user
     qsMap = Utility.qs2map(conn.query_string)
+    IO.puts "This is NoteIndexAction"
+    IO.inspect(qsMap)
+    IO.puts "------------------"
     list(current_user, qsMap)
   end
 
@@ -23,6 +27,8 @@ defmodule LookupPhoenix.NoteIndexAction do
          handle_random_many_request(current_user, qsMap)
        qsMap["tag"] != nil  ->
          handle_tag_request(current_user, qsMap)
+       qsMap["recall"] == "yes" and current_user != nil ->
+         handle_recall(current_user)
        true ->
          handle_default_request(current_user, qsMap)
      end
@@ -40,6 +46,12 @@ defmodule LookupPhoenix.NoteIndexAction do
 
      %{branch: branch, note_record: note_record, notes: notes,
         id_string: id_string, noteCountString: note_count_string}
+  end
+
+  defp handle_recall(current_user) do
+     notes = ( AppState.get(:user, current_user.id, :search_history) || [] )
+     |> Enum.map(fn(id) -> Note.get(id) end)
+      %{notes: notes, note_count: Enum.count(notes), original_note_count: 0}
   end
 
   defp handle_channel_request(current_user, qsMap) do

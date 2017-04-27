@@ -1,13 +1,5 @@
-defmodule LookupPhoenix.ImageUploader do
-
-    use Arc.Definition
-    use Arc.Ecto.Definition
-    def __storage, do: Arc.Storage.Local  # works
-
-    # def __storage, do: Arc.Storage.S3
-    # def __bucket, do: "noteimages"
-    # def __bucket, do: {:system, "noteimages"}
-    # def __storage, do: Arc.Storage.Local
+defmodule LookupPhoenix.Avatar do
+  use Arc.Definition
 
   # Include ecto support (requires package arc_ecto installed):
   # use Arc.Ecto.Definition

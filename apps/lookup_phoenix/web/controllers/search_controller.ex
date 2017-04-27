@@ -16,6 +16,8 @@ defmodule LookupPhoenix.SearchController do
 
     def index(conn, %{"search" => %{"query" => query}}) do
 
+        IO.puts "This is SEARCH CONTROLLER . INDEX, query = #{query}"
+
         current_user = conn.assigns.current_user
 
         if current_user == nil do

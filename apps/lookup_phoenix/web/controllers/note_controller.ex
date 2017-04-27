@@ -42,6 +42,8 @@ defmodule LookupPhoenix.NoteController do
   # MORE?
   def index(conn, _params) do
 
+   IO.puts "This is NOTE CONTOLLER . INDEX  "
+
      result = NoteIndexAction.call(conn)
 
    if result.branch == "site"  do
