@@ -14,7 +14,7 @@ defmodule MU.List do
     end
 
     defp formatItem  (item) do
-      "<span style='margin-left:2em; text-indent:-0.7em;display:inline-block;margin-bottom:0.3em;'>&bullet;  #{item}</span>\n\n"
+      "<span class='mu_item'>&bullet;  #{item}</span>\n\n"
     end
 
 

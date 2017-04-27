@@ -14,7 +14,7 @@ defmodule MU.CSS do
 
     }
 
-    p { margin-bottom:1em;
+    p { margin-bottom:0.5;
         font-size: 1em;}
 
     p.toc {
@@ -32,6 +32,12 @@ defmodule MU.CSS do
      .note_index_item a {
        color: darkred;
      }
+
+    .mu_item {
+       margin-left:2em;
+       text-indent:-0.7em;
+       display:inline-block;
+    }
 
     .blurb {
        margin-bottom: 3em;
