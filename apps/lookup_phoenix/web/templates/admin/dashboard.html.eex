@@ -60,4 +60,10 @@
 
   <p class="large"><a href="/admin/users">Users</a></p>
 
-</div>
+  <p class="large"><a href="/images">Images</a></p>
+
+  <p class="large"><a href="https://dashboard.heroku.com/apps/notefile">Heroku Console</p>
+
+  <p class="large"><a href="https://aws.amazon.com/console/">AWS Console</p>
+
+ </div>

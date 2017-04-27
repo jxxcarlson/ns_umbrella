@@ -8,6 +8,7 @@ defmodule LookupPhoenix.UserController do
   alias LookupPhoenix.Repo
   alias LookupPhoenix.Utility
   alias LookupPhoenix.SearchController
+  alias LookupPhoenix.Channel
   alias LookupPhoenix.Constant
 
   import Joken
