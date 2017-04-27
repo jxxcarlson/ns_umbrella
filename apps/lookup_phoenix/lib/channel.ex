@@ -1,5 +1,7 @@
 defmodule LookupPhoenix.Channel do
 
+  alias LookupPhoenix.User
+
 
   @doc """
   Parse channel and reassemble into

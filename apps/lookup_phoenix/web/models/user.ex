@@ -196,7 +196,7 @@ defmodule LookupPhoenix.User do
 
   def update_channel(user,channel) do
         params = %{"channel" => channel}
-        [channel, _, _] = Channel.validated_chanel(user, channel)
+        [channel, _, _] = Channel.validated_channel(user, channel)
         changeset = User.running_changeset(user, params)
         Repo.update(changeset)
   end
