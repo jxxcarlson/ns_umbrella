@@ -18,7 +18,11 @@ defmodule LookupPhoenix.AdminController do
 
     def dashboard(conn, _) do
       stats = MU.Server.get_stats
-      requests_per_hour = stats.requests/stats.uptime |> Float.round(1)
+      if stats.uptime > 0 do
+        requests_per_hour = stats.requests/stats.uptime |> Float.round(1)
+      else
+        requests_per_hour = "-"
+      end
       render(conn, "dashboard.html", stats: stats, requests_per_hour: requests_per_hour)
     end
 
