@@ -136,6 +136,20 @@ defmodule MU.Block do
     %{ data | :text => text }
   end
 
+  defp make_clickblock(line) do
+    [question, answer] = String.split(line, "|") |> Enum.map(fn(item) -> String.trim(item) end)
+    identifier = random_string(4)
+    "<p><span id=\"QQ.#{identifier}\" class=\"answer_head\">#{question}</span> <span id=\"QQ.#{identifier}.A\" class=\"hide_answer\">#{answer}</span></p>"
+  end
+
+  defp transform_block(:clicktable, data, params) do
+     new_contents = String.split(params.contents, ["\n", "\r", "\r\n"])
+     |> Enum.reduce("", fn(line, acc) -> acc <> "\n" <> make_clickblock(line) end)
+     replacement = "<div class='clicktable'>\n#{new_contents}</div>"
+     text = String.replace(data.text, params.target, replacement)
+     %{ data | :text => text }
+  end
+
   defp transform_block(:env, data, params) do
     cond do
       params.species != nil ->
@@ -270,6 +284,8 @@ defmodule MU.Block do
     %{ data | :text => text }
   end
 
+
+
   @doc """
   head_excerpt(text, N):
     1. If the text begins with a hyperlink, return it.
@@ -324,6 +340,8 @@ defmodule MU.Block do
   def formatVerbatim(text) do
         Regex.replace(~r/----(?:\r\n|[\r\n])(.*)(?:\r\n|[\r\n])----/msr, text, "<pre>\\1</pre>")
   end
+
+
 
 
 
