@@ -1,4 +1,4 @@
-defmodule LookupPhoenix.NoteTest do
+defmodule LookupPhoenix.NoteSettingsTest do
   use LookupPhoenix.ModelCase
 
   alias LookupPhoenix.Note

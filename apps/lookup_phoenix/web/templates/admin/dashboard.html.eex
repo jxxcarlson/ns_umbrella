@@ -62,8 +62,14 @@
 
   <p class="large"><a href="/images">Images</a></p>
 
-  <p class="large"><a href="https://dashboard.heroku.com/apps/notefile">Heroku Console</p>
 
-  <p class="large"><a href="https://aws.amazon.com/console/">AWS Console</p>
+  <p class="large" style="margin-top:1.5em;"><a href="https://dashboard.heroku.com/apps/notefile" target="_blank">Heroku Console</p>
+
+  <p class="large"><a href="https://aws.amazon.com/console/" target="_blank">AWS Console</p>
+
+  <p class="large"><a href="https://notefile.herokuapp.com/notes/1083" target="_blank">Open Issues</p>
+
+  <p class="large"><a href="https://notefile.herokuapp.com/notes/762" target="_blank"   >To Do List</p>
+
 
  </div>
