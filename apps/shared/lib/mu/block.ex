@@ -136,16 +136,37 @@ defmodule MU.Block do
     %{ data | :text => text }
   end
 
-  defp make_clickblock(line) do
+  defp make_clickblock(line, counter) do
     [question, answer] = String.split(line, "|") |> Enum.map(fn(item) -> String.trim(item) end)
     identifier = random_string(4)
-    "<p><span id=\"QQ.#{identifier}\" class=\"answer_head\">#{question}</span> <span id=\"QQ.#{identifier}.A\" class=\"hide_answer\">#{answer}</span></p>"
+    "<p><span id=\"QQ.#{identifier}\" class=\"answer_head\">#{counter + 1}. #{question}</span> <span id=\"QQ.#{identifier}.A\" class=\"hide_answer\">#{answer}</span></p>\n"
   end
+
 
   defp transform_block(:clicktable, data, params) do
      new_contents = String.split(params.contents, ["\n", "\r", "\r\n"])
-     |> Enum.reduce("", fn(line, acc) -> acc <> "\n" <> make_clickblock(line) end)
-     replacement = "<div class='clicktable'>\n#{new_contents}</div>"
+     |> Enum.reduce(%{counter: 0, text: ""}, fn(line, acc)
+        -> %{counter: acc.counter + 1, text: acc.text <> make_clickblock(line, acc.counter)} end)
+     Utility.report("new_contents", new_contents)
+     replacement = "<div class='clicktable'>\n#{new_contents.text}</div>"
+     text = String.replace(data.text, params.target, replacement)
+     %{ data | :text => text }
+  end
+
+  defp make_reverse_clickblock(line, counter) do
+    [question, answer] = String.split(line, "|") |> Enum.map(fn(item) -> String.trim(item) end)
+    identifier = random_string(4)
+    "<p><span id=\"QQ.#{identifier}\" class=\"answer_head\">#{counter + 1}. #{answer}</span> <span id=\"QQ.#{identifier}.A\" class=\"hide_answer\">#{question}</span></p>\n"
+  end
+
+
+
+  defp transform_block(:reverse_clicktable, data, params) do
+     new_contents = String.split(params.contents, ["\n", "\r", "\r\n"])
+     |> Enum.reduce(%{counter: 0, text: ""}, fn(line, acc)
+        -> %{counter: acc.counter + 1, text: acc.text <> make_reverse_clickblock(line, acc.counter)} end)
+     Utility.report("new_contents", new_contents)
+     replacement = "<div class='clicktable'>\n#{new_contents.text}</div>"
      text = String.replace(data.text, params.target, replacement)
      %{ data | :text => text }
   end
