@@ -171,6 +171,11 @@ defmodule LookupPhoenix.NoteController do
 
         note = Note.get(id)
 
+        if note == nil do
+
+         IO.puts "WTF!, note #{id} is NIL"
+        end
+
         Notebook.TOC.update_toc_history2(current_user, note)
 
         cond do
