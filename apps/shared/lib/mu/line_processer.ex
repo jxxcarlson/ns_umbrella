@@ -7,7 +7,7 @@ defmodule MU.LineProcessor do
   def work(text) do
 
     String.split(text, ["\n", "\r", "\r\n"])
-    |> Enum.reduce("", fn(line, acc) ->
+    |> Enum.reduce("", fn(line, acc) -> line end)
 
   end
 

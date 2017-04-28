@@ -43,11 +43,6 @@ input[type=checkbox]
 
 </style>
 
-<script>
-
-  <%= raw(MU.JS.inject("rendered_text3a")) %>
-
-</script>
 
 <meta name="csrf" content="<%= Plug.CSRFProtection.get_csrf_token() %>">
 
@@ -78,7 +73,7 @@ input[type=checkbox]
      </div>
 
      <div id="rendered_text3a" class="rendered_text3">
-       <%= render "_rendered_text.html", rendered_text: @rendered_text %>
+       <%= raw(@rendered_text) %>
      </div>
   </div>
 
@@ -137,6 +132,10 @@ input[type=checkbox]
 <% end %>
 
 <script>
+  <%= raw(MU.JS.inject("rendered_text3a")) %>
+</script>
+
+<script>
     document.getElementById("content3").style.height = (window.innerHeight - 300) + 'px'
     document.getElementById("rendered_text3a").style.height = (window.innerHeight - 300) + 'px'
     console.log("window.innerHeight: " + window.innerHeight)
@@ -146,9 +145,11 @@ input[type=checkbox]
 
 <script>
 
+
 function newTypeset(){
    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 }
+
 
 $("#yada").click(function() {
 
@@ -200,4 +201,7 @@ $("#yada").click(function() {
   });
 
 </script>
+
+
+
 

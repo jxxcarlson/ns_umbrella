@@ -229,8 +229,6 @@ defmodule MU.Block do
   """
   defp transform_env_block(:texmacro, data, params) do
 
-     IO.puts "HOLA -- this is transform_env_block :TEXMACRO"
-
     contents = String.split(params.contents, ["\n", "\r", "\r\n"])
       |> Enum.filter(fn(line) -> line != "" end)
       |> Enum.map(fn(line) -> "\\[#{line}\\]" end)

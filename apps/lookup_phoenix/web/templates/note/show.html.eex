@@ -90,9 +90,6 @@ span.standard {
 
 
 <script>
-
-  <%= raw(MU.JS.inject()) %>
-
-
-
+  <%= raw(MU.JS.inject("rendered_text")) %>
 </script>
+

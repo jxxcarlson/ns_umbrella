@@ -90,6 +90,7 @@ p.title {
 
 <div id="rendered_text2x" class="rendered_text2x">
    <%= raw(@rendered_text2) %>
+
 </div>
 
 <div style="clear:both;margin-top:1em;">
@@ -117,17 +118,16 @@ p.title {
 </script>
 
 
-
-<script>
-
-  <%= MU.JS.inject() %>
-
-</script>
-
-
 <script>
   var active_note_id = "note:" + $('[id^="active_note"]')[0].id.split(":")[1]
   var heading = document.getElementById(active_note_id)
   heading.style.backgroundColor = "#ffeded"
   heading.style.fontWeight = "bold"
 </script>
+
+<script>
+
+  <%= raw(MU.JS.inject("rendered_text2x")) %>
+
+</script>
+
