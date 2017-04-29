@@ -90,7 +90,7 @@ defmodule MU.Parser do
     :block_end
 
     :verbatim
-    :math
+    :math_block
 
     :block_separator
 """
@@ -99,11 +99,11 @@ defmodule MU.Parser do
     cond do
       line == "" -> :blank_line
       String.slice(line, 0,1) == "[" -> :block_header
-      !Enum.member?([:verbatim, :start], symbol) && Enum.member?(["--"], line) -> :block_separator
+      Enum.member?(["--"], line) -> :block_separator
       Enum.member?([:verbatim, :paragraph, :start], symbol) && line == "----" -> :verbatim_separator
-      line == "\[" -> :begin_math
-      line == "\]" -> :end_math
-      line == "$$" -- :dollar_math_2
+      line == "\\[" -> :math_begin
+      line == "\\]" -> :math_end
+      line == "$$" -> :dollar_math_2
       Regex.match?(~r/\A=*$/, line) -> :section_heading
       true -> :ordinary_line
     end
@@ -115,19 +115,27 @@ defmodule MU.Parser do
   abc
 """
   def header_contents(header) do
+    IO.puts "HEADER: #{header}"
     String.slice(header, 1, String.length(header) - 2)
+  end
+
+  def new_state(state, blocks, symbol) do
+     %{ state | blocks: blocks, current_block: [], block_info: %{}, symbol: symbol}
   end
 
   def ns3b(line, state) do
     line_type = type_of_line3(line, state.symbol)
     symbol = state.symbol
-    IO.inspect {symbol, line_type, state.current_block, state.blocks}
+    IO.inspect {symbol, line_type, line}
+    #IO.inspect {symbol, line_type, state.current_block, state.blocks}
 
     output = cond do
 
     # start
      {:start, :ordinary_line} == {symbol, line_type} ->
        %{ state | current_block: state.current_block ++ [line], symbol: :paragraph}
+    {:start, :math_begin} == {symbol, line_type} ->
+       %{ state | symbol: :math_block }
      {:start, :block_header} == {symbol, line_type} ->
        block_info = %{block_headers: [header_contents(line)], block_separator: nil}
        %{ state | block_info: block_info, symbol: :block_start}
@@ -143,8 +151,15 @@ defmodule MU.Parser do
        paragraph = state.current_block
        blocks = state.blocks ++ [%{type: :paragraph, content: paragraph}]
        %{ state | blocks: blocks, current_block: [], symbol: :verbatim}
+     {:paragraph, :math_begin} == {symbol, line_type} ->
+       paragraph = state.current_block
+       blocks = state.blocks ++ [%{type: :paragraph, content: paragraph}]
+       %{ state | blocks: blocks, current_block: [], symbol: :math_block}
      {:paragraph, :blank_line } == {symbol, line_type} ->
-       %{ state | symbol: :blank_line}
+       paragraph = state.current_block
+       blocks = state.blocks ++ [%{type: :paragraph, content: paragraph}]
+       new_state(state, blocks, :start)
+       # %{ state | blocks: blocks, current_block: [], block_info: %{}, symbol: :start}
 
      # blank_line
      {:blank_line, :ordinary_line } == {symbol, line_type} ->
@@ -152,9 +167,10 @@ defmodule MU.Parser do
      {:blank_line, :blank_line } == {symbol, line_type} ->
        paragraph = state.current_block
        blocks = state.blocks ++ [%{type: :paragraph, content: paragraph}]
-       %{ state | blocks: blocks, current_block: [], symbol: :start}
+       new_state(state, blocks, :start)
+       #%{ state | blocks: blocks, current_block: [], symbol: :start}
 
-     # block_start
+      # block_start
      {:block_start, :block_header } == {symbol, line_type} ->
        block_headers = state.block_info[:headers] ++ [header_contents(line)]
        block_info = %{state.block_info | block_headers: block_headers}
@@ -170,7 +186,8 @@ defmodule MU.Parser do
        contents = state.current_block
        block = %{contents: contents, block_info: state.block_info, type: :block}
        blocks = state.blocks ++ [block]
-       %{ state | blocks: blocks, current_block: [], block_info: %{}, symbol: :block_end}
+       new_state(state, blocks, :block_end)
+       #%{ state | blocks: blocks, current_block: [], block_info: %{}, symbol: :block_end}
      :block_body == symbol && !Enum.member?([:block_header, :block_separator], line_type) ->
        contents = state.current_block ++ [line]
        %{ state | current_block: contents }
@@ -192,9 +209,20 @@ defmodule MU.Parser do
      {:verbatim, :verbatim_separator} == { symbol, line_type} ->
        new_block = %{contents: state.current_block, type: :verbatim, block_info: %{}}
        blocks = state.blocks ++ [new_block]
-       %{state | blocks: blocks, current_block: [ ], block_info: %{}, symbol: :start}
+       new_state(state, blocks, :start)
+       # %{state | blocks: blocks, current_block: [ ], block_info: %{}, symbol: :start}
 
-     true ->
+    # math
+    :math_block == symbol && !Enum.member?([:math_begin, :math_end], line_type) ->
+      current_block = state.current_block ++ [line]
+      %{state | current_block: current_block}
+    :math_block == symbol && :math_end == line_type ->
+      new_block = %{contents: state.current_block, type: :math_block, block_info: %{}}
+      blocks = state.blocks ++ [new_block]
+      new_state(state, blocks, :start)
+      # %{state | blocks: blocks, current_block: [ ], block_info: %{}, symbol: :start}
+
+    true ->
         state
     end
 
