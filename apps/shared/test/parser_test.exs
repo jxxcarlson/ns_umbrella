@@ -59,7 +59,12 @@ a =
      b = c
 
 ----
+
+== Section BBBB
+
 Line 3
+
+
 Line 4
 
 [quote]
