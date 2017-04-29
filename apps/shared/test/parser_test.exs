@@ -36,10 +36,26 @@ Line3
 Don't cry over spilled milk;
 --
 
+
 Line5
 Line6
 
 
+
+"""
+
+@text_with_verbatim """
+
+Line 1
+Line 2
+----
+
+a =
+     b = c
+
+----
+Line 3
+Line 4
 
 """
 
@@ -61,9 +77,10 @@ Line6
     IO.inspect output
   end
 
-    test "parser3 with a block" do
-    output = Parser.parse3(@text2)
-    IO.puts "-------------------------"
-    IO.inspect output
+  test "parser3 with a block" do
+    output = Parser.parse3(@text_with_verbatim).blocks
+    IO.puts "\n-------------------------\n"
+    output |> Enum.map(fn(block) -> IO.inspect(block) end)
   end
+
 end
