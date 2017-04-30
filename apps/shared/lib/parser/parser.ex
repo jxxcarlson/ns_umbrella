@@ -18,7 +18,7 @@ defmodule XMU do
 
   initial state for parser = %{blocks: [], blockinfo: %{}, current_block:[], symbol: :start}
 
-  block = %{ contents: contents, block_info: block_info, type: :atom}
+  block = %{ content: content, block_info: block_info, type: :atom}
 
   contents = [lines]
 
@@ -61,6 +61,7 @@ defmodule XMU do
 
 
 """
+
 
   def type_of_line(line, symbol) do
     cond do
@@ -135,12 +136,9 @@ defmodule XMU do
        new_block = create_block(:paragraph, state)
        new_state(state, new_block, :verbatim)
      {:paragraph, :math_begin} == {symbol, line_type} ->
-       paragraph = state.current_block
-       blocks = state.blocks ++ [%{type: :paragraph, content: paragraph}]
-       %{ state | blocks: blocks, current_block: [], symbol: :math_block}
+       new_block = create_block(:paragraph, state)
+       new_state(state, new_block, :math_block)
      {:paragraph, :blank_line } == {symbol, line_type} ->
-       # paragraph = state.current_block
-       # new_block = create_block(:paragraph, paragraph, %{})
        new_block = create_block(:paragraph, state)
        new_state(state, new_block, :start)
 
@@ -161,7 +159,6 @@ defmodule XMU do
        else
          state
        end
-
 
       # block_start
      {:block_start, :block_header } == {symbol, line_type} ->
@@ -201,13 +198,14 @@ defmodule XMU do
        new_state(state, new_block, :start)
 
 
-    # math
+    # math_block
     :math_block == symbol && !Enum.member?([:math_begin, :math_end], line_type) ->
       current_block = [line|state.current_block]
       %{state | current_block: current_block}
     :math_block == symbol && :math_end == line_type ->
       new_block = create_block(:math_block, state)
       new_state(state, new_block, :start)
+
     true ->
         state
     end
@@ -224,19 +222,15 @@ defmodule XMU do
 
   #####################
 
-    def render(text, options) do
-      parse(text)
+    def render(text) do
+      parse(text).blocks
       |> render_blocks
     end
 
     def render_blocks(blocks) do
-      Enum.reduce(blocks, "", fn(block) -> Block.render(block.type, block) end)
+      Enum.reduce(blocks, "", fn(block, acc) -> Block.render(block.type, block) <> acc end)
     end
 
-    def render_block(:block, block) do
-
-
-    end
 
 
 

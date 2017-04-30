@@ -2,7 +2,7 @@ defmodule ParserTest do
   use ExUnit.Case
   # doctest Shared
 
-  alias XXMU
+  alias XMU
 
 @text1 """
 Line 1
@@ -95,7 +95,7 @@ Hey ho!
     block_4 = Enum.at(output, 4)
     block_5 = Enum.at(output, 7)
 
-    assert block_0 ==  %{content: ["Line 2", "Line 1", ], type: :paragraph}
+    assert block_0 ==  %{content: ["Line 2", "Line 1"], type: :paragraph, block_info: %{}}
     assert block_1 ==  %{block_info: %{}, content: ["a^2 = b^2 + c^2"], type: :math_block}
     assert block_2 ==  %{content: ["Line B", "Line A"], type: :paragraph, block_info: %{}}
     assert block_3 ==  %{block_info: %{}, type: :verbatim, content: ["", "     b = c", "a =", ""]}
@@ -115,12 +115,8 @@ Hey ho!
     output |> Enum.map(fn(block) -> IO.inspect(block) end)
   end
 
-
-  test "math_block" do
-    block = %{type: :math_block, contents: ["a^2 + b^2 = c^2"], block_info: %{}}
-    output = XMU.render_block(:math_block, block)
-    expected_output = "\n\\[\na^2 + b^2 = c^2\n\\]\n"
-    assert output == expected_output
+  test "render with output" do
+    IO.puts XMU.render(@text_with_verbatim)
   end
 
 end
