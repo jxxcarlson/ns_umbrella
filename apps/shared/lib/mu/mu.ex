@@ -17,7 +17,9 @@ defmodule MU.RenderText do
   alias NS.Notebook.TOC
   alias NS.Notebook.TOC2
 
+  alias MU.Parser
 
+  @testing false
 
     # mode = plain | markup | latex | collate | toc
 
@@ -39,7 +41,13 @@ defmodule MU.RenderText do
             env_texmacro = "\n[env.texmacro]\n--\n#{texmacros}\n--\n"
             text = env_texmacro <> text
           end
-          format_latex(text, options)  |> filterComments
+          if @testing == true do
+            Parser.format_latex(text, options)
+          else
+            format_latex(text, options)  |> filterComments
+          end
+
+
         :collection -> Collate.collate(text, options) |> format_latex(options)  |> filterComments
         :notebook -> TOC.process(text, options)
         :book -> TOC2.render(text)
@@ -48,6 +56,9 @@ defmodule MU.RenderText do
       # Utility.benchmark(begin_time, text, "0. MU.transform")
       result
     end
+
+
+
 
     defp format_markup(text, options) do
       text
