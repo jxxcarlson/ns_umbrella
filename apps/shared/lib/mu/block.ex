@@ -1,7 +1,7 @@
 defmodule MU.Block do
 
   import MU.Regex
-  alias LookupPhoenix.Utility
+  alias MU.Utility
 
 
   def split_at(str, sep_str) do

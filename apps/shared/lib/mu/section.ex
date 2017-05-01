@@ -1,6 +1,6 @@
 defmodule MU.Section do
 
-   alias LookupPhoenix.Utility
+   alias MU.Utility
 
     defp formatSectionHeading(triple, text) do
       [target, prefix, item] = triple

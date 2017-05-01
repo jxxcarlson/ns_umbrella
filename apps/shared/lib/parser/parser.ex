@@ -2,6 +2,19 @@ defmodule XMU do
 
   alias XMU.Block
 
+#  @type block_headers :: [String.t]
+#
+#  defmodule BlockInfo do
+#    defstruct block_headers: ["foo"], block_separator: "--"
+#    @type block_info :: %BlockInfo{ block_headers: [String.t], block_separator: String.t }
+#  end
+#
+#  defmodule ParserStatte do
+#    defstruct
+#  end
+
+
+
   @docinfo """
   A simple parser for the mu markup language.
   It uses a finite-state machine. The aim is to parse

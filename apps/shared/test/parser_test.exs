@@ -72,9 +72,63 @@ Line 4
 This is a test.
 --
 
+[env.equation]
+--
+a^2 + b^2 = c^2
+--
+
 Hey ho!
 
 """
+
+
+@long_example """
+
+Line 1
+Line 2
+\\[
+a^2 = b^2 + c^2
+\\]
+Line A
+Line B
+----
+
+a =
+     b = c
+
+----
+
+== Section BBBB
+
+Line 3
+
+
+Line 4
+
+[quote]
+--
+This is a test.
+--
+
+[display]
+--
+Hey ho!
+--
+
+[env.equation]
+--
+a^2 + b^2 = c^2
+--
+
+
+
+"""
+
+
+
+
+
+
 
 
   test "parser" do
@@ -87,6 +141,8 @@ Hey ho!
 
   test "parser 2" do
     output = Enum.reverse XMU.parse(@text_with_verbatim).blocks
+
+    IO.inspect output
 
     block_0 = Enum.at(output, 0)
     block_1 = Enum.at(output, 1)
@@ -117,6 +173,10 @@ Hey ho!
 
   test "render with output" do
     IO.puts XMU.render(@text_with_verbatim)
+  end
+
+  test "render long_example" do
+    IO.puts XMU.render(@long_example)
   end
 
 end

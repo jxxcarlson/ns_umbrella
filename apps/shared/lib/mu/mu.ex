@@ -17,7 +17,7 @@ defmodule MU.RenderText do
   alias NS.Notebook.TOC
   alias NS.Notebook.TOC2
 
-  alias MU.Parser
+  alias MU.Utility
 
   @testing false
 
@@ -42,7 +42,7 @@ defmodule MU.RenderText do
             text = env_texmacro <> text
           end
           if @testing == true do
-            Parser.format_latex(text, options)
+            XMU.render(text)
           else
             format_latex(text, options)  |> filterComments
           end
