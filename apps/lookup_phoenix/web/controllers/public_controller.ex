@@ -213,7 +213,7 @@ defmodule LookupPhoenix.PublicController do
          channel_user = User.find_by_username(site)
          channel = channel_user.channel
 
-         [channel_name, _] = Channel.normalize(channel)
+         [channel, channel_name, channel_tag] = Channel.normalize(channel)
           access = :public
          notes = Search.tag_search([qsMap["tag"]], channel, access)
       true ->

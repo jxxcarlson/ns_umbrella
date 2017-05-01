@@ -10,6 +10,8 @@ defmodule LookupPhoenix.Search do
     alias LookupPhoenix.Repo
     alias LookupPhoenix.Utility
     alias LookupPhoenix.Constant
+    alias LookupPhoenix.Channel
+
 
     ########### PUBLIC INTERFACE ######################
 
@@ -130,7 +132,8 @@ defmodule LookupPhoenix.Search do
 
     defp first_query(channel, access, term, type) do
 
-        [channel_name, channel_tag] = String.split(channel, ".")
+        #[channel_name, channel_tag] = String.split(channel, ".")
+        [channel, channel_name, channel_tag] = Channel.normalize(channel)
         channel_id = User.find_by_username(channel_name).id
         if channel_tag == "public" do access = :public end
 
