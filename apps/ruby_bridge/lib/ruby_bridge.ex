@@ -17,10 +17,11 @@ defmodule RubyBridge do
       IO.puts "Hello! This is render_asciidoc"
 
        # asciidoc_path = "/app/apps/ruby_bridge/priv/ruby/asciidoc"
-       asciidoc_path = "asciidoc"
+       # in config/dev.exs" asciidoc_path = "asciidoc"
+       # in config/prod.exs" asciidoc_path = "/app/vendor/bundle/bin/asciidoctor-latex"
 
        ruby
-       |> Ruby.call(render(text), from_file: asciidoc_path)
+       |> Ruby.call(render(text), from_file: Application.get_env(:ruby_bridge, :asciidoc_path))
     end
 
 

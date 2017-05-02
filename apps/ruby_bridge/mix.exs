@@ -29,6 +29,6 @@ defmodule RubyBridge.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:export, "~> 0.0.7"},
-         {:erlport, github: "hdima/erlport", manager: :make}]
+     {:erlport, github: "hdima/erlport", manager: :make}]
   end
 end

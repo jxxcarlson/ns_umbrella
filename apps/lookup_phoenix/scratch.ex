@@ -1,15 +1,14 @@
-{
- "Version": "2012–10–17",
- "Id": "NoteShareImagePolicy",
- "Statement": [
- {
- "Sid": "Stmt1380877761162",
- "Effect": "Allow",
- "Principal": {
- "AWS": "*"
- },
- "Action": "s3:GetObject",
- "Resource": "arn:aws:s3:::noteimages/*"
- }
- ]
-}
+    Rendering ...
+    2017-05-02T18:52:00.071102+00:00 app[web.1]: ========================
+    2017-05-02T18:52:00.071023+00:00 app[web.1]: MU.RenderText in APPLICATION MU_SERVER
+    2017-05-02T18:52:00.071326+00:00 app[web.1]: %{mode: "show", note_id: 1065, process: :adoc_latex, public: false, user_id: 9,
+    2017-05-02T18:52:00.071181+00:00 app[web.1]: OPTIONS
+    2017-05-02T18:52:00.071327+00:00 app[web.1]:   username: "jxxcarlson"}
+    2017-05-02T18:52:00.071392+00:00 app[web.1]: --
+    2017-05-02T18:52:00.071513+00:00 app[web.1]: Rendering asciidoc-latex
+    2017-05-02T18:52:00.150754+00:00 app[web.1]: Hello! This is render_asciidoc
+    2017-05-02T18:52:00.458499+00:00 heroku[router]: at=info method=GET path="/notes/1065" host=notefile.herokuapp.com request_id=f1ce45ba-6800-4d84-9b93-47851c0502e9 fwd="65.24.227.211" dyno=web.1 connect=0ms service=417ms status=500 bytes=243 protocol=https
+    2017-05-02T18:52:00.371673+00:00 app[web.1]: (1) Hello, I am here, in asciidoc.rb, top of file
+    2017-05-02T18:52:00.378538+00:00 app[web.1]: Starting MU.Server ...
+    2017-05-02T18:52:00.459594+00:00 app[web.1]: 18:52:00.459 [error] GenServer MUServer terminating
+    2017-05-02T18:52:00.459607+00:00 app[web.1]: ** (stop) {:ruby, :LoadError, "cannot load such file -- /app/vendor/bundle/ruby/2.3.0/bundler/gems/asciidoctor-latex-b5c9de1363de/bin/asciidoctor-latex", ["-e:1:in `<main>'", "/app/vendor/ruby-2.3.4/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'", "/app/vendor/ruby-2.3.4/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/cli.rb:94:in `<top (required)>'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/cli.rb:41:in `main'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/erlang.rb:138:in `start'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/erlang.rb:194:in `_receive'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/erlang.rb:234:in `call_with_error_handler'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/erlang.rb:195:in `block in _receive'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/erlang.rb:218:in `incoming_call'", "/app/vendor/ruby-2.3.4/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'", "/app/vendor/ruby-2.3.4/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'", "/app/apps/ruby_bridge/priv/ruby/asciidoc.rb:4:in `<top (required)>'", "/app/vendor/ruby-2.3.4/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'", "/app/vendor/ruby-2.3.4/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'"]}

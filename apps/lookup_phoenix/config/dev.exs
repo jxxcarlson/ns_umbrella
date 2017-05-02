@@ -40,7 +40,7 @@ config :phoenix, :stacktrace_depth, 20
 config :lookup_phoenix, LookupPhoenix.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "carlson",
-  database: "lookup_repo",
+  database: "notefile_repo",
   hostname: "localhost",
   pool_size: 10
 

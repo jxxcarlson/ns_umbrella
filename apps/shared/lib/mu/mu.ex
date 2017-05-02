@@ -31,6 +31,7 @@ defmodule MU.RenderText do
         :plain -> text
         :exmark -> format_markup(text, options) |> filterComments
         :adoc_latex ->
+          IO.puts "Rendering asciidoc-latex"
           {:ok, rendered_text} = RubyBridge.render_asciidoc(text)
           rendered_text = rendered_text <> "\n\n" <> MU.MathSci.inject_mathjax2()
           # rendered_text
