@@ -1,14 +1,9 @@
-    Rendering ...
-    2017-05-02T18:52:00.071102+00:00 app[web.1]: ========================
-    2017-05-02T18:52:00.071023+00:00 app[web.1]: MU.RenderText in APPLICATION MU_SERVER
-    2017-05-02T18:52:00.071326+00:00 app[web.1]: %{mode: "show", note_id: 1065, process: :adoc_latex, public: false, user_id: 9,
-    2017-05-02T18:52:00.071181+00:00 app[web.1]: OPTIONS
-    2017-05-02T18:52:00.071327+00:00 app[web.1]:   username: "jxxcarlson"}
-    2017-05-02T18:52:00.071392+00:00 app[web.1]: --
-    2017-05-02T18:52:00.071513+00:00 app[web.1]: Rendering asciidoc-latex
-    2017-05-02T18:52:00.150754+00:00 app[web.1]: Hello! This is render_asciidoc
-    2017-05-02T18:52:00.458499+00:00 heroku[router]: at=info method=GET path="/notes/1065" host=notefile.herokuapp.com request_id=f1ce45ba-6800-4d84-9b93-47851c0502e9 fwd="65.24.227.211" dyno=web.1 connect=0ms service=417ms status=500 bytes=243 protocol=https
-    2017-05-02T18:52:00.371673+00:00 app[web.1]: (1) Hello, I am here, in asciidoc.rb, top of file
-    2017-05-02T18:52:00.378538+00:00 app[web.1]: Starting MU.Server ...
-    2017-05-02T18:52:00.459594+00:00 app[web.1]: 18:52:00.459 [error] GenServer MUServer terminating
-    2017-05-02T18:52:00.459607+00:00 app[web.1]: ** (stop) {:ruby, :LoadError, "cannot load such file -- /app/vendor/bundle/ruby/2.3.0/bundler/gems/asciidoctor-latex-b5c9de1363de/bin/asciidoctor-latex", ["-e:1:in `<main>'", "/app/vendor/ruby-2.3.4/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'", "/app/vendor/ruby-2.3.4/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/cli.rb:94:in `<top (required)>'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/cli.rb:41:in `main'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/erlang.rb:138:in `start'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/erlang.rb:194:in `_receive'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/erlang.rb:234:in `call_with_error_handler'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/erlang.rb:195:in `block in _receive'", "/app/_build/prod/lib/erlport/priv/ruby1.9/erlport/erlang.rb:218:in `incoming_call'", "/app/vendor/ruby-2.3.4/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'", "/app/vendor/ruby-2.3.4/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'", "/app/apps/ruby_bridge/priv/ruby/asciidoc.rb:4:in `<top (required)>'", "/app/vendor/ruby-2.3.4/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'", "/app/vendor/ruby-2.3.4/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'"]}
+    [error] Task #PID<0.694.0> started from #PID<0.691.0> terminating
+    ** (KeyError) key :src not found in: %{body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<InitiateMultipartUploadResult xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\"><Bucket>noteimages</Bucket><Key>uploads/jupiter.jpg</Key><UploadId>jB6JHSwwSEDgv5fk0mMGUQVPmHnfxysaK3hdlT..i8bvTMKpd9EJciiHoGyAgYQ9DPvvNSGA8CMV.7mA5U2Bsr0GVobeJ3KC9.j9npXfz0uE2jPqFBfgelZsz0TJ6DJj</UploadId></InitiateMultipartUploadResult>", headers: [{"x-amz-id-2", "bIb7uA/L6SNJVhI5uc3BmANka5K7eQcP8pjUVy07F2i5KbNldXu9Hfy920QNId2yt88xEx9WI8s="}, {"x-amz-request-id", "19BCDB2CB6A22A08"}, {"Date", "Wed, 03 May 2017 21:00:26 GMT"}, {"Transfer-Encoding", "chunked"}, {"Server", "AmazonS3"}], status_code: 200}
+        (ex_aws) lib/ex_aws/s3/upload.ex:83: ExAws.Operation.ExAws.S3.Upload.perform/2
+        (arc) lib/arc/storage/s3.ex:57: Arc.Storage.S3.do_put/3
+        (elixir) lib/task/supervised.ex:85: Task.Supervised.do_apply/2
+        (elixir) lib/task/supervised.ex:36: Task.Supervised.reply/5
+        (stdlib) proc_lib.erl:247: :proc_lib.init_p_do_apply/3
+    Function: #Function<0.52315234/0 in Arc.Actions.Store.async_put_version/3>
+        Args: []

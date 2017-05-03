@@ -24,7 +24,7 @@ defmodule LookupPhoenix.Mixfile do
     [mod: {LookupPhoenix, []},
      applications: [:comeonin, :mnemonix, :phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex, :timex, :timex_ecto, :arc_ecto, :ex_aws, :poison,
-                    :httpoison]]
+                    :httpoison, :hackney]]
   end
 
   # Specifies which paths to compile per environment.
@@ -50,12 +50,14 @@ defmodule LookupPhoenix.Mixfile do
      {:benchfella, "~> 0.3.2"},
      {:json, "~> 1.0"},
      {:joken, "~> 1.1"},
-     {:arc, "~> 0.5.2"},
-     {:arc_ecto, "~> 0.4.4"},
+     {:arc, "~> 0.8.0"},
+     {:arc_ecto, "~> 0.4", override: true},
      {:shared, in_umbrella: true},
-     {:ex_aws, "~> 0.5.0"},
+     {:ex_aws, "~> 1.1"},
      {:poison, "~> 2.0"},
-     {:httpoison, "~> 0.9.0"}]
+     {:httpoison, "~> 0.11"},
+     {:sweet_xml, "~> 0.6"},
+     {:hackney, "~> 1.6"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

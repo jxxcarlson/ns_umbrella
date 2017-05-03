@@ -33,13 +33,13 @@ config :lookup_phoenix,
 # Do not print debug messages in production
 config :logger, level: :info
 
-config :arc,
- storage: Arc.Storage.S3,
- bucket: "noteimages"
-
-config :ex_aws,
- access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
- secret_access_key: "AWS_SECRET_ACCESS_KEY"
+#config :arc,
+# storage: Arc.Storage.S3,
+# bucket: "noteimages"
+#
+#config :ex_aws,
+# access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+# secret_access_key: "AWS_SECRET_ACCESS_KEY"
 
 
 # ## SSL Support
