@@ -49,7 +49,7 @@ config :lookup_phoenix,
   app_name: "NoteFile"
 
 config :arc,
-  storage: Arc.Storage.S3, # or Arc.Storage.Local
+  storage: Arc.Storage.Local,
   bucket: "noteimages"
 
 # check config with

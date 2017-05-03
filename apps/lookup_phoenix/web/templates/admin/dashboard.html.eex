@@ -60,9 +60,6 @@
 
   <p class="large"><a href="/admin/users">Users</a></p>
 
-  <p class="large"><a href="/images">Images</a></p>
-
-
   <p class="large" style="margin-top:1.5em;"><a href="https://dashboard.heroku.com/apps/notefile" target="_blank">Heroku Console</p>
 
   <p class="large"><a href="https://aws.amazon.com/console/" target="_blank">AWS Console</p>

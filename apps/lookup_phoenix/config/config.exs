@@ -22,17 +22,17 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :arc,
-  storage: Arc.Storage.S3, # or Arc.Storage.Local
-  bucket: "noteimages"
-
-# check config with
+#config :arc,
+#  storage: Arc.Storage.S3, # or Arc.Storage.Local
+#  bucket: "noteimages"
 #
-#  Application.get_env :ex_aws, :access_key_id
-#
-config :ex_aws,
-  access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
-  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY")
+## check config with
+##
+##  Application.get_env :ex_aws, :access_key_id
+##
+#config :ex_aws,
+#  access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+#  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY")
 
 
 

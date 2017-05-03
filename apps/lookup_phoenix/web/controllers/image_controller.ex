@@ -15,8 +15,13 @@ defmodule LookupPhoenix.ImageController do
   end
 
   def create(conn, %{"image" => image_params}) do
+    IO.puts "------------"
     IO.inspect image_params
-    changeset = Image.changeset(%Image{}, image_params)
+    IO.puts "------------"
+    changeset = Image.changeset(%Image{owner_id: conn.assigns.current_user.id}, conn.assigns.current_user.id)
+    IO.puts "------------"
+    IO.inspect changeset
+    IO.puts "------------"
     case Repo.insert(changeset) do
       {:ok, image} ->
         conn

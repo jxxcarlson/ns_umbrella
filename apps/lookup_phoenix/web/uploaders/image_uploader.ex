@@ -2,19 +2,6 @@ defmodule LookupPhoenix.ImageUploader do
 
     use Arc.Definition
     use Arc.Ecto.Definition
-    # def __storage, do: Arc.Storage.S3
-    # def __bucket, do: {:system, "noteimages"}
-
-    # def __storage, do: Arc.Storage.Local  # works
-
-    # def __storage, do: Arc.Storage.S3
-    # def __bucket, do: {:system, "noteimages"}
-    # def __storage, do: Arc.Storage.Local  # works
-
-    # def __storage, do: Arc.Storage.S3
-    # def __bucket, do: "noteimages"
-    # def __bucket, do: {:system, "noteimages"}
-    # def __storage, do: Arc.Storage.Local
 
   # Include ecto support (requires package arc_ecto installed):
   # use Arc.Ecto.Definition
@@ -22,7 +9,7 @@ defmodule LookupPhoenix.ImageUploader do
   @versions [:original]
 
   # To add a thumbnail version:
-  # @versions [:original, :thumb]
+  #     @versions [:original, :thumb]
 
   # Whitelist file extensions:
   # def validate({file, _}) do
@@ -31,7 +18,7 @@ defmodule LookupPhoenix.ImageUploader do
 
   # Define a thumbnail transformation:
   # def transform(:thumb, _) do
-  #   {:convert, "-strip -thumbnail 250x250^ -gravity center -extent 250x250 -format png", :png}
+  #  {:convert, "-strip -thumbnail 250x250^ -gravity center -extent 250x250 -format png", :png}
   # end
 
   # Override the persisted filenames:
