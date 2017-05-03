@@ -48,14 +48,16 @@ config :lookup_phoenix,
   host_url: "http://localhost:4001",
   app_name: "NoteFile"
 
-#config :arc,
-# storage: Arc.Storage.Local,
-# bucket: {:system, "AWS_S3_BUCKET"}
+config :arc,
+  storage: Arc.Storage.S3, # or Arc.Storage.Local
+  bucket: "noteimages"
+
+# check config with
 #
-#config :ex_aws,
-# # access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
-# # secret_access_key: "AWS_SECRET_ACCESS_KEY"
-# access_key_id: {:system,"AWS_ACCESS_KEY_ID"},
-# secret_access_key: {:system, "AWS_SECRET_ACCESS_KEY"}
+#  Application.get_env :ex_aws, :access_key_id
+#
+config :ex_aws,
+  access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY")
 
 # Access the above by: Application.get_env(:deploy_vars, :host_url)
