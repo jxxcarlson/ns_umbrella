@@ -38,6 +38,10 @@ defmodule MU.Regex do
     ~r/\s(((http|https):\/\/[a-zA-Z0-9\.\-\/&=~\?#!@_%-']*)\[(.*)\])[^\]]/U
   end
 
+  def image_tag_regex do
+    ~r/image::(.*)\[(.*)\]/U
+  end
+
   def image_bare_regex do
     ~r/(http|https):\/\/(.*(png|jpg|jpeg|gif))(\s|$)/i
   end

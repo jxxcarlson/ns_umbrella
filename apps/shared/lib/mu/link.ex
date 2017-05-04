@@ -1,5 +1,9 @@
 defmodule MU.Link do
 
+  alias LookupPhoenix.Repo
+  alias LookupPhoenix.Image
+
+
   import MU.Regex
 
     defp host do
@@ -24,6 +28,35 @@ defmodule MU.Link do
     def makeAudioPlayer(text) do
        Regex.replace(audio_player_regex(), " "<>text<>" ", "<audio controls> <source src=\"\\0\" type=\"audio/\\3\" >Your browser does not support the audio element.</audio>")
     end
+
+    def image_tag(text) do
+      m = Regex.run(image_tag_regex(), text)
+      if m == nil do
+        text
+      else
+        [target, id, args] = Regex.run(image_tag_regex(), text)
+        image = Repo.get(Image, id)
+        url = LookupPhoenix.ImageUploader.url({image.image, image})
+        String.replace(text, target, "<img src=\"#{url}\" style=\"#{args}\">")
+      end
+    end
+
+    def apply_image_tag(data,text) do
+      [target, id, args] = data
+      image = Repo.get(Image, id)
+      url = LookupPhoenix.ImageUploader.url({image.image, image})
+      String.replace(text, target, "<img src=\"#{url}\" style=\"#{args}\">")
+    end
+
+    def image_tags(text) do
+      sc = Regex.scan(image_tag_regex(), text)
+      if sc == nil do
+        text
+      else
+        sc |> Enum.reduce(text, fn(data, acc) -> apply_image_tag(data, acc) end)
+      end
+    end
+
 
     def makeImageLinks(text, options) do
        case options[:mode] do

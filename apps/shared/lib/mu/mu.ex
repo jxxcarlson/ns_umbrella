@@ -109,6 +109,7 @@ defmodule MU.RenderText do
 
     defp linkify(text, options) do
       text
+      |> Link.image_tags
       |> Link.makeYouTubePlayer(options)
       |> Link.makeAudioPlayer
       |> Link.makeImageLinks(options)
