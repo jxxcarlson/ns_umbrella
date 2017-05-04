@@ -34,6 +34,10 @@ defmodule LookupPhoenix.ImageSearch do
       end
    end
 
+    def title_search(query, term) do
+      from n in query,
+        where: ilike(n.title, ^"%#{term}%")
+    end
 
 #   def select_by_user_and_tag(query, user, tag) do
 #       if Enum.member?(["all", "public"], tag) do

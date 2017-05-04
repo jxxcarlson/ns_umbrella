@@ -11,12 +11,32 @@ defmodule LookupPhoenix.ImageController do
     |> ImageSearch.limit(max)
     |> Repo.all
   end
-  
+
+
+  def search(user, term, max) do
+    Image
+    |> ImageSearch.for_owner(user.id)
+    |> ImageSearch.title_search(term)
+    |> ImageSearch.sort_by_created_at(:desc)
+    |> ImageSearch.limit(max)
+    |> Repo.all
+  end
+
   def index(conn, _) do
     # images = Repo.all(Image)
     current_user = conn.assigns.current_user
     images = images_for(current_user, 20)
     render(conn, "index.html", images: images)
+  end
+
+  def search(conn, params) do
+     term = params["image_search"]["query"]
+     current_user = conn.assigns.current_user
+     images = cond do
+       term == "all" ->images_for(current_user, 20)
+       true -> search(current_user, term, 20)
+     end
+     render(conn, "index.html", images: images)
   end
 
   def edit(conn, %{"id" => id}) do

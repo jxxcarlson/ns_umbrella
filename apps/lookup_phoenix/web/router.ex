@@ -81,6 +81,8 @@ defmodule LookupPhoenix.Router do
 
     get "/token", UserController, :get_token
 
+    post "/images/search", ImageController, :search
+
     get "/mailto/:id", NoteController, :mailto
 
     get "/admin/users", AdminController, :user_index
