@@ -1,8 +1,12 @@
 <h4><%= link "Upload new image", to: image_path(@conn, :new) %></h4>
 
+<br>
+
 <div style="height: 600px; overflow: scroll;">
     <%= for image <- @images do %>
-      <img src="<%= LookupPhoenix.ImageUploader.url({image.image, image})%>" height=150px><br>
+      <a href=<%= "/images/#{image.id}/edit"%> >
+        <img src="<%= LookupPhoenix.ImageUploader.url({image.image, image})%>" height=150px><br>
+      </a>
       <p><%= image.id %>, <%= image.owner_id %>, <%= image.title %>, <%= LookupPhoenix.ImageUploader.url({image.image, image})%></p>
       <br><br>
     <% end %>

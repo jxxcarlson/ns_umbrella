@@ -1,4 +1,4 @@
-<h2>Upload a new image</h2>
+ <h2>Upload a new image</h2>
 <%= form_for @changeset, image_path(@conn, :create), 
              [multipart: true], fn f -> %>
   <div class="form-group">
@@ -6,6 +6,13 @@
     <%= file_input f, :image %>
     <%= error_tag f, :image %>
   </div>
+
+  <div class="form-group">
+    <%= label f, :title, class: "control-label" %>
+    <%= text_input f, :title, class: "form-control", style: "width:300px", id: 'title'  %>
+    <%= error_tag f, :title %>
+  </div>
+
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-default" %>
   </div>

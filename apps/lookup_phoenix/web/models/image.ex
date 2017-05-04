@@ -17,10 +17,16 @@ defmodule LookupPhoenix.Image do
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:image, :owner_id, :title])
+    |> cast_attachments(params, [:image])
+  end
+
+  def changeset2(struct, params \\ %{}) do
       struct
-      |> cast(params, [:image])
+      |> cast(params, [:image, :title, :owner_id])
       |> cast_attachments(params, [:image])
-    end
+  end
 
 
 end

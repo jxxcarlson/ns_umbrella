@@ -1,0 +1,12 @@
+
+
+<img src="<%= LookupPhoenix.ImageUploader.url({@image.image, @image})%>" height=350px ><br>
+<br>
+<p><%= @image.id %>,
+   <%= @image.owner_id %>,
+   <%= @image.title %>, <%= LookupPhoenix.ImageUploader.url({@image.image, @image})%>
+</p>
+
+<br><br>
+
+<%= link "Images", to: "/images" %>
