@@ -1,11 +1,21 @@
 defmodule LookupPhoenix.ImageController do
   use LookupPhoenix.Web, :controller
   alias LookupPhoenix.Image
+  alias LookupPhoenix.ImageSearch
   alias LookupPhoenix.Repo
 
+  def images_for(user, max) do
+    Image
+    |> ImageSearch.for_owner(user.id)
+    |> ImageSearch.sort_by_created_at(:desc)
+    |> ImageSearch.limit(max)
+    |> Repo.all
+  end
   
   def index(conn, _) do
-    images = Repo.all(Image)
+    # images = Repo.all(Image)
+    current_user = conn.assigns.current_user
+    images = images_for(current_user, 20)
     render(conn, "index.html", images: images)
   end
 
