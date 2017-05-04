@@ -115,14 +115,14 @@ defmodule XMU do
      %{ state | symbol: symbol}
   end
 
-  def new_state_for(line, state) do
+  def next_state(line, state) do
     line_type = type_of_line(line, state.symbol)
     symbol = state.symbol
     IO.inspect {symbol, line_type, line}
 
     output = cond do
 
-     # start
+     # 1. start
      {:start, :ordinary_line} == {symbol, line_type} ->
        %{ state | current_block: [line | state.current_block], symbol: :paragraph}
      {:start, :math_begin} == {symbol, line_type} ->
@@ -142,7 +142,7 @@ defmodule XMU do
     {:start, :blank_line} == {symbol, line_type} ->
        state
 
-     # paragraph
+     # 2. paragraph
      {:paragraph, :ordinary_line } == {symbol, line_type} ->
        %{ state | current_block: [line | state.current_block], symbol: :paragraph}
      {:paragraph, :verbatim_separator } == {symbol, line_type} ->
@@ -155,7 +155,7 @@ defmodule XMU do
        new_block = create_block(:paragraph, state)
        new_state(state, new_block, :start)
 
-     # blank_line
+     # 3. blank_line
      {:blank_line, :ordinary_line } == {symbol, line_type} ->
        %{ state | current_block: [line | state.current_block], symbol: :paragraph}
      {:blank_line, :blank_line } == {symbol, line_type} ->
@@ -173,18 +173,16 @@ defmodule XMU do
          state
        end
 
-      # block_start
+      # 4. block_start
      {:block_start, :block_header } == {symbol, line_type} ->
        block_headers = [header_contents(line)|state.block_info[:headers]]
        block_info = %{state.block_info | block_headers: block_headers}
        %{ state | block_info: block_info, symbol: :block_start}
-
-     # block_separator
      {:block_start, :block_separator } == {symbol, line_type} ->
        block_info = %{state.block_info | block_separator: line}
        %{ state | block_info: block_info, symbol: :block_body}
 
-     # block_body
+     # 5. block_body
      {:block_body, :block_separator } == {symbol, line_type} && line == state.block_info.block_separator ->
        new_block = create_block(:block, state)
        new_state(state, new_block, :block_end)
@@ -192,7 +190,7 @@ defmodule XMU do
        contents = [line | state.current_block]
        %{ state | current_block: contents }
 
-    # block_end
+    # 6. block_end
      {:block_end, :block_header } == {symbol, line_type} ->
        block_headers = [header_contents(line), state.block_info[:headers]]
        block_info = %{state.block_info | block_headers: block_headers}
@@ -202,7 +200,7 @@ defmodule XMU do
      {:block_end, :blank_line} == {symbol, line_type} ->
        %{ state | symbol: :start }
 
-    # verbatim
+    # 7. verbatim
      :verbatim == symbol && line_type != :verbatim_separator ->
        current_block = [line|state.current_block]
        %{state | current_block: current_block}
@@ -211,7 +209,7 @@ defmodule XMU do
        new_state(state, new_block, :start)
 
 
-    # math_block
+    # 8. math_block
     :math_block == symbol && !Enum.member?([:math_begin, :math_end], line_type) ->
       current_block = [line|state.current_block]
       %{state | current_block: current_block}
@@ -230,7 +228,7 @@ defmodule XMU do
   def parse(text) do
     state = %{blocks: [], current_block: [], block_info: %{}, symbol: :start}
     String.split(text, ["\r", "\n" , "\r\n"]) |> Enum.map(fn(line) -> String.trim_trailing(line) end)
-    |> Enum.reduce(state, fn(line, state) -> new_state_for(line, state) end)
+    |> Enum.reduce(state, fn(line, state) -> next_state(line, state) end)
   end
 
   #####################

@@ -34,7 +34,7 @@ defmodule MU.Inline do
     end
 
     def formatBold(text) do
-       Regex.replace(~r/(\*(.*)\*)/U, text, "<strong>\\2</strong>")
+       Regex.replace(~r/[^\^](\*(.*)\*)[^\^]/U, text, "<strong>\\2</strong>")
     end
 
     def formatItalic(text) do
