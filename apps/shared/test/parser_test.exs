@@ -126,7 +126,28 @@ a^2 + b^2 = c^2
 
 
 
+@nested_example """
 
+
+P1
+
+[quote]
+--
+Q1
+
+[display]
+--
+D1
+D2
+--
+
+Q2
+--
+
+P2
+P3
+
+"""
 
 
 
@@ -161,8 +182,6 @@ a^2 + b^2 = c^2
   end
 
 
-
-
   test "parser with output" do
     output = XMU.parse(@text_with_verbatim).blocks
     IO.puts "\n-------------------------\n"
@@ -177,6 +196,10 @@ a^2 + b^2 = c^2
 
   test "render long_example" do
     IO.puts XMU.render(@long_example)
+  end
+
+ test "render nested_example" do
+    IO.puts XMU.render(@nested_example)
   end
 
 end

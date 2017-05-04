@@ -115,112 +115,206 @@ defmodule XMU do
      %{ state | symbol: symbol}
   end
 
+
   def next_state(line, state) do
     line_type = type_of_line(line, state.symbol)
     symbol = state.symbol
     IO.inspect {symbol, line_type, line}
+    next_state(symbol, line_type, line, state)
+  end
 
-    output = cond do
+  @doc """
+  Transitions from vertex :start
+  """
 
-     # 1. start
-     {:start, :ordinary_line} == {symbol, line_type} ->
-       %{ state | current_block: [line | state.current_block], symbol: :paragraph}
-     {:start, :math_begin} == {symbol, line_type} ->
-       %{ state | symbol: :math_block }
-     {:start, :block_header} == {symbol, line_type} ->
-       block_info = %{block_headers: [header_contents(line)], block_separator: nil}
-       %{ state | block_info: block_info, symbol: :block_start}
-     {:start, :verbatim_separator} == {symbol, line_type} ->
-       %{ state | symbol: :verbatim }
-     {:start, :section_heading} == {symbol, line_type} ->
-        [target, marker, heading] = Regex.run(~r/(\A=* )(.*)/, line)
-        level = String.trim(marker) |> String.length
-        block_info = %{level: level}
-        content = String.trim(heading)
-        new_block = create_block(:section_heading, content, block_info)
-        new_state(state, new_block, :start)
-    {:start, :blank_line} == {symbol, line_type} ->
-       state
+  def next_state(:start, :ordinary_line, line, state) do
+     %{ state | current_block: [line | state.current_block], symbol: :paragraph}
+  end
 
-     # 2. paragraph
-     {:paragraph, :ordinary_line } == {symbol, line_type} ->
-       %{ state | current_block: [line | state.current_block], symbol: :paragraph}
-     {:paragraph, :verbatim_separator } == {symbol, line_type} ->
-       new_block = create_block(:paragraph, state)
-       new_state(state, new_block, :verbatim)
-     {:paragraph, :math_begin} == {symbol, line_type} ->
-       new_block = create_block(:paragraph, state)
-       new_state(state, new_block, :math_block)
-     {:paragraph, :blank_line } == {symbol, line_type} ->
+  def next_state(:start, :math_begin, line, state) do
+    %{ state | symbol: :math_block }
+  end
+
+  def next_state(:start, :block_header, line, state) do
+    block_info = %{block_headers: [header_contents(line)], block_separator: nil}
+    %{ state | block_info: block_info, symbol: :block_start}
+  end
+
+  def next_state(:start, :verbatim_separator, line, state) do
+    %{ state | symbol: :verbatim }
+  end
+
+  def next_state(:start, :section_heading, line, state) do
+    [target, marker, heading] = Regex.run(~r/(\A=* )(.*)/, line)
+    level = String.trim(marker) |> String.length
+    block_info = %{level: level}
+    content = String.trim(heading)
+    new_block = create_block(:section_heading, content, block_info)
+    new_state(state, new_block, :start)
+  end
+
+  def next_state(:start, :blank_line, line, state) do
+    state
+  end
+
+  @doc """
+  Transitions from vertex :paragraph
+  """
+
+  def next_state(:paragraph, :ordinary_line, line, state) do
+     %{ state | current_block: [line | state.current_block], symbol: :paragraph}
+  end
+
+  def next_state(:paragraph, :verbatim_separator, line, state) do
+    new_block = create_block(:paragraph, state)
+    new_state(state, new_block, :verbatim)
+  end
+
+  def next_state(:paragraph, :math_begin, line, state) do
+    new_block = create_block(:paragraph, state)
+    new_state(state, new_block, :math_block)
+  end
+
+  def next_state(:paragraph, :blank_line, line, state) do
+    new_block = create_block(:paragraph, state)
+    new_state(state, new_block, :start)
+  end
+
+  @doc """
+  Transitions from :blank_line
+  """
+
+  def next_state(:blank_line, :ordinary_line,line, state) do
+    %{ state | current_block: [line | state.current_block], symbol: :paragraph}
+  end
+
+  def next_state(:blank_line, :blank_line,line, state) do
+    if state.current_block != [] do
        new_block = create_block(:paragraph, state)
        new_state(state, new_block, :start)
+    else
+       update_symbol(state, :start)
+    end
+  end
 
-     # 3. blank_line
-     {:blank_line, :ordinary_line } == {symbol, line_type} ->
-       %{ state | current_block: [line | state.current_block], symbol: :paragraph}
-     {:blank_line, :blank_line } == {symbol, line_type} ->
-       if state.current_block != [] do
-         new_block = create_block(:paragraph, state)
-         new_state(state, new_block, :start)
-       else
-         update_symbol(state, :start)
-       end
-     {:blank_line, :section_heading} == {symbol, line_type} ->
-       if state.current_block != [] do
+  def next_state(:blank_line, :section_heading,line, state) do
+    if state.current_block != [] do
          new_block = create_block(:section_heading, state)
          new_state(state, new_block, :start)
-       else
+        else
+          state
+    end
+  end
+
+  @doc """
+    Transitions from :block_start
+ """
+
+  def next_state(:block_start, :block_header, line, state) do
+    block_headers = [header_contents(line)|state.block_info[:headers]]
+    block_info = %{state.block_info | block_headers: block_headers}
+    %{ state | block_info: block_info, symbol: :block_start}
+  end
+
+  def next_state(:block_start, :block_separator, line, state) do
+    block_info = %{state.block_info | block_separator: line}
+    %{ state | block_info: block_info, symbol: :block_body}
+  end
+
+  @doc """
+    Transitions from vertex :block_bodh
+  """
+
+
+  def next_state(:block_body, :block_separator, line, state) do
+    cond do
+      line == state.block_info.block_separator ->
+         new_block = create_block(:block, state)
+         new_state(state, new_block, :block_end)
+      true ->
          state
-       end
+    end
+  end
 
-      # 4. block_start
-     {:block_start, :block_header } == {symbol, line_type} ->
-       block_headers = [header_contents(line)|state.block_info[:headers]]
-       block_info = %{state.block_info | block_headers: block_headers}
-       %{ state | block_info: block_info, symbol: :block_start}
-     {:block_start, :block_separator } == {symbol, line_type} ->
-       block_info = %{state.block_info | block_separator: line}
-       %{ state | block_info: block_info, symbol: :block_body}
-
-     # 5. block_body
-     {:block_body, :block_separator } == {symbol, line_type} && line == state.block_info.block_separator ->
-       new_block = create_block(:block, state)
-       new_state(state, new_block, :block_end)
-     :block_body == symbol && !Enum.member?([:block_header, :block_separator], line_type) ->
-       contents = [line | state.current_block]
-       %{ state | current_block: contents }
-
-    # 6. block_end
-     {:block_end, :block_header } == {symbol, line_type} ->
-       block_headers = [header_contents(line), state.block_info[:headers]]
-       block_info = %{state.block_info | block_headers: block_headers}
-       %{ state | block_info: block_info, symbol: :block_start}
-     {:block_end, :ordinary_line} == {symbol, line_type} ->
-       %{ state | current_block: [line | state.current_block], symbol: :paragraph}
-     {:block_end, :blank_line} == {symbol, line_type} ->
-       %{ state | symbol: :start }
-
-    # 7. verbatim
-     :verbatim == symbol && line_type != :verbatim_separator ->
-       current_block = [line|state.current_block]
-       %{state | current_block: current_block}
-     {:verbatim, :verbatim_separator} == { symbol, line_type} ->
-       new_block = create_block(:verbatim, state)
-       new_state(state, new_block, :start)
-
-
-    # 8. math_block
-    :math_block == symbol && !Enum.member?([:math_begin, :math_end], line_type) ->
-      current_block = [line|state.current_block]
-      %{state | current_block: current_block}
-    :math_block == symbol && :math_end == line_type ->
-      new_block = create_block(:math_block, state)
-      new_state(state, new_block, :start)
-
-    true ->
+  def next_state(:block_body, line_type, line, state) do
+    cond do
+      !Enum.member?([:block_header, :block_separator], line_type) ->
+        contents = [line | state.current_block]
+        %{ state | current_block: contents }
+      true ->
         state
     end
+  end
 
+  @doc """
+  Transitions from vertex :block_end
+  """
+
+  def next_state(:block_end, :block_header, line, state) do
+     block_headers = [header_contents(line), state.block_info[:headers]]
+     block_info = %{state.block_info | block_headers: block_headers}
+     %{ state | block_info: block_info, symbol: :block_start}
+  end
+
+  def next_state(:block_end, :ordinary_line, line, state) do
+     %{ state | current_block: [line | state.current_block], symbol: :paragraph}
+  end
+
+  def next_state(:block_end, :blank_line, line, state) do
+    %{ state | symbol: :start }
+  end
+
+  @doc """
+  Transitions from vertex :verbatim
+  """
+
+
+  def next_state(:verbatim, :verbatim_separator, line, state) do
+    new_block = create_block(:verbatim, state)
+     new_state(state, new_block, :start)
+  end
+
+  def next_state(:verbatim, line_type, line, state) do
+    cond do
+      line_type != :verbatim_separator ->
+         current_block = [line|state.current_block]
+         %{state | current_block: current_block}
+      true ->
+        state
+    end
+  end
+
+  @doc """
+  Transitions from vertex :math_block
+  """
+
+
+  def next_state(:math_block, :math_end, line, state) do
+    IO.puts "I will now create a math block"
+    IO.inspect state
+    IO.puts "------------"
+    new_block = create_block(:math_block, state)
+     new_state(state, new_block, :start)
+  end
+
+  def next_state(:math_block, line_type, line, state) do
+    cond do
+      !Enum.member?([:math_begin, :math_end], line_type) ->
+        current_block = [line|state.current_block]
+         %{state | current_block: current_block}
+      true ->
+         state
+    end
+  end
+
+  @doc """
+  Default transition (no_op)
+  """
+
+
+  def next_state(_ , _, line, state) do
+    IO.puts "Unrecognized transition"
+    state
   end
 
   ####################
@@ -242,13 +336,5 @@ defmodule XMU do
       Enum.reduce(blocks, "", fn(block, acc) -> Block.render(block.type, block) <> acc end)
     end
 
-
-
-
-    ###########
-
-
-
-    ###########
 
 end

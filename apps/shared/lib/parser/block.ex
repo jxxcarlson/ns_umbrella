@@ -32,7 +32,7 @@ defmodule XMU.Block do
 
   def render(:paragraph, block) do
     text = render_content(:simple, block.content)
-     "\n<p>#{text}\n</p>\n"
+     "\n<p>\n#{text}</p>\n"
   end
 
   def render(:verbatim, block) do
