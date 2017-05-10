@@ -6,7 +6,7 @@ defmodule NoteApi.Schema do
   # We'll define a query to get our users.  It returns a list of users, and this
   # query is resolved by a function in a module we'll make momentarily.
   query do
-    field :note, list_of(:note) do
+    field :notes, list_of(:note) do
       resolve &NoteApi.NoteResolver.all/2
     end
   end

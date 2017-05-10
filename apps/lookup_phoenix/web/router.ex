@@ -27,6 +27,9 @@ defmodule LookupPhoenix.Router do
     plug :accepts, ["json"]
   end
 
+  forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: NoteApi.Schema
+
   scope "/api",LookupPhoenix do
     pipe_through :api
 
@@ -92,7 +95,8 @@ defmodule LookupPhoenix.Router do
 
     get "/", PageController, :index
   end
-  
+
+
 
 
   # Other scopes may use custom stacks.
