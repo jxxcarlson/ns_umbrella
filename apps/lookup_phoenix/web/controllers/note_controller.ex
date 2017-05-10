@@ -243,7 +243,8 @@ defmodule LookupPhoenix.NoteController do
         params1 = %{note: note, changeset: changeset,
                     word_count: word_count, locked: locked,
                     conn: conn, tags: tags, note: note,
-                    rendered_text: rendered_text, current_user_name: current_user_name}
+                    rendered_text: rendered_text, user_id: current_user.id,
+                    current_user_name: current_user_name}
 
         # Ensure that id is in id_list
         current_notebook_id = AppState.get(:user, current_user.id, :current_notebook)

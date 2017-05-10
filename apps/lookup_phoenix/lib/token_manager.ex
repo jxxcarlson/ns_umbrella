@@ -3,8 +3,6 @@ defmodule LookupPhoenix.TokenManager do
      alias LookupPhoenix.Note
      alias LookupPhoenix.Repo
 
-    # Utility.generate_time_limited_token(10,240)
-
     defp rand_string(n) do
       :crypto.strong_rand_bytes(n) |> Base.url_encode64 |> binary_part(0, n)
     end

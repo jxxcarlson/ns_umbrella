@@ -11,6 +11,8 @@ defmodule LookupPhoenix.NoteShowAction do
   alias MU.RenderText
 
   @moduledoc """
+  CLARIFY: The use of username
+  
   INPUTS: conn, note id
 
   COMPUTATIONS:

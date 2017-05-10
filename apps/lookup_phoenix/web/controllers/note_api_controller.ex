@@ -10,11 +10,9 @@ defmodule LookupPhoenix.NoteApiController do
    alias LookupPhoenix.User
    alias LookupPhoenix.AppState
    alias LookupPhoenix.Utility
-
    alias LookupPhoenix.NoteShowAction
    alias LookupPhoenix.NoteUpdateAction
-
-   LookupPhoenix.JSONMapBuilder
+   alias LookupPhoenix.Token
 
    @moduledoc """
    API controller for LookupNote
@@ -29,14 +27,28 @@ defmodule LookupPhoenix.NoteApiController do
    ROUTES
    ======
 
+   0. GET api/stats             -- return servers stats
    1. GET api/note/:id          -- return id, title, content, tag_string
    2. PUT api/note/:id          -- update note
 
    TEST (POSTMAN)
+
+   0. http://localhost:4001/api/stats
+
    1. http://localhost:4001/api/notes/998
-      -- send secret and username in header
-      -- 999 fails
-      -- need real authentication
+
+   2. http://localhost:4001/api/notes/1114
+
+      Send key-value pair in body with key = "data" and value like
+
+      {
+        "title":"Magick",
+        "username":"jxxcarlson",
+        "user_id": "9",
+        "content":"This *is* a test",
+        "tag_string":"foo,bar",
+        "token": "YADA_YADA",
+      }
 """
 
     defp key2value(list, key) do
@@ -49,119 +61,61 @@ defmodule LookupPhoenix.NoteApiController do
       key2value(conn.req_headers, key)
     end
 
-    defp verify_token(token) do
-      token
-      |> token
-      # |> with_validation("user_id", &(&1 == 1))
-      |> with_signer(hs256("yada82043mU,@izq0#$mcq^&!HFQpnp8i-nc"))
-      |> verify
-    end
-
-
-   defp authenticated(secret) do
-      secret == "abcdef9h5vkfR1Tj0U_1f!"
-   end
-
-#    def authenticated(token) do
-#      result = verify_token(token)
-#      result.error == nil
-#    end
-#
-#    def show(conn, %{"id" => id}) do
-#
-#      {:ok, token} = Poison.Parser.parse conn2value(conn, "token")
-#
-#      if authenticated(token) do
-#         note = Note.get(id)
-#         query_string = conn.query_string
-#         username = "jxxcarlson"
-#
-#         result = NoteShowAction.call(username, query_string, id)
-#
-#         render conn, "note.json", result: result
-#       else
-#         render conn, "error.json", message: "not authorized"
-#      end
-#    end
-#
-#    def stats(conn, %{}) do
-#      result = MU.Server.get_stats
-#      render conn, result
-#    end
-#
-#    def update(conn, %{"id" => id}) do
-#
-#       {:ok, data} = Poison.Parser.parse conn2value(conn, "data")
-#       {:ok, token} = Poison.Parser.parse conn2value(conn, "token")
-#
-#      if authenticated(token) do
-#         username = data["username"]
-#         user = User.find_by_username(username)
-#         note = Note.get(id)
-#
-#         id_list = AppState.update({:user, user.id, :search_history, note.id})
-#         navigation_data = NoteNavigation.get(id_list, id)
-#         params = Map.merge(data, %{nav: navigation_data})
-#
-#         result = NoteUpdateAction.call(username, note, params)
-#
-#         {status, note} = result.update_result
-#         params = Map.merge(%{note: note, nav: result.nav}, result.params)
-#         render conn, "note.json", result: params
-#       else
-#        render conn, "error.json", message: "not authorized"
-#      end
-#    end
-
-    ################ OLD VERSION ###############
 
     def show(conn, %{"id" => id}) do
-          if authenticated(conn) do
-             note = Note.get(id)
-             query_string = conn.query_string
-             username = "jxxcarlson"
-             result = NoteShowAction.call(username, query_string, id)
-             render conn, "note.json", result: result
-           else
-             render conn, "error.json", message: "darn it!"
-          end
-        end
 
-        def stats(conn, %{}) do
-          # {:reply, result, _} = MU.Server.get_stats
-          result = MU.Server.get_stats
-          render conn, result
-        end
+      {:ok, token} = Poison.Parser.parse conn2value(conn, "token")
+      {:ok, user_id} = Poison.Parser.parse conn2value(conn, "user_id")
+      {:ok, username} = Poison.Parser.parse conn2value(conn, "username")
 
-        def update(conn, %{"id" => id, "put" => data}) do
+      if Token.authenticated(token, user_id) do
+         query_string = conn.query_string
+         result = NoteShowAction.call(username, query_string, id)
+         render conn, "note.json", result: result
+       else
+         render conn, "error.json", message: "not authorized"
+      end
+    end
 
-    #      Utility.report("conn", conn)
-    #      current_user = conn.assigns.current_user
-    #      IO.puts("API . UPDATE, CURRENT USER = #{current_user.id}")
+    def stats(conn, %{}) do
+      result = MU.Server.get_stats
+      render conn, result
+    end
 
-          if authenticated(data["secret"]) do
-             IO.puts "AUTHORIZED!"
-             title = data["title"]
-             username = data["username"]
-             user = User.find_by_username(username)
-             note = Note.get(id)
-             Utility.report("user.id", user.id)
-             Utility.report("note.id", note.id)
+    def update(conn, params) do
 
-             id_list = AppState.update({:user, user.id, :search_history, note.id})
-             navigation_data = NoteNavigation.get(id_list, id)
-             params = Map.merge(data, %{nav: navigation_data})
+       id = params["id"]
 
-             result = NoteUpdateAction.call(username, note, params)
-             {status, note} = result.update_result
-             IO.puts "update status = #{status}"
-             params = Map.merge(%{note: note, nav: result.nav}, result.params)
-             render conn, "note.json", result: params
-           else
-            render conn, "error.json", message: "darn it!"
-          end
-        end
+       # Normalize the input: the first branch is for requests from Phoenix,
+       # in which case the payload is in `params`.  The second branch is for
+       # other requests, when the payload is in the request body.
+       if params["token"] != nil do
+         data = params
+       else
+         {:ok, data} = Poison.Parser.parse conn2value(conn, "data")
+       end
 
+       token = data["token"]
+       user_id = String.to_integer data["user_id"]
 
+      if Token.authenticated(token, user_id) do
+
+         username = data["username"]
+         user = User.find_by_username(username)
+         note = Note.get(id)
+
+         id_list = AppState.update({:user, user.id, :search_history, note.id})
+         navigation_data = NoteNavigation.get(id_list, id)
+         new_params = Map.merge(data, %{nav: navigation_data})
+
+         result = NoteUpdateAction.call(username, note, new_params)
+
+         {status, note} = result.update_result
+         new_params = Map.merge(%{note: note, nav: result.nav}, result.params)
+         render conn, "note.json", result: new_params
+       else
+        render conn, "error.json", message: "not authorized"
+      end
+    end
 
 end

@@ -112,6 +112,8 @@ input[type=checkbox]
    <input type="hidden" name="index" value= <%=@index %> >
    <input type="hidden" name="id_string" value=<%= @id_string %> >
    <input type="hidden" name="username" id = "username" value=<%= @conn.assigns.current_user.username %> >
+   <input type="hidden" name="user_id" id = "user_id" value=<%= @conn.assigns.current_user.id %> >
+   <input type="hidden" name="token" id = "token" value=<%= LookupPhoenix.TokenManager.get(@conn.assigns.current_user.id) %> >
    <input type="hidden" name="note_id" id = "note_id" value=<%= @note.id %> >
 
   <div class="form-group" style="display:inline">
@@ -156,6 +158,8 @@ $("#yada").click(function() {
     console.log("HI THERE!")
 
     var note_id = document.getElementById("note_id").value
+    var user_id = document.getElementById("user_id").value
+    var token = document.getElementById("token").value
     var title = document.getElementById("title").value
     var content = document.getElementById("content3").value
     var username = document.getElementById("username").value
@@ -174,14 +178,13 @@ $("#yada").click(function() {
         url: "/api/notes/" + note_id,
         type: "put",
         data: {
-          put: {
             title: title,
             username: username,
+            user_id: user_id,
+            token : token,
             content: content,
             tag_string: tag_string,
             identifier: identifier,
-            secret: "abcdef9h5vkfR1Tj0U_1f!"
-          }
         },
         headers: {
             "X-CSRF-TOKEN": csrf

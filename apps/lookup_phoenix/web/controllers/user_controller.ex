@@ -10,28 +10,13 @@ defmodule LookupPhoenix.UserController do
   alias LookupPhoenix.SearchController
   alias LookupPhoenix.Channel
   alias LookupPhoenix.Constant
-
-  import Joken
+  alias LookupPhoenix.TokenManager
 
    def get_token(conn, _params) do
-
-      IO.puts "I will make a token for you ..."
-
-      current_user = conn.assigns.current_user
-      my_token = %{"user_id" => current_user.id}
-#      |> token
-#      |> with_signer(hs256("yada82043mU,@izq0#$mcq^&!HFQpnp8i-nc"))
-      |> token
-      |> with_validation("user_id", &(&1 == 1))
-      |> with_signer(hs256("yada82043mU,@izq0#$mcq^&!HFQpnp8i-nc"))
-      |> sign
-      |> get_compact
-
-      Utility.report("my_token", my_token)
-
+     current_user_id = conn.assigns.current_user.id
+     my_token = TokenManager.get(current_user_id)
      render conn, "token.json", token: my_token
-
-    end
+   end
 
 
   def index(conn, _params) do
