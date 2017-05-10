@@ -57,7 +57,8 @@ defmodule LookupPhoenix.Mixfile do
      {:poison, "~> 2.0"},
      {:httpoison, "~> 0.11"},
      {:sweet_xml, "~> 0.6"},
-     {:hackney, "~> 1.6"}]
+     {:hackney, "~> 1.6"},
+     {:graphql, "~> 0.3"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
