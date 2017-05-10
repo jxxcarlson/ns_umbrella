@@ -24,7 +24,7 @@ defmodule LookupPhoenix.Mixfile do
     [mod: {LookupPhoenix, []},
      applications: [:comeonin, :mnemonix, :phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex, :timex, :timex_ecto, :arc_ecto, :ex_aws, :poison,
-                    :httpoison, :hackney]]
+                    :httpoison, :hackney, :absinthe, :absinthe_plug]]
   end
 
   # Specifies which paths to compile per environment.
@@ -58,7 +58,8 @@ defmodule LookupPhoenix.Mixfile do
      {:httpoison, "~> 0.11"},
      {:sweet_xml, "~> 0.6"},
      {:hackney, "~> 1.6"},
-     {:graphql, "~> 0.3"}]
+     {:absinthe, "~> 1.2.0-rc.0", override: true},
+     {:absinthe_plug, "~> 1.2.0-rc.0"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
